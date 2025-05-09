@@ -1,2 +1,4 @@
-package br.com.fiap.techChallenge.restaurante_api.api.exception;public class GlobalExceptionHandler {
+package br.com.fiap.techChallenge.restaurante_api.api.exception;
+
+public class GlobalExceptionHandler {
 }

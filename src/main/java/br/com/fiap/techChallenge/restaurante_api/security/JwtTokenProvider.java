@@ -1,2 +1,4 @@
-package br.com.fiap.techChallenge.restaurante_api.security;public class JwtTokenProvider {
+package br.com.fiap.techChallenge.restaurante_api.security;
+
+public class JwtTokenProvider {
 }

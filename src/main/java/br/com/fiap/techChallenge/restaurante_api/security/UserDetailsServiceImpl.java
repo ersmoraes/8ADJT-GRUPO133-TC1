@@ -1,2 +1,4 @@
-package br.com.fiap.techChallenge.restaurante_api.security;public class UserDetailsServiceImpl {
+package br.com.fiap.techChallenge.restaurante_api.security;
+
+public class UserDetailsServiceImpl {
 }
