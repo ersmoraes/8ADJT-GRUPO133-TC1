@@ -1,4 +1,35 @@
 package br.com.fiap.techChallenge.restaurante_api.api.dto.response;
 
-public class UserResponseDTO {
+import br.com.fiap.techChallenge.restaurante_api.domain.enums.UserType;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.*;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class UserResponseDTO implements Serializable {
+
+    private UUID id;
+    private String name;
+    private String email;
+    private String login;
+    private UserType userType;
+    private Boolean ativo;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime dataCriacao;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime ultimaAlteracao;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    private LocalDateTime ultimoLogin;
+
+    private AddressResponseDTO address;
 }
