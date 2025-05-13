@@ -9,7 +9,7 @@ spring:
   # Configuração H2 Console
   h2:
     console:
-      enabled: true
+      enabled: false
       path: /h2-console
       settings:
         web-allow-others: false
