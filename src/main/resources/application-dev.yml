@@ -1,0 +1,55 @@
+spring:
+  # Configuração do banco de dados H2 para desenvolvimento
+  datasource:
+    url: jdbc:h2:mem:restaurantedb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  # Configuração H2 Console
+  h2:
+    console:
+      enabled: false
+      path: /h2-console
+      settings:
+        web-allow-others: false
+
+  # Configuração JPA específica para desenvolvimento
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  # Configuração Flyway para desenvolvimento
+  flyway:
+    clean-disabled: false  # Permite limpar o banco em desenvolvimento
+  web:
+    resources:
+      cache:
+        period: 0
+      chain:
+        cache: false
+
+# Configurações adicionais para ambiente de desenvolvimento
+server:
+  error:
+    include-stacktrace: always
+    include-message: always
+
+# Configuração de log para desenvolvimento
+logging:
+  level:
+    com.restaurante: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+# Desabilitar cache para desenvolvimento
+spring.thymeleaf.cache: false
+# Configurações para aumentar velocidade de desenvolvimento
+spring.devtools:
+  restart:
+    enabled: true
+  livereload:
+    enabled: true
