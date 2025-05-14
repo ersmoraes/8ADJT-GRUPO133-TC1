@@ -14,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -25,36 +26,36 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponseDTO createUser(UserRequestDTO dto) {
         Usuario user = Usuario.builder()
-                .nome(dto.getName())
+                .name(dto.getName())
                 .email(dto.getEmail())
                 .login(dto.getLogin())
-                .senha(passwordEncoder.encode(dto.getPassword()))
+                .password(passwordEncoder.encode(dto.getPassword()))
                 .userType(dto.getUserType())
                 .ultimaAlteracao(LocalDateTime.now())
-                .endereco(mapAddress(dto))
+                .address(mapAddress(dto))
                 .build();
         userRepository.save(user);
         return mapToResponse(user);
     }
 
     @Override
-    public UserResponseDTO updateUser(Long id, UserRequestDTO dto) {
+    public UserResponseDTO updateUser(UUID id, UserRequestDTO dto) {
         Usuario user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        user.setNome(dto.getName());
+        user.setName(dto.getName());
         user.setEmail(dto.getEmail());
         user.setLogin(dto.getLogin());
         user.setUserType(dto.getUserType());
-        user.setEndereco(mapAddress(dto));
+        user.setAddress(mapAddress(dto));
         user.setUltimaAlteracao(LocalDateTime.now());
 
         userRepository.save(user);
         return mapToResponse(user);
     }
 
-    @Override
-    public void deleteUser(Long id) {
+
+    public void deleteUser(UUID id) {
         if (!userRepository.existsById(id)) {
             throw new ResourceNotFoundException("User not found");
         }
@@ -64,16 +65,16 @@ public class UserServiceImpl implements UserService {
     private UserResponseDTO mapToResponse(Usuario user) {
         return UserResponseDTO.builder()
                 .id(user.getId())
-                .name(user.getNome())
+                .name(user.getName())
                 .email(user.getEmail())
                 .login(user.getLogin())
                 .userType(user.getUserType())
                 //.lastUpdate(user.getLastUpdate())
                 .address(AddressResponseDTO.builder()
-                        .city(user.getEndereco().getCidade())
-                        .state(user.getEndereco().getEstado())
-                        .zipCode(user.getEndereco().getCep())
-                        .street(user.getEndereco().getLogradouro())
+                        .city(user.getAddress().getCidade())
+                        .state(user.getAddress().getEstado())
+                        .zipCode(user.getAddress().getCep())
+                        .street(user.getAddress().getLogradouro())
                         .build())
                 .build();
     }
@@ -88,15 +89,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updatePassword(Long userId, PasswordUpdateRequestDTO dto) {
+    public void updatePassword(UUID userId, PasswordUpdateRequestDTO dto) {
         Usuario user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
 
-        if (!passwordEncoder.matches(dto.getOldPassword(), user.getSenha())) {
+        if (!passwordEncoder.matches(dto.getOldPassword(), user.getPassword())) {
             throw new BusinessException("Senha atual incorreta");
         }
 
-        user.setSenha(passwordEncoder.encode(dto.getNewPassword()));
+        user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
         user.setUltimaAlteracao(LocalDateTime.now());
 
         userRepository.save(user);

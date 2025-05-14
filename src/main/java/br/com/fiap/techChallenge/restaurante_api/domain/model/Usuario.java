@@ -18,11 +18,11 @@ public class Usuario {
 
     @Id
     @GeneratedValue
-    @Column(name = "id", columnDefinition = "CHAR(36)", updatable = false, nullable = false)
-    private String id = UUID.randomUUID().toString();
+    @Column(name = "id", columnDefinition = "uuid", updatable = false, nullable = false)
+    private UUID id;
 
     @Column(nullable = false)
-    private String nome;
+    private String name;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -31,7 +31,7 @@ public class Usuario {
     private String login;
 
     @Column(nullable = false)
-    private String senha;
+    private String password;
 
     @Enumerated(EnumType.STRING)
     private UserType userType;
@@ -40,5 +40,5 @@ public class Usuario {
     private LocalDateTime ultimaAlteracao;
 
     @Embedded
-    private Endereco endereco;
+    private Endereco address;
 }

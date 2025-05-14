@@ -15,7 +15,7 @@ import java.util.UUID;
 @Builder
 public class UserResponseDTO implements Serializable {
 
-    private String id;
+    private UUID id;
     private String name;
     private String email;
     private String login;
