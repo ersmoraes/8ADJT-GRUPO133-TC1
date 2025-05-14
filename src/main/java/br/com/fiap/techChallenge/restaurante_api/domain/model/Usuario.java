@@ -14,14 +14,15 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
+public class Usuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private UUID id;
+    @GeneratedValue
+    @Column(name = "id", columnDefinition = "CHAR(36)", updatable = false, nullable = false)
+    private String id = UUID.randomUUID().toString();
 
     @Column(nullable = false)
-    private String name;
+    private String nome;
 
     @Column(nullable = false, unique = true)
     private String email;
@@ -30,15 +31,14 @@ public class User {
     private String login;
 
     @Column(nullable = false)
-    private String password;
+    private String senha;
 
     @Enumerated(EnumType.STRING)
     private UserType userType;
 
     @Column(name = "ultima_alteracao")
-    private LocalDateTime lastUpdate;
+    private LocalDateTime ultimaAlteracao;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
-    private Address address;
+    @Embedded
+    private Endereco endereco;
 }

@@ -1,6 +1,6 @@
 package br.com.fiap.techChallenge.restaurante_api.service.impl;
 
-import br.com.fiap.techChallenge.restaurante_api.domain.model.User;
+import br.com.fiap.techChallenge.restaurante_api.domain.model.Usuario;
 import br.com.fiap.techChallenge.restaurante_api.domain.repository.UserRepository;
 import br.com.fiap.techChallenge.restaurante_api.security.JwtTokenProvider;
 import br.com.fiap.techChallenge.restaurante_api.domain.service.AuthService;
@@ -19,7 +19,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public String authenticate(String login, String password) {
-        User user = userRepository.findByLogin(login)
+        Usuario user = userRepository.findByLogin(login)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado"));
 
         if (!passwordEncoder.matches(password, user.getPassword())) {

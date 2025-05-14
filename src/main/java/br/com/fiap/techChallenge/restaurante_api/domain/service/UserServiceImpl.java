@@ -6,8 +6,8 @@ import br.com.fiap.techChallenge.restaurante_api.api.dto.response.AddressRespons
 import br.com.fiap.techChallenge.restaurante_api.api.dto.response.UserResponseDTO;
 import br.com.fiap.techChallenge.restaurante_api.api.exception.BusinessException;
 import br.com.fiap.techChallenge.restaurante_api.api.exception.ResourceNotFoundException;
-import br.com.fiap.techChallenge.restaurante_api.domain.model.Address;
-import br.com.fiap.techChallenge.restaurante_api.domain.model.User;
+import br.com.fiap.techChallenge.restaurante_api.domain.model.Endereco;
+import br.com.fiap.techChallenge.restaurante_api.domain.model.Usuario;
 import br.com.fiap.techChallenge.restaurante_api.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,14 +24,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDTO createUser(UserRequestDTO dto) {
-        User user = User.builder()
-                .name(dto.getName())
+        Usuario user = Usuario.builder()
+                .nome(dto.getName())
                 .email(dto.getEmail())
                 .login(dto.getLogin())
-                .password(passwordEncoder.encode(dto.getPassword()))
+                .senha(passwordEncoder.encode(dto.getPassword()))
                 .userType(dto.getUserType())
-                .lastUpdate(LocalDateTime.now())
-                .address(mapAddress(dto))
+                .ultimaAlteracao(LocalDateTime.now())
+                .endereco(mapAddress(dto))
                 .build();
         userRepository.save(user);
         return mapToResponse(user);
@@ -39,15 +39,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDTO updateUser(Long id, UserRequestDTO dto) {
-        User user = userRepository.findById(id)
+        Usuario user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        user.setName(dto.getName());
+        user.setNome(dto.getName());
         user.setEmail(dto.getEmail());
         user.setLogin(dto.getLogin());
         user.setUserType(dto.getUserType());
-        user.setAddress(mapAddress(dto));
-        user.setLastUpdate(LocalDateTime.now());
+        user.setEndereco(mapAddress(dto));
+        user.setUltimaAlteracao(LocalDateTime.now());
 
         userRepository.save(user);
         return mapToResponse(user);
@@ -61,43 +61,43 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
-    private UserResponseDTO mapToResponse(User user) {
+    private UserResponseDTO mapToResponse(Usuario user) {
         return UserResponseDTO.builder()
                 .id(user.getId())
-                .name(user.getName())
+                .name(user.getNome())
                 .email(user.getEmail())
                 .login(user.getLogin())
                 .userType(user.getUserType())
                 //.lastUpdate(user.getLastUpdate())
                 .address(AddressResponseDTO.builder()
-                        .city(user.getAddress().getCity())
-                        .state(user.getAddress().getState())
-                        .zipCode(user.getAddress().getZipCode())
-                        .street(user.getAddress().getStreet())
+                        .city(user.getEndereco().getCidade())
+                        .state(user.getEndereco().getEstado())
+                        .zipCode(user.getEndereco().getCep())
+                        .street(user.getEndereco().getLogradouro())
                         .build())
                 .build();
     }
 
-    private Address mapAddress(UserRequestDTO dto) {
-        return Address.builder()
-                .street(dto.getAddress().getStreet())
-                .city(dto.getAddress().getCity())
-                .state(dto.getAddress().getState())
-                .zipCode(dto.getAddress().getZipCode())
+    private Endereco mapAddress(UserRequestDTO dto) {
+        return Endereco.builder()
+                .logradouro(dto.getAddress().getStreet())
+                .cidade(dto.getAddress().getCity())
+                .estado(dto.getAddress().getState())
+                .cep(dto.getAddress().getZipCode())
                 .build();
     }
 
     @Override
     public void updatePassword(Long userId, PasswordUpdateRequestDTO dto) {
-        User user = userRepository.findById(userId)
+        Usuario user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
 
-        if (!passwordEncoder.matches(dto.getOldPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(dto.getOldPassword(), user.getSenha())) {
             throw new BusinessException("Senha atual incorreta");
         }
 
-        user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
-        user.setLastUpdate(LocalDateTime.now());
+        user.setSenha(passwordEncoder.encode(dto.getNewPassword()));
+        user.setUltimaAlteracao(LocalDateTime.now());
 
         userRepository.save(user);
     }

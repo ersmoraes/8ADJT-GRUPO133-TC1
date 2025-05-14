@@ -48,12 +48,6 @@
 			<scope>runtime</scope>
 		</dependency>
 
-		<!-- Flyway para migração de banco de dados -->
-		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-core</artifactId>
-		</dependency>
-
 		<!-- Lombok para redução de boilerplate -->
 		<dependency>
 			<groupId>org.projectlombok</groupId>

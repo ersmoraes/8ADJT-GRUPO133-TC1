@@ -1,6 +1,6 @@
 package br.com.fiap.techChallenge.restaurante_api.security;
 
-import br.com.fiap.techChallenge.restaurante_api.domain.model.User;
+import br.com.fiap.techChallenge.restaurante_api.domain.model.Usuario;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,13 +11,13 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    @Value("${security.jwt.secret}")
+    @Value("${app.security.jwt.secret-key}")
     private String jwtSecret;
 
-    @Value("${security.jwt.expiration}")
+    @Value("${app.security.jwt.expiration-ms}")
     private long jwtExpirationMs;
 
-    public String generateToken(User user) {
+    public String generateToken(Usuario user) {
         return Jwts.builder()
                 .setSubject(user.getLogin())
                 .claim("userId", user.getId())
