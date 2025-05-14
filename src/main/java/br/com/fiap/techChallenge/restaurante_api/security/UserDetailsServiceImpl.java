@@ -1,6 +1,6 @@
 package br.com.fiap.techChallenge.restaurante_api.security;
 
-import br.com.fiap.techChallenge.restaurante_api.domain.model.User;
+import br.com.fiap.techChallenge.restaurante_api.domain.model.Usuario;
 import br.com.fiap.techChallenge.restaurante_api.domain.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
-        User user = userRepository.findByLogin(login)
+        Usuario user = userRepository.findByLogin(login)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário não encontrado com login: " + login));
 
         return org.springframework.security.core.userdetails.User

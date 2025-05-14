@@ -9,10 +9,10 @@ spring:
   # Configuração H2 Console
   h2:
     console:
-      enabled: false
+      enabled: true
       path: /h2-console
       settings:
-        web-allow-others: false
+        web-allow-others: true
 
   # Configuração JPA específica para desenvolvimento
   jpa:
@@ -20,17 +20,8 @@ spring:
     show-sql: true
     properties:
       hibernate:
-        format_sql: true
-
-  # Configuração Flyway para desenvolvimento
-  flyway:
-    clean-disabled: false  # Permite limpar o banco em desenvolvimento
-  web:
-    resources:
-      cache:
-        period: 0
-      chain:
-        cache: false
+        ddl-auto: update
+        show-sql: true
 
 # Configurações adicionais para ambiente de desenvolvimento
 server:
@@ -53,3 +44,10 @@ spring.devtools:
     enabled: true
   livereload:
     enabled: true
+
+app:
+  security:
+    jwt:
+      secret-key: "zVr7ZKQFOyC2vXKPN7M7f8m5vnW91tNKUn3J1Uc7q3Y="
+      expiration-ms: 86400000 # 24 horas
+      refresh-token-expiration-ms: 604800000 # 7 dias

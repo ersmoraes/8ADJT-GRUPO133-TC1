@@ -4,9 +4,11 @@ import br.com.fiap.techChallenge.restaurante_api.api.dto.request.PasswordUpdateR
 import br.com.fiap.techChallenge.restaurante_api.api.dto.request.UserRequestDTO;
 import br.com.fiap.techChallenge.restaurante_api.api.dto.response.UserResponseDTO;
 
+import java.util.UUID;
+
 public interface UserService {
     UserResponseDTO createUser(UserRequestDTO dto);
-    UserResponseDTO updateUser(Long id, UserRequestDTO dto);
-    void deleteUser(Long id);
-    void updatePassword(Long userId, PasswordUpdateRequestDTO dto);
+    UserResponseDTO updateUser(UUID id, UserRequestDTO dto);
+    void deleteUser(UUID id);
+    void updatePassword(UUID userId, PasswordUpdateRequestDTO dto);
 }

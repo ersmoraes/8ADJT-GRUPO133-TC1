@@ -6,6 +6,19 @@ spring:
   profiles:
     active: dev
 
+  datasource:
+    url: jdbc:h2:mem:restaurantedb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  h2:
+    console:
+    enabled: true
+    path: /h2-console
+    settings:
+    web-allow-others: false
+
   # Configuração do JPA (comum para todos os ambientes)
   jpa:
     hibernate:
@@ -14,17 +27,13 @@ spring:
       hibernate:
         format_sql: true
 
-  # Configuração do Flyway (comum para todos os ambientes)
-  flyway:
-    enabled: false
-    locations: classpath:db/migration
-    baseline-on-migrate: true
+
 
 # Configurações de segurança e JWT
 app:
   security:
     jwt:
-      secret-key: ${JWT_SECRET:chaveSecreta123456}
+      secret-key: "zVr7ZKQFOyC2vXKPN7M7f8m5vnW91tNKUn3J1Uc7q3Y="
       expiration-ms: 86400000 # 24 horas
       refresh-token-expiration-ms: 604800000 # 7 dias
 
@@ -32,7 +41,7 @@ app:
 server:
   port: 8081
   servlet:
-    context-path: /api/v1
+    context-path: /
 
 # Configuração do Swagger/OpenAPI
 springdoc:

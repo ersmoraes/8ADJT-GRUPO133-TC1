@@ -14,31 +14,37 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class User {
+public class Usuario {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @PrimaryKeyJoinColumn
+    @GeneratedValue
+    @Column(name = "id", columnDefinition = "uuid", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(nullable = false)
+    @Column(name = "nome", nullable = false)
     private String name;
 
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "usuario", nullable = false, unique = true)
     private String login;
 
-    @Column(nullable = false)
+    @Column(name = "senha", nullable = false)
     private String password;
 
     @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_usuario")
     private UserType userType;
 
-    @Column(name = "ultima_alteracao")
-    private LocalDateTime lastUpdate;
+    @Column(name = "dt_criacao")
+    public LocalDateTime createDate;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
-    private Address address;
+    @Column(name = "dt_alteracao")
+    private LocalDateTime lastChange;
+
+    @Embedded
+    private Endereco address;
+
 }

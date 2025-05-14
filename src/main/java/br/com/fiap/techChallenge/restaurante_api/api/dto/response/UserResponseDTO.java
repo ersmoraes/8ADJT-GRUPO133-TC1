@@ -18,18 +18,12 @@ public class UserResponseDTO implements Serializable {
     private UUID id;
     private String name;
     private String email;
+    private AddressResponseDTO address;
     private String login;
     private UserType userType;
-    private Boolean ativo;
+    private Boolean Active;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime dataCriacao;
+    private LocalDateTime createDate;
 
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime ultimaAlteracao;
-
-    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime ultimoLogin;
-
-    private AddressResponseDTO address;
 }

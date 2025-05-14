@@ -16,11 +16,17 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid LoginRequestDTO loginRequest) {
-        String token = authService.authenticate(loginRequest.getLogin(), loginRequest.getPassword());
-        return ResponseEntity.ok(LoginResponseDTO.builder()
-                .token(token)
-                .type("Bearer")
-                .build());
+    public ResponseEntity<?> login(@RequestBody @Valid LoginRequestDTO loginRequest) {
+        try {
+            String token = authService.authenticate(loginRequest.getLogin(), loginRequest.getPassword());
+            return ResponseEntity.ok(LoginResponseDTO.builder().status("Login Efetuado Com Sucesso!")
+                    .token(token)
+                    .type("Bearer")
+
+                    .build());
+        } catch (Exception ex) {
+            return ResponseEntity.status(401).body("Login ou senha inválidos.");
+        }
     }
+
 }
