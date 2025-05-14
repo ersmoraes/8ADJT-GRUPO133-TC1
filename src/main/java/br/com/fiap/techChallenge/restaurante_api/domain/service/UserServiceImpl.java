@@ -31,7 +31,8 @@ public class UserServiceImpl implements UserService {
                 .login(dto.getLogin())
                 .password(passwordEncoder.encode(dto.getPassword()))
                 .userType(dto.getUserType())
-                .ultimaAlteracao(LocalDateTime.now())
+                .lastChange(LocalDateTime.now())
+                .createDate(LocalDateTime.now())
                 .address(mapAddress(dto))
                 .build();
         userRepository.save(user);
@@ -48,7 +49,8 @@ public class UserServiceImpl implements UserService {
         user.setLogin(dto.getLogin());
         user.setUserType(dto.getUserType());
         user.setAddress(mapAddress(dto));
-        user.setUltimaAlteracao(LocalDateTime.now());
+        user.setCreateDate(LocalDateTime.now());
+        user.setLastChange(LocalDateTime.now());
 
         userRepository.save(user);
         return mapToResponse(user);
@@ -69,13 +71,14 @@ public class UserServiceImpl implements UserService {
                 .email(user.getEmail())
                 .login(user.getLogin())
                 .userType(user.getUserType())
-                //.lastUpdate(user.getLastUpdate())
+                .createDate(user.getCreateDate())
                 .address(AddressResponseDTO.builder()
                         .city(user.getAddress().getCidade())
                         .state(user.getAddress().getEstado())
                         .zipCode(user.getAddress().getCep())
                         .street(user.getAddress().getLogradouro())
                         .build())
+                .Active(true)
                 .build();
     }
 
@@ -98,7 +101,8 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
-        user.setUltimaAlteracao(LocalDateTime.now());
+        user.setLastChange(LocalDateTime.now());
+        user.setCreateDate(LocalDateTime.now());
 
         userRepository.save(user);
     }

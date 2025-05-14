@@ -48,6 +48,6 @@ spring.devtools:
 app:
   security:
     jwt:
-      secret-key: ${JWT_SECRET:chaveSecreta123456}
+      secret-key: "zVr7ZKQFOyC2vXKPN7M7f8m5vnW91tNKUn3J1Uc7q3Y="
       expiration-ms: 86400000 # 24 horas
       refresh-token-expiration-ms: 604800000 # 7 dias
