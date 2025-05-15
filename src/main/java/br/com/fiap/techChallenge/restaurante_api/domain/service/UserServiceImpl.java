@@ -24,6 +24,13 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
+    public UserResponseDTO getUserById(UUID id) {
+        Usuario user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+        return mapToResponse(user);
+    }
+
+    @Override
     public UserResponseDTO createUser(UserRequestDTO dto) {
         Usuario user = Usuario.builder()
                 .name(dto.getName())
