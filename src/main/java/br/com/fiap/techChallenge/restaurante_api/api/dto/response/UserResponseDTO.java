@@ -10,9 +10,9 @@ import java.util.UUID;
 
 @Getter
 @Setter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
 public class UserResponseDTO implements Serializable {
 
     private UUID id;

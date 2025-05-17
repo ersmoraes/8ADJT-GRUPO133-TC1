@@ -15,7 +15,6 @@ Esta API permite o gerenciamento completo de restaurantes, incluindo cadastro de
 - **Spring Data JPA**: Para persistência de dados
 - **H2 Database**: Banco de dados em memória para ambiente de desenvolvimento
 - **Flyway**: Para migrações de banco de dados
-- **JWT**: Para implementação de tokens de autenticação
 - **Swagger/OpenAPI**: Para documentação da API
 - **Docker**: Para containerização da aplicação
 - **JUnit & Mockito**: Para testes automatizados
@@ -52,7 +51,7 @@ O projeto segue uma arquitetura em camadas baseada nos princípios de Clean Arch
 
 3. A aplicação estará disponível em:
    ```
-   http://localhost:8080/api/v1
+   http://localhost:8080/api/
    ```
 
 ### Execução com Docker
@@ -84,15 +83,7 @@ A API utiliza JWT (JSON Web Token) para autenticação e autorização. Para ace
 A documentação completa da API está disponível através do Swagger UI:
 
 ```
-http://localhost:8080/api/v1/swagger-ui.html
-```
-
-## 📝 Migrações de Banco de Dados
-
-As migrações de banco de dados são gerenciadas através do Flyway. Os scripts de migração estão localizados em:
-
-```
-src/main/resources/db/migration/
+http://localhost:8080/api/swagger-ui.html
 ```
 
 ## 🧪 Testes
@@ -120,7 +111,7 @@ Se ocorrer erro na inicialização do EntityManagerFactory:
 O console H2 está disponível em desenvolvimento em:
 
 ```
-http://localhost:8080/api/v1/h2-console
+http://localhost:8080/api/h2-console
 ```
 
 Configurações de conexão:
