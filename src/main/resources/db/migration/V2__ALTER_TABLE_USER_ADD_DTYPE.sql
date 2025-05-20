@@ -1,0 +1,1 @@
+ALTER TABLE users ADD dtype VARCHAR(31);

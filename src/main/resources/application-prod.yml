@@ -25,15 +25,18 @@ spring:
         format_sql: false
 
   # Configuração Flyway para produção
-  flyway:
-    clean-disabled: true  # Impede a limpeza acidental do banco em produção
-    baseline-on-migrate: true
+  spring:
+    flyway:
+      enabled: true
+      clean-disabled: true
+      baseline-on-migrate: true
+      locations: classpath:db/migration
 
 # Configurações específicas de segurança para produção
 app:
   security:
     jwt:
-      secret-key: ${JWT_SECRET}  # Deve ser definido via variável de ambiente
+      secret-key: ${JWT_SECRET:zVr7ZKQFOyC2vXKPN7M7f8m5vnW91tNKUn3J1Uc7q3Y=}  # Deve ser definido via variável de ambiente
       expiration-ms: ${JWT_EXPIRATION:86400000}
 
 # Configurações de servidor para produção
