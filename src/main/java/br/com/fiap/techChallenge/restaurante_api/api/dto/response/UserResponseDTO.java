@@ -1,6 +1,8 @@
 package br.com.fiap.techChallenge.restaurante_api.api.dto.response;
 
 import br.com.fiap.techChallenge.restaurante_api.domain.enums.UserType;
+import br.com.fiap.techChallenge.restaurante_api.domain.model.Endereco;
+import br.com.fiap.techChallenge.restaurante_api.domain.model.Usuario;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
@@ -15,15 +17,26 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UserResponseDTO implements Serializable {
 
+    public UserResponseDTO(Usuario usuario) {
+        this.id = usuario.getId();
+        this.name = usuario.getName();
+        this.email = usuario.getEmail();
+        this.endereco = usuario.getAddress();
+        this.login = usuario.getLogin();
+        this.userType = usuario.getUserType();
+        this.createDate = usuario.getCreateDate();
+    }
+
     private UUID id;
     private String name;
     private String email;
-    private AddressResponseDTO address;
+    private Endereco endereco;
     private String login;
     private UserType userType;
-    private Boolean Active;
+    private Boolean active;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createDate;
+
 
 }

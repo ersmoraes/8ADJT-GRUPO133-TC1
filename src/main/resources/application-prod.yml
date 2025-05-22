@@ -32,13 +32,6 @@ spring:
       baseline-on-migrate: true
       locations: classpath:db/migration
 
-# Configurações específicas de segurança para produção
-app:
-  security:
-    jwt:
-      secret-key: ${JWT_SECRET:zVr7ZKQFOyC2vXKPN7M7f8m5vnW91tNKUn3J1Uc7q3Y=}  # Deve ser definido via variável de ambiente
-      expiration-ms: ${JWT_EXPIRATION:86400000}
-
 # Configurações de servidor para produção
 server:
   error:
@@ -53,7 +46,7 @@ server:
 # Configuração de log para produção
 logging:
   level:
-    root: WARN
+    root: INFO
     com.restaurante: INFO
     org.springframework.web: WARN
     org.springframework.security: WARN

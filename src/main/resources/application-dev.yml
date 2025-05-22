@@ -23,6 +23,9 @@ spring:
         ddl-auto: update
         show-sql: true
 
+  flyway:
+    enabled: false
+
 # Configurações adicionais para ambiente de desenvolvimento
 server:
   error:
@@ -44,10 +47,3 @@ spring.devtools:
     enabled: true
   livereload:
     enabled: true
-
-app:
-  security:
-    jwt:
-      secret-key: "zVr7ZKQFOyC2vXKPN7M7f8m5vnW91tNKUn3J1Uc7q3Y="
-      expiration-ms: 86400000 # 24 horas
-      refresh-token-expiration-ms: 604800000 # 7 dias

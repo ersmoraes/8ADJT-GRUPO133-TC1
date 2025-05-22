@@ -1,8 +1,9 @@
 package br.com.fiap.techChallenge.restaurante_api.domain.service;
 
+import br.com.fiap.techChallenge.restaurante_api.api.dto.request.AddressRequestDTO;
+import br.com.fiap.techChallenge.restaurante_api.api.dto.request.LoginRequestDTO;
 import br.com.fiap.techChallenge.restaurante_api.api.dto.request.PasswordUpdateRequestDTO;
 import br.com.fiap.techChallenge.restaurante_api.api.dto.request.UserRequestDTO;
-import br.com.fiap.techChallenge.restaurante_api.api.dto.response.AddressResponseDTO;
 import br.com.fiap.techChallenge.restaurante_api.api.dto.response.UserResponseDTO;
 import br.com.fiap.techChallenge.restaurante_api.api.exception.BusinessException;
 import br.com.fiap.techChallenge.restaurante_api.api.exception.ResourceNotFoundException;
@@ -10,10 +11,13 @@ import br.com.fiap.techChallenge.restaurante_api.domain.model.Endereco;
 import br.com.fiap.techChallenge.restaurante_api.domain.model.Usuario;
 import br.com.fiap.techChallenge.restaurante_api.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -21,7 +25,22 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+
+    @Override
+    public Page<Usuario> findAll(Pageable pageable) {
+        return userRepository.findAll(pageable);
+    }
+
+
+    @Override
+    public String login(LoginRequestDTO dto) {
+        Optional<Usuario> usuario = userRepository.findByLoginAndPassword(dto.getLogin(), dto.getPassword());
+        if(!usuario.isPresent()){
+            return "Usuario ou senha invalidos!";
+        }
+        return "Login Efetuado";
+    }
+
 
     @Override
     public UserResponseDTO getUserById(UUID id) {
@@ -36,7 +55,7 @@ public class UserServiceImpl implements UserService {
                 .name(dto.getName())
                 .email(dto.getEmail())
                 .login(dto.getLogin())
-                .password(passwordEncoder.encode(dto.getPassword()))
+                .password(dto.getPassword())
                 .userType(dto.getUserType())
                 .lastChange(LocalDateTime.now())
                 .createDate(LocalDateTime.now())
@@ -51,11 +70,19 @@ public class UserServiceImpl implements UserService {
         Usuario user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        user.setName(dto.getName());
-        user.setEmail(dto.getEmail());
-        user.setLogin(dto.getLogin());
-        user.setUserType(dto.getUserType());
-        user.setAddress(mapAddress(dto));
+        if (dto.getName() != null) user.setName(dto.getName());
+        if(dto.getEmail() != null) user.setEmail(dto.getEmail());
+        if(dto.getLogin() != null) user.setLogin(dto.getLogin());
+        if(dto.getUserType() != null) user.setUserType(dto.getUserType());
+        if(dto.getAddress() != null){
+            Endereco endereco = user.getAddress(); // assume que já existe
+            AddressRequestDTO addressDTO = dto.getAddress();
+
+            if (addressDTO.getRua() != null) endereco.setLogradouro(addressDTO.getRua());
+            if (addressDTO.getCidade() != null) endereco.setCidade(addressDTO.getCidade());
+            if (addressDTO.getEstado() != null) endereco.setEstado(addressDTO.getEstado());
+            if (addressDTO.getCep() != null) endereco.setCep(addressDTO.getCep());
+        }
         user.setCreateDate(LocalDateTime.now());
         user.setLastChange(LocalDateTime.now());
 
@@ -79,22 +106,22 @@ public class UserServiceImpl implements UserService {
                 .login(user.getLogin())
                 .userType(user.getUserType())
                 .createDate(user.getCreateDate())
-                .address(AddressResponseDTO.builder()
-                        .city(user.getAddress().getCidade())
-                        .state(user.getAddress().getEstado())
-                        .zipCode(user.getAddress().getCep())
-                        .street(user.getAddress().getLogradouro())
+                .endereco(Endereco.builder()
+                        .cidade(user.getAddress().getCidade())
+                        .estado(user.getAddress().getEstado())
+                        .cep(user.getAddress().getCep())
+                        .logradouro(user.getAddress().getLogradouro())
                         .build())
-                .Active(true)
+                .active(true)
                 .build();
     }
 
     private Endereco mapAddress(UserRequestDTO dto) {
         return Endereco.builder()
-                .logradouro(dto.getAddress().getStreet())
-                .cidade(dto.getAddress().getCity())
-                .estado(dto.getAddress().getState())
-                .cep(dto.getAddress().getZipCode())
+                .logradouro(dto.getAddress().getRua())
+                .cidade(dto.getAddress().getCidade())
+                .estado(dto.getAddress().getEstado())
+                .cep(dto.getAddress().getCep())
                 .build();
     }
 
@@ -103,11 +130,11 @@ public class UserServiceImpl implements UserService {
         Usuario user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
 
-        if (!passwordEncoder.matches(dto.getOldPassword(), user.getPassword())) {
+        if (!dto.getOldPassword().equals(user.getPassword())) {
             throw new BusinessException("Senha atual incorreta");
         }
 
-        user.setPassword(passwordEncoder.encode(dto.getNewPassword()));
+        user.setPassword(dto.getNewPassword());
         user.setLastChange(LocalDateTime.now());
         user.setCreateDate(LocalDateTime.now());
 
