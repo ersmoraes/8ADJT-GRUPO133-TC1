@@ -1,23 +1,19 @@
 package br.com.fiap.techChallenge.restaurante_api.api.service;
 
 import br.com.fiap.techChallenge.restaurante_api.api.controller.UserController;
-import br.com.fiap.techChallenge.restaurante_api.api.dto.request.UserRequestDTO;
 import br.com.fiap.techChallenge.restaurante_api.api.dto.response.UserResponseDTO;
-import br.com.fiap.techChallenge.restaurante_api.domain.model.Usuario;
-import br.com.fiap.techChallenge.restaurante_api.domain.repository.UserRepository;
 import br.com.fiap.techChallenge.restaurante_api.domain.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.ResponseEntity;
 
-import java.util.Optional;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class UserServiceTest {
 
