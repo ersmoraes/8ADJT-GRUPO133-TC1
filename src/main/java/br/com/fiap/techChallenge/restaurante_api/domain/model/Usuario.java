@@ -46,5 +46,4 @@ public class Usuario {
 
     @Embedded
     private Endereco address;
-
 }

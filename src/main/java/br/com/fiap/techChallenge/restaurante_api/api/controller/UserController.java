@@ -1,8 +1,10 @@
 package br.com.fiap.techChallenge.restaurante_api.api.controller;
 
+import br.com.fiap.techChallenge.restaurante_api.api.dto.request.LoginRequestDTO;
 import br.com.fiap.techChallenge.restaurante_api.api.dto.request.PasswordUpdateRequestDTO;
 import br.com.fiap.techChallenge.restaurante_api.api.dto.request.UserRequestDTO;
 import br.com.fiap.techChallenge.restaurante_api.api.dto.response.UserResponseDTO;
+import br.com.fiap.techChallenge.restaurante_api.domain.model.Usuario;
 import br.com.fiap.techChallenge.restaurante_api.domain.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -11,18 +13,37 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 @Tag(name = "users", description = "Gerenciamento de usuários")
 public class UserController {
 
     private final UserService userService;
+
+    @Operation(summary = "Buscar todos os Usuarios",
+            description = "Retorna todos os usuarios cadastrados",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Usuarios encontrados",
+                            content = @Content(schema = @Schema(implementation = UserResponseDTO.class))),
+                    @ApiResponse(responseCode = "404", description = "Usuários não encontrado")
+            })
+    @GetMapping
+    public ResponseEntity<Page<UserResponseDTO>> findAll(Pageable pageable){
+        Page<Usuario> usuarios = userService.findAll(pageable);
+        Page<UserResponseDTO> dtoPage = usuarios.map(UserResponseDTO::new);
+        return ResponseEntity.ok(dtoPage);
+    }
 
     @Operation(summary = "Buscar usuário por ID",
             description = "Retorna os dados de um usuário pelo seu UUID.",
@@ -60,7 +81,7 @@ public class UserController {
                             content = @Content(schema = @Schema(implementation = UserResponseDTO.class))),
                     @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
             })
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<UserResponseDTO> updateUser(
             @Parameter(description = "UUID do usuário", required = true)
             @PathVariable UUID id,
@@ -99,5 +120,21 @@ public class UserController {
             @RequestBody PasswordUpdateRequestDTO dto) {
         userService.updatePassword(id, dto);
         return ResponseEntity.noContent().build();
+    }
+
+
+    @Operation(summary = "Login",
+            description = "Realiza o Login do usuario",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Login e senha Validos"),
+                    @ApiResponse(responseCode = "401", description = "Login ou senha Invalidos")
+            })
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody LoginRequestDTO dto) {
+        String mensagem = userService.login(dto);
+        if(mensagem.contains("invalidos")){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(mensagem);
+        }
+        return ResponseEntity.ok().body(mensagem);
     }
 }

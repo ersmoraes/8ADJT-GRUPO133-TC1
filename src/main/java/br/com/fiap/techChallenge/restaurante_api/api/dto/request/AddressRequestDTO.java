@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class AddressRequestDTO {
-    private String street;
-    private String city;
-    private String state;
-    private String zipCode;
+    private String rua;
+    private String cidade;
+    private String estado;
+    private String cep;
 }

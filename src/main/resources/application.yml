@@ -27,16 +27,6 @@ spring:
       hibernate:
         format_sql: true
 
-
-
-# Configurações de segurança e JWT
-app:
-  security:
-    jwt:
-      secret-key: "zVr7ZKQFOyC2vXKPN7M7f8m5vnW91tNKUn3J1Uc7q3Y="
-      expiration-ms: 86400000 # 24 horas
-      refresh-token-expiration-ms: 604800000 # 7 dias
-
 # Configuração do servidor
 server:
   port: 8080
