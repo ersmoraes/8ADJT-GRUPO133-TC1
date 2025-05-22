@@ -100,5 +100,4 @@ public class UserController {
         userService.updatePassword(id, dto);
         return ResponseEntity.noContent().build();
     }
-
 }

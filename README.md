@@ -83,7 +83,7 @@ A API utiliza JWT (JSON Web Token) para autenticação e autorização. Para ace
 A documentação completa da API está disponível através do Swagger UI:
 
 ```
-http://localhost:8080/api/swagger-ui.html
+http://localhost:8080/swagger-ui/index.html
 ```
 
 ## 🧪 Testes
