@@ -39,7 +39,10 @@ public class UserController {
                     @ApiResponse(responseCode = "404", description = "Usuários não encontrado")
             })
     @GetMapping
-    public ResponseEntity<Page<UserResponseDTO>> findAll(Pageable pageable){
+    public ResponseEntity<Page<UserResponseDTO>> findAll(
+            @Parameter(description = "Parâmetros de paginação: número da página (page), tamanho da página (size) e ordenação (sort). Exemplo: ?page=0&size=10&sort=nome,asc",
+                    example = "page=0&size=10&sort=nome,asc")
+            Pageable pageable) {
         Page<Usuario> usuarios = userService.findAll(pageable);
         Page<UserResponseDTO> dtoPage = usuarios.map(UserResponseDTO::new);
         return ResponseEntity.ok(dtoPage);
@@ -130,9 +133,13 @@ public class UserController {
                     @ApiResponse(responseCode = "401", description = "Login ou senha Invalidos")
             })
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequestDTO dto) {
+    public ResponseEntity<String> login(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Dados de login", required = true,
+                    content = @Content(schema = @Schema(implementation = LoginRequestDTO.class)))
+            @RequestBody LoginRequestDTO dto) {
         String mensagem = userService.login(dto);
-        if(mensagem.contains("invalidos")){
+        if (mensagem.contains("invalidos")) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(mensagem);
         }
         return ResponseEntity.ok().body(mensagem);
