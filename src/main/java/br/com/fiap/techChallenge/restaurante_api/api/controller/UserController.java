@@ -114,7 +114,7 @@ public class UserController {
                     @ApiResponse(responseCode = "204", description = "Senha alterada com sucesso"),
                     @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
             })
-    @PutMapping("/{id}/password")
+    @PatchMapping("/{id}/password")
     public ResponseEntity<Void> changePassword(
             @Parameter(description = "UUID do usuário", required = true)
             @PathVariable UUID id,
