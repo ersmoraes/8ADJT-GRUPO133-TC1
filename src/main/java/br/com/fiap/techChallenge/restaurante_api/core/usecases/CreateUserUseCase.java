@@ -17,13 +17,20 @@ public class CreateUserUseCase {
     }
 
     public User execute(NewUserDTO newUserDTO) {
-        if (newUserDTO == null) {
+        if (newUserDTO == null || newUserDTO.name() == null || newUserDTO.email() == null || newUserDTO.userType() == null ||
+                newUserDTO.address() == null) {
             throw new IllegalArgumentException("Dados do usuário não podem ser nulos");
         }
+
         this.userGateway.searchByEmail(newUserDTO.email().trim())
                 .ifPresent(user -> {
                     throw new IllegalArgumentException("Usuário já cadastrado com o email: " + newUserDTO.email());
                 });
+        this.userGateway.searchByLogin(newUserDTO.login().trim())
+                .ifPresent(user -> {
+                    throw new IllegalArgumentException("Usuário já cadastrado com o login: " + newUserDTO.login());
+                });
+
         final User user = User.create(newUserDTO.name(), newUserDTO.email(), newUserDTO.login(), newUserDTO.password(),
                 newUserDTO.userType(), newUserDTO.address().parser());
 

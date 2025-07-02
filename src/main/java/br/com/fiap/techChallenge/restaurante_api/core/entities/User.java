@@ -23,10 +23,10 @@ public class User {
     private UserType userType;
     public LocalDateTime createDate;
     private LocalDateTime lastChange;
-    private Endereco address;
+    private Address address;
 
     public static User create(String name, String email, String login, String password, UserType userType,
-                              Endereco address) throws IllegalArgumentException {
+                              Address address) throws IllegalArgumentException {
         if (name == null || name.isEmpty() || email == null || email.isEmpty() || login == null || login.isEmpty()
                 || password == null || password.isEmpty()) {
             throw new IllegalArgumentException("Campo obrigatório não preenchido: name, email, login ou password");
