@@ -1,7 +1,6 @@
 package br.com.fiap.techChallenge.restaurante_api.core.entities;
 
 import br.com.fiap.techChallenge.restaurante_api.domain.enums.UserType;
-import br.com.fiap.techChallenge.restaurante_api.domain.model.Endereco;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -28,8 +27,9 @@ public class User {
     public static User create(String name, String email, String login, String password, UserType userType,
                               Address address) throws IllegalArgumentException {
         if (name == null || name.isEmpty() || email == null || email.isEmpty() || login == null || login.isEmpty()
-                || password == null || password.isEmpty()) {
-            throw new IllegalArgumentException("Campo obrigatório não preenchido: name, email, login ou password");
+                || userType == null || address == null) {
+            throw new IllegalArgumentException("Campo obrigatório não preenchido: name, email, login, tipo de " +
+                    "usuário ou endereço");
         }
 
         return User.builder()

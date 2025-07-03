@@ -16,7 +16,7 @@ public class CreateUserUseCase {
         return new CreateUserUseCase(userGateway);
     }
 
-    public User execute(NewUserDTO newUserDTO) {
+    public User execute(NewUserDTO newUserDTO) throws IllegalArgumentException {
         if (newUserDTO == null || newUserDTO.name() == null || newUserDTO.email() == null || newUserDTO.userType() == null ||
                 newUserDTO.address() == null) {
             throw new IllegalArgumentException("Dados do usuário não podem ser nulos");
