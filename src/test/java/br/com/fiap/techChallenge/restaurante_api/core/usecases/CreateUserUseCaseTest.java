@@ -1,10 +1,10 @@
 package br.com.fiap.techChallenge.restaurante_api.core.usecases;
 
-import br.com.fiap.techChallenge.restaurante_api.core.dto.AddressDTO;
-import br.com.fiap.techChallenge.restaurante_api.core.dto.NewUserDTO;
-import br.com.fiap.techChallenge.restaurante_api.core.entities.Address;
-import br.com.fiap.techChallenge.restaurante_api.core.entities.User;
-import br.com.fiap.techChallenge.restaurante_api.core.interfaces.IUserGateway;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.dto.AddressDTO;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.dto.NewUserDTO;
+import br.com.fiap.techChallenge.restaurante_api.application.usecases.CreateUserUseCase;
+import br.com.fiap.techChallenge.restaurante_api.domain.entities.User;
+import br.com.fiap.techChallenge.restaurante_api.application.repositories.IUserRepository;
 import br.com.fiap.techChallenge.restaurante_api.domain.enums.UserType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -30,13 +30,13 @@ class CreateUserUseCaseTest {
         AddressDTO addressDTO = new AddressDTO("Rua A", "Cidade B", "Estado C", "12345-678");
         User newUser = User.create(name, email, login, password, userType, addressDTO.parser());
         NewUserDTO newUserDTO = new NewUserDTO(name, email, login, password, userType, addressDTO);
-        IUserGateway iUserGateway = mock(IUserGateway.class);
+        IUserRepository iUserRepository = mock(IUserRepository.class);
 
-        when(iUserGateway.searchByEmail(anyString())).thenReturn(Optional.empty());
-        when(iUserGateway.searchByLogin(anyString())).thenReturn(Optional.empty());
-        when(iUserGateway.include(any())).thenReturn(newUser);
+        when(iUserRepository.searchByEmail(anyString())).thenReturn(Optional.empty());
+        when(iUserRepository.searchByLogin(anyString())).thenReturn(Optional.empty());
+        when(iUserRepository.include(any())).thenReturn(newUser);
 
-        final User user = CreateUserUseCase.create(iUserGateway).execute(newUserDTO);
+        final User user = CreateUserUseCase.create(iUserRepository).execute(newUserDTO);
 
         Assertions.assertNotNull(user);
         Assertions.assertEquals(name, user.getName());

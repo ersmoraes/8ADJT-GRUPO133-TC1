@@ -1,6 +1,8 @@
 package br.com.fiap.techChallenge.restaurante_api.core.entities;
 
 import br.com.fiap.techChallenge.restaurante_api.domain.enums.UserType;
+import br.com.fiap.techChallenge.restaurante_api.domain.entities.Address;
+import br.com.fiap.techChallenge.restaurante_api.domain.entities.User;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
