@@ -1,7 +1,7 @@
 package br.com.fiap.techChallenge.restaurante_api.domain.serviceOLD;
 
-import br.com.fiap.techChallenge.restaurante_api.apiOLD.dto.request.RestaurantRequestDTO;
-import br.com.fiap.techChallenge.restaurante_api.apiOLD.dto.response.RestaurantResponseDTO;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request.RestaurantRequestDTO;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.response.RestaurantResponseDTO;
 
 import java.util.List;
 import java.util.UUID;

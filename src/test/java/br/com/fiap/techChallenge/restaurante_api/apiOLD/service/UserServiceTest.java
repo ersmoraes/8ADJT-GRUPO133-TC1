@@ -1,7 +1,7 @@
 package br.com.fiap.techChallenge.restaurante_api.apiOLD.service;
 
-import br.com.fiap.techChallenge.restaurante_api.apiOLD.controller.UserController;
-import br.com.fiap.techChallenge.restaurante_api.apiOLD.dto.response.UserResponseDTO;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.controller.UserController;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.response.UserResponseDTO;
 import br.com.fiap.techChallenge.restaurante_api.domain.serviceOLD.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -1,8 +1,8 @@
 package br.com.fiap.techChallenge.restaurante_api.domain.serviceOLD;
 
-import br.com.fiap.techChallenge.restaurante_api.apiOLD.dto.request.MenuItemRequestDTO;
-import br.com.fiap.techChallenge.restaurante_api.apiOLD.dto.response.MenuItemResponseDTO;
-import br.com.fiap.techChallenge.restaurante_api.apiOLD.exception.ResourceNotFoundException;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request.MenuItemRequestDTO;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.response.MenuItemResponseDTO;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.exception.ResourceNotFoundException;
 import br.com.fiap.techChallenge.restaurante_api.domain.modelOLD.ItemCardapio;
 import br.com.fiap.techChallenge.restaurante_api.domain.modelOLD.Restaurante;
 import br.com.fiap.techChallenge.restaurante_api.domain.repositoryOLD.MenuItemRepository;

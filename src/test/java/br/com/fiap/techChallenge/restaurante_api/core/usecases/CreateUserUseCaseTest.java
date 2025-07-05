@@ -1,7 +1,7 @@
 package br.com.fiap.techChallenge.restaurante_api.core.usecases;
 
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.dto.AddressDTO;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.dto.NewUserDTO;
+import br.com.fiap.techChallenge.restaurante_api.presenters.dto.AddressDTO;
+import br.com.fiap.techChallenge.restaurante_api.presenters.dto.NewUserDTO;
 import br.com.fiap.techChallenge.restaurante_api.application.usecases.CreateUserUseCase;
 import br.com.fiap.techChallenge.restaurante_api.domain.entities.User;
 import br.com.fiap.techChallenge.restaurante_api.application.repositories.IUserRepository;

@@ -1,14 +1,5 @@
 package br.com.fiap.techChallenge.restaurante_api.infrastructure.gateway;
 
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.dto.AddressDTO;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.dto.NewUserDTO;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.dto.UserDTO;
-import br.com.fiap.techChallenge.restaurante_api.domain.entities.User;
-import br.com.fiap.techChallenge.restaurante_api.application.repositories.IDataSource;
-import br.com.fiap.techChallenge.restaurante_api.application.repositories.IUserRepository;
-
-import java.util.Optional;
-
 public class UserGateway { // implements IUserRepository
 //    IDataSource dataSource;
 //

@@ -1,10 +1,5 @@
 package br.com.fiap.techChallenge.restaurante_api.infrastructure.db.repository;
 
-import br.com.fiap.techChallenge.restaurante_api.apiOLD.dto.request.LoginRequestDTO;
-import br.com.fiap.techChallenge.restaurante_api.apiOLD.dto.request.PasswordUpdateRequestDTO;
-import br.com.fiap.techChallenge.restaurante_api.apiOLD.dto.request.UserRequestDTO;
-import br.com.fiap.techChallenge.restaurante_api.apiOLD.dto.response.UserResponseDTO;
-import br.com.fiap.techChallenge.restaurante_api.domain.modelOLD.Usuario;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.db.model.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
