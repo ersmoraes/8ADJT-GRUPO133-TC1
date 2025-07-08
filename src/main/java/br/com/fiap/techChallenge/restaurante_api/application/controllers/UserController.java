@@ -1,18 +1,20 @@
 package br.com.fiap.techChallenge.restaurante_api.application.controllers;
 
 public class UserController {
-//    IDataSource dataSource;
 //
-//    private UserController(IDataSource dataSource) {
+//    IDataSource dataSource;
+//    UserGatewayImpl userGateway;
+//
+//    private UserController (IDataSource dataSource, UserGatewayImpl userGateway) {
 //        this.dataSource = dataSource;
+//        this.userGateway = userGateway;
 //    }
 //
-//    public static UserController create(IDataSource dataSource) {
-//        return new UserController(dataSource);
+//    public static UserController create(IDataSource dataSource, UserGatewayImpl userGateway) {
+//        return new UserController(dataSource, userGateway);
 //    }
 //
 //    public UserDTO createUser(NewUserDTO newUserDTO) throws IllegalArgumentException {
-//        var userGateway = UserGateway.create(this.dataSource);
 //        var useCase = CreateUserUseCase.create(userGateway);
 //        try {
 //            var user = useCase.execute(newUserDTO);
@@ -23,7 +25,6 @@ public class UserController {
 //    }
 //
 //    public UserDTO searchUserByEmail(String email) throws IllegalArgumentException {
-//        var userGateway = UserGateway.create(this.dataSource);
 //        var useCase = SearchUserByEmailUseCase.create(userGateway);
 //        try {
 //            var user = useCase.execute(email);
@@ -34,7 +35,6 @@ public class UserController {
 //    }
 //
 //    public UserDTO searchUserByLogin(String login) throws IllegalArgumentException {
-//        var userGateway = UserGateway.create(this.dataSource);
 //        var useCase = SearchUserByLoginUseCase.create(userGateway);
 //        try {
 //            var user = useCase.execute(login);

@@ -1,12 +1,14 @@
 package br.com.fiap.techChallenge.restaurante_api.domain.entities;
 
 import br.com.fiap.techChallenge.restaurante_api.domain.enums.UserType;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.UserEntity;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -20,7 +22,7 @@ public class User {
     private String login;
     private String password;
     private UserType userType;
-    public LocalDateTime createDate;
+    private LocalDateTime createDate;
     private LocalDateTime lastChange;
     private Address address;
 
@@ -52,5 +54,25 @@ public class User {
     public void setEmail(String email) {
         validEmail(email);
         this.email = email;
+    }
+
+    public static User toUser(UserEntity userEntity) {
+        return User.builder()
+                .id(userEntity.getId())
+                .name(userEntity.getName())
+                .email(userEntity.getEmail())
+                .login(userEntity.getLogin())
+                .password(userEntity.getPassword())
+                .userType(userEntity.getUserType())
+                .createDate(userEntity.getCreateDate())
+                .lastChange(userEntity.getLastChange())
+                .address(Address.toAddress(userEntity.getAddressEntity()))
+                .build();
+    }
+
+    public static List<User> toUser(List<UserEntity> userEntities) {
+        return userEntities.stream()
+                .map(User::toUser)
+                .toList();
     }
 }

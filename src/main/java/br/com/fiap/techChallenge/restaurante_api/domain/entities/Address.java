@@ -1,9 +1,13 @@
 package br.com.fiap.techChallenge.restaurante_api.domain.entities;
 
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.AddressEntity;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.UserEntity;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -27,5 +31,20 @@ public class Address {
                 .state(state)
                 .zipCode(zipCode)
                 .build();
+    }
+
+    public static Address toAddress(AddressEntity address) {
+        return Address.builder()
+                .street(address.getStreet())
+                .city(address.getCity())
+                .state(address.getState())
+                .zipCode(address.getZipCode())
+                .build();
+    }
+
+    public static List<Address> toAddress(List<AddressEntity> addressEntities) {
+        return addressEntities.stream()
+                .map(Address::toAddress)
+                .toList();
     }
 }

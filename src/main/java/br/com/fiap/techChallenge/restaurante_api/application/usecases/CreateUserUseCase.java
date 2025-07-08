@@ -1,19 +1,19 @@
 package br.com.fiap.techChallenge.restaurante_api.application.usecases;
 
 import br.com.fiap.techChallenge.restaurante_api.presenters.dto.NewUserDTO;
-import br.com.fiap.techChallenge.restaurante_api.application.repositories.IUserRepository;
+import br.com.fiap.techChallenge.restaurante_api.domain.gateway.IUserGateway;
 import br.com.fiap.techChallenge.restaurante_api.domain.entities.User;
 
 public class CreateUserUseCase {
 
-    IUserRepository userRepository;
+    IUserGateway userGateway;
 
-    private CreateUserUseCase(IUserRepository userRepository) {
-        this.userRepository = userRepository;
+    private CreateUserUseCase(IUserGateway userGateway) {
+        this.userGateway = userGateway;
     }
 
-    public static CreateUserUseCase create(IUserRepository userRepository) {
-        return new CreateUserUseCase(userRepository);
+    public static CreateUserUseCase create(IUserGateway userGateway) {
+        return new CreateUserUseCase(userGateway);
     }
 
     public User execute(NewUserDTO newUserDTO) throws IllegalArgumentException {
@@ -22,11 +22,11 @@ public class CreateUserUseCase {
             throw new IllegalArgumentException("Dados do usuário não podem ser nulos");
         }
 
-        this.userRepository.searchByEmail(newUserDTO.email().trim())
+        this.userGateway.searchByEmail(newUserDTO.email().trim())
                 .ifPresent(user -> {
                     throw new IllegalArgumentException("Usuário já cadastrado com o email: " + newUserDTO.email());
                 });
-        this.userRepository.searchByLogin(newUserDTO.login().trim())
+        this.userGateway.searchByLogin(newUserDTO.login().trim())
                 .ifPresent(user -> {
                     throw new IllegalArgumentException("Usuário já cadastrado com o login: " + newUserDTO.login());
                 });
@@ -34,6 +34,6 @@ public class CreateUserUseCase {
         final User user = User.create(newUserDTO.name(), newUserDTO.email(), newUserDTO.login(), newUserDTO.password(),
                 newUserDTO.userType(), newUserDTO.address().parser());
 
-        return this.userRepository.createUser(user);
+        return this.userGateway.createUser(user);
     }
 }

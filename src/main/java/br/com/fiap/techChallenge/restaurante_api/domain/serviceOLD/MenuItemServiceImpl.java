@@ -5,8 +5,8 @@ import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.response
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.exception.ResourceNotFoundException;
 import br.com.fiap.techChallenge.restaurante_api.domain.modelOLD.ItemCardapio;
 import br.com.fiap.techChallenge.restaurante_api.domain.modelOLD.Restaurante;
-import br.com.fiap.techChallenge.restaurante_api.domain.repositoryOLD.MenuItemRepository;
-import br.com.fiap.techChallenge.restaurante_api.domain.repositoryOLD.RestaurantRepository;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository.MenuItemRepository;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

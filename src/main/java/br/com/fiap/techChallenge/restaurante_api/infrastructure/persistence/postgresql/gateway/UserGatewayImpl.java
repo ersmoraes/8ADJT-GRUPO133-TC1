@@ -1,67 +1,57 @@
-package br.com.fiap.techChallenge.restaurante_api.infrastructure.db.service;
+package br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.gateway;
 
-import br.com.fiap.techChallenge.restaurante_api.application.repositories.IUserRepository;
 import br.com.fiap.techChallenge.restaurante_api.domain.entities.User;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.db.model.Address;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.db.repository.UserRepository;
+import br.com.fiap.techChallenge.restaurante_api.domain.gateway.IUserGateway;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.AddressEntity;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.UserEntity;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
-@Service
+@Component
 @RequiredArgsConstructor
-public class UserServiceImpl implements IUserRepository {
+public class UserGatewayImpl implements IUserGateway {
 
     private final UserRepository userRepository;
 
     @Override
     public User createUser(User user) {
-        br.com.fiap.techChallenge.restaurante_api.infrastructure.db.model.User newUser =
-                br.com.fiap.techChallenge.restaurante_api.infrastructure.db.model.User.builder()
+        UserEntity newUser = UserEntity.builder()
                 .name(user.getName())
                 .email(user.getEmail())
                 .login(user.getLogin())
                 .password(user.getPassword())
                 .userType(user.getUserType())
-                .lastChange(LocalDateTime.now())
-                .createDate(LocalDateTime.now())
-                .address(mapAddress(user.getAddress()))
-                .build();
-        return mapUser(userRepository.save(newUser));
-    }
-
-    private Address mapAddress(br.com.fiap.techChallenge.restaurante_api.domain.entities.Address address) {
-        return Address.builder()
-                .street(address.getStreet())
-                .city(address.getCity())
-                .state(address.getState())
-                .zipCode(address.getZipCode())
-                .build();
-    }
-
-    private br.com.fiap.techChallenge.restaurante_api.domain.entities.Address mapAddress(Address address) {
-        return br.com.fiap.techChallenge.restaurante_api.domain.entities.Address.builder()
-                .street(address.getStreet())
-                .city(address.getCity())
-                .state(address.getState())
-                .zipCode(address.getZipCode())
-                .build();
-    }
-
-    private User mapUser(br.com.fiap.techChallenge.restaurante_api.infrastructure.db.model.User user) {
-        return User.builder()
-                .id(user.getId())
-                .name(user.getName())
-                .email(user.getEmail())
-                .login(user.getLogin())
-                .password(user.getPassword())
-                .userType(user.getUserType())
-                .address(mapAddress(user.getAddress()))
+                .addressEntity(AddressEntity.toAddressEntity(user.getAddress()))
                 .createDate(user.getCreateDate())
                 .lastChange(user.getLastChange())
                 .build();
+        return User.toUser(userRepository.save(newUser));
+    }
+
+    @Override
+    public Page<User> findAll(Pageable pageable) {
+        return null;
+    }
+
+    @Override
+    public boolean existsByLogin(String login) {
+        return false;
+    }
+
+    @Override
+    public boolean existsByEmail(String email) {
+        return false;
+    }
+
+    @Override
+    public Optional<User> findByLoginAndPassword(String login, String password) {
+        return Optional.empty();
     }
 
     @Override
@@ -73,6 +63,23 @@ public class UserServiceImpl implements IUserRepository {
     public Optional<User> searchByLogin(String login) {
         return Optional.empty();
     }
+
+    @Override
+    public User findById(UUID id) {
+        return userRepository.findById(id)
+                .map(User::toUser)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    }
+
+
+//    @Override
+//    public String login(LoginRequestDTO dto) {
+//        Optional<Usuario> usuario = userRepository.findByLoginAndPassword(dto.getLogin(), dto.getPassword());
+//        if(!usuario.isPresent()){
+//            return "Usuario ou senha invalidos!";
+//        }
+//        return "Login Efetuado";
+//    }
 
 //    @Override
 //    public UserResponseDTO updateUser(UUID id, UserRequestDTO dto) {

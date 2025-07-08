@@ -1,4 +1,4 @@
-package br.com.fiap.techChallenge.restaurante_api.domain.repositoryOLD;
+package br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository;
 
 import br.com.fiap.techChallenge.restaurante_api.domain.modelOLD.ItemCardapio;
 import org.springframework.data.jpa.repository.JpaRepository;

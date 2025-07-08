@@ -1,17 +1,17 @@
 package br.com.fiap.techChallenge.restaurante_api.application.usecases;
 
 import br.com.fiap.techChallenge.restaurante_api.domain.entities.User;
-import br.com.fiap.techChallenge.restaurante_api.application.repositories.IUserRepository;
+import br.com.fiap.techChallenge.restaurante_api.domain.gateway.IUserGateway;
 
 public class SearchUserByEmailUseCase {
 
-    IUserRepository userGateway;
+    IUserGateway userGateway;
 
-    private SearchUserByEmailUseCase(IUserRepository userGateway) {
+    private SearchUserByEmailUseCase(IUserGateway userGateway) {
         this.userGateway = userGateway;
     }
 
-    public static SearchUserByEmailUseCase create(IUserRepository userGateway) {
+    public static SearchUserByEmailUseCase create(IUserGateway userGateway) {
         return new SearchUserByEmailUseCase(userGateway);
     }
 

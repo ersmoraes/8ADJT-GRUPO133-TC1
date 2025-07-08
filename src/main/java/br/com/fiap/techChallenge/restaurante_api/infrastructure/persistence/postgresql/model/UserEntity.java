@@ -1,0 +1,72 @@
+package br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model;
+
+import br.com.fiap.techChallenge.restaurante_api.domain.entities.Address;
+import br.com.fiap.techChallenge.restaurante_api.domain.entities.User;
+import br.com.fiap.techChallenge.restaurante_api.domain.enums.UserType;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
+
+@Entity
+@Table(name = "users")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class UserEntity {
+
+    @Id
+    @PrimaryKeyJoinColumn
+    @GeneratedValue
+    @Column(name = "id", columnDefinition = "uuid", updatable = false, nullable = false)
+    private UUID id;
+
+    @Column(name = "nome", nullable = false)
+    private String name;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(name = "usuario", nullable = false, unique = true)
+    private String login;
+
+    @Column(name = "senha", nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo_usuario")
+    private UserType userType;
+
+    @Column(name = "dt_criacao")
+    public LocalDateTime createDate;
+
+    @Column(name = "dt_alteracao")
+    private LocalDateTime lastChange;
+
+    @Embedded
+    private AddressEntity addressEntity;
+
+    public static UserEntity toUserEntity(User user) {
+        return UserEntity.builder()
+                .id(user.getId())
+                .name(user.getName())
+                .email(user.getEmail())
+                .login(user.getLogin())
+                .password(user.getPassword())
+                .userType(user.getUserType())
+                .createDate(user.getCreateDate())
+                .lastChange(user.getLastChange())
+                .addressEntity(AddressEntity.toAddressEntity(user.getAddress()))
+                .build();
+    }
+
+    public static List<UserEntity> toUserEntity(List<User> users) {
+        return users.stream()
+                .map(UserEntity::toUserEntity)
+                .toList();
+    }
+}

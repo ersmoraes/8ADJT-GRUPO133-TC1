@@ -1,15 +1,15 @@
-package br.com.fiap.techChallenge.restaurante_api.apiOLD.controller;
+package br.com.fiap.techChallenge.restaurante_api.infrastructure.api.controller;
 
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.controller.UserController;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.response.UserResponseDTO;
 import br.com.fiap.techChallenge.restaurante_api.domain.serviceOLD.UserService;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.response.UserResponseDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class UserControllerTest {
 
