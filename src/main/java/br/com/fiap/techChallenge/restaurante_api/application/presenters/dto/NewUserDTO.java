@@ -1,4 +1,4 @@
-package br.com.fiap.techChallenge.restaurante_api.presenters.dto;
+package br.com.fiap.techChallenge.restaurante_api.application.presenters.dto;
 
 import br.com.fiap.techChallenge.restaurante_api.domain.enums.UserType;
 

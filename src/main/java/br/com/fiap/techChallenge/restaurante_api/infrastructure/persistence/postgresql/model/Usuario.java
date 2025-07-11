@@ -1,4 +1,4 @@
-package br.com.fiap.techChallenge.restaurante_api.domain.modelOLD;
+package br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model;
 
 import br.com.fiap.techChallenge.restaurante_api.domain.enums.UserType;
 import jakarta.persistence.*;

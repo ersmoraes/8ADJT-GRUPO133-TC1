@@ -1,6 +1,6 @@
 package br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository;
 
-import br.com.fiap.techChallenge.restaurante_api.domain.modelOLD.Restaurante;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.Restaurante;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,8 +1,8 @@
 package br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model;
 
-import br.com.fiap.techChallenge.restaurante_api.domain.entities.Address;
 import br.com.fiap.techChallenge.restaurante_api.domain.entities.User;
 import br.com.fiap.techChallenge.restaurante_api.domain.enums.UserType;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.enums.UserTypeEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -39,7 +39,7 @@ public class UserEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "tipo_usuario")
-    private UserType userType;
+    private UserTypeEnum userType;
 
     @Column(name = "dt_criacao")
     public LocalDateTime createDate;
@@ -57,7 +57,7 @@ public class UserEntity {
                 .email(user.getEmail())
                 .login(user.getLogin())
                 .password(user.getPassword())
-                .userType(user.getUserType())
+                .userType(UserTypeEnum.fromString(user.getUserType().name()))
                 .createDate(user.getCreateDate())
                 .lastChange(user.getLastChange())
                 .addressEntity(AddressEntity.toAddressEntity(user.getAddress()))

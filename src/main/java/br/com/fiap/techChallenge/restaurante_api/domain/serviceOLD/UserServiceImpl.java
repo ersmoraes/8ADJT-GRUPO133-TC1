@@ -4,7 +4,7 @@ import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request.
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request.PasswordUpdateRequestDTO;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request.UserRequestDTO;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.response.UserResponseDTO;
-import br.com.fiap.techChallenge.restaurante_api.domain.modelOLD.Usuario;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.Usuario;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,43 +13,7 @@ import java.util.UUID;
 
 //@Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
-    @Override
-    public Page<Usuario> findAll(Pageable pageable) {
-        return null;
-    }
-
-    @Override
-    public String login(LoginRequestDTO loginDTO) {
-        return "";
-    }
-
-    @Override
-    public UserResponseDTO getUserById(UUID id) {
-        return null;
-    }
-
-    @Override
-    public UserResponseDTO createUser(UserRequestDTO dto) {
-        return null;
-    }
-
-    @Override
-    public UserResponseDTO updateUser(UUID id, UserRequestDTO dto) {
-        return null;
-    }
-
-    @Override
-    public void deleteUser(UUID id) {
-
-    }
-
-    @Override
-    public void updatePassword(UUID userId, PasswordUpdateRequestDTO dto) {
-
-    }
-
-
+public class UserServiceImpl {
 //
 //    private final UserRepository userRepository;
 //

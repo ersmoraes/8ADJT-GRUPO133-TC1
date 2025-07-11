@@ -1,7 +1,6 @@
 package br.com.fiap.techChallenge.restaurante_api.domain.gateway;
 
 import br.com.fiap.techChallenge.restaurante_api.domain.entities.User;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -16,9 +15,13 @@ public interface IUserGateway {
     User createUser(User user);
 
     Page<User> findAll(Pageable pageable);
+
     boolean existsByLogin(String login);
+
     boolean existsByEmail(String email);
+
     Optional<User> findByLoginAndPassword(String login, String password);
+
     User findById(UUID id);
 
 }

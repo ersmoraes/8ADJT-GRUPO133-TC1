@@ -1,7 +1,8 @@
 package br.com.fiap.techChallenge.restaurante_api.infrastructure.api.controller;
 
+import br.com.fiap.techChallenge.restaurante_api.application.controllers.UserController;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.response.UserResponseDTO;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.gateway.UserGatewayImpl;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.service.UserServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -23,9 +24,9 @@ import java.util.UUID;
 @RequestMapping("/users")
 @RequiredArgsConstructor
 @Tag(name = "users", description = "Gerenciamento de usuários")
-public class UserController {
+public class UserRESTController {
 
-    private final UserGatewayImpl userGateway;
+    private final UserServiceImpl userService;
 
     @Operation(summary = "Buscar todos os Usuarios",
             description = "Retorna todos os usuarios cadastrados",
@@ -39,7 +40,7 @@ public class UserController {
             @Parameter(description = "Parâmetros de paginação: número da página (page), tamanho da página (size) e ordenação (sort). Exemplo: ?page=0&size=10&sort=nome,asc",
                     example = "page=0&size=10&sort=nome,asc")
             Pageable pageable) {
-        Page<UserResponseDTO> dtoPage = userGateway.findAll(pageable).map(UserResponseDTO::new);
+        Page<UserResponseDTO> dtoPage = userService.findAll(pageable).map(UserResponseDTO::new);
         return ResponseEntity.ok(dtoPage);
     }
 
@@ -54,7 +55,8 @@ public class UserController {
     public ResponseEntity<UserResponseDTO> getUserById(
             @Parameter(description = "UUID do usuário", required = true)
             @PathVariable UUID id) {
-        UserResponseDTO user = new UserResponseDTO(userGateway.findById(id));
+        UserController userController = UserController.create(userService);
+        UserResponseDTO user = new UserResponseDTO(userController.findById(id));
         return ResponseEntity.ok(user);
     }
 

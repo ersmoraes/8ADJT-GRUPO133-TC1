@@ -1,9 +1,8 @@
-package br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.gateway;
+package br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.service;
 
-import br.com.fiap.techChallenge.restaurante_api.domain.entities.User;
-import br.com.fiap.techChallenge.restaurante_api.domain.gateway.IUserGateway;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.AddressEntity;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.UserEntity;
+import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.NewUserDTO;
+import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.UserDTO;
+import br.com.fiap.techChallenge.restaurante_api.domain.gateway.IDataSource;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,27 +14,17 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class UserGatewayImpl implements IUserGateway {
+public class UserServiceImpl implements IDataSource {
 
     private final UserRepository userRepository;
 
     @Override
-    public User createUser(User user) {
-        UserEntity newUser = UserEntity.builder()
-                .name(user.getName())
-                .email(user.getEmail())
-                .login(user.getLogin())
-                .password(user.getPassword())
-                .userType(user.getUserType())
-                .addressEntity(AddressEntity.toAddressEntity(user.getAddress()))
-                .createDate(user.getCreateDate())
-                .lastChange(user.getLastChange())
-                .build();
-        return User.toUser(userRepository.save(newUser));
+    public UserDTO createUser(NewUserDTO user) {
+        return null;
     }
 
     @Override
-    public Page<User> findAll(Pageable pageable) {
+    public Page<UserDTO> findAll(Pageable pageable) {
         return null;
     }
 
@@ -50,27 +39,26 @@ public class UserGatewayImpl implements IUserGateway {
     }
 
     @Override
-    public Optional<User> findByLoginAndPassword(String login, String password) {
+    public Optional<UserDTO> findByLoginAndPassword(String login, String password) {
         return Optional.empty();
     }
 
     @Override
-    public Optional<User> searchByEmail(String email) {
-        return Optional.empty();
+    public UserDTO searchByEmail(String email) {
+        return null;
     }
 
     @Override
-    public Optional<User> searchByLogin(String login) {
-        return Optional.empty();
+    public UserDTO searchByLogin(String login) {
+        return null;
     }
 
     @Override
-    public User findById(UUID id) {
+    public UserDTO findById(UUID id) {
         return userRepository.findById(id)
-                .map(User::toUser)
-                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+                .map(UserDTO::toUserDTO)
+                .orElse(null);
     }
-
 
 //    @Override
 //    public String login(LoginRequestDTO dto) {

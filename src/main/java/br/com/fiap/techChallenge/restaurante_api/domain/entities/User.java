@@ -1,6 +1,7 @@
 package br.com.fiap.techChallenge.restaurante_api.domain.entities;
 
 import br.com.fiap.techChallenge.restaurante_api.domain.enums.UserType;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.enums.UserTypeEnum;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.UserEntity;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
@@ -63,7 +64,7 @@ public class User {
                 .email(userEntity.getEmail())
                 .login(userEntity.getLogin())
                 .password(userEntity.getPassword())
-                .userType(userEntity.getUserType())
+                .userType(UserType.fromString(userEntity.getUserType().name()))
                 .createDate(userEntity.getCreateDate())
                 .lastChange(userEntity.getLastChange())
                 .address(Address.toAddress(userEntity.getAddressEntity()))

@@ -1,18 +1,25 @@
 package br.com.fiap.techChallenge.restaurante_api.application.controllers;
 
+import br.com.fiap.techChallenge.restaurante_api.application.presenters.UserPresenter;
+import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.UserDTO;
+import br.com.fiap.techChallenge.restaurante_api.application.usecases.user.FindByIdUseCase;
+import br.com.fiap.techChallenge.restaurante_api.domain.gateway.IDataSource;
+import br.com.fiap.techChallenge.restaurante_api.domain.gateway.IUserGateway;
+import br.com.fiap.techChallenge.restaurante_api.domain.gateway.UserGateway;
+
+import java.util.UUID;
+
 public class UserController {
-//
-//    IDataSource dataSource;
-//    UserGatewayImpl userGateway;
-//
-//    private UserController (IDataSource dataSource, UserGatewayImpl userGateway) {
-//        this.dataSource = dataSource;
-//        this.userGateway = userGateway;
-//    }
-//
-//    public static UserController create(IDataSource dataSource, UserGatewayImpl userGateway) {
-//        return new UserController(dataSource, userGateway);
-//    }
+
+    IDataSource dataSource;
+
+    private UserController(IDataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    public static UserController create(IDataSource dataSource) {
+        return new UserController(dataSource);
+    }
 //
 //    public UserDTO createUser(NewUserDTO newUserDTO) throws IllegalArgumentException {
 //        var useCase = CreateUserUseCase.create(userGateway);
@@ -43,4 +50,11 @@ public class UserController {
 //            throw new IllegalArgumentException("Erro ao buscar usuário por login: " + e.getMessage(), e);
 //        }
 //    }
+
+    public UserDTO findById(UUID id) throws IllegalArgumentException {
+        IUserGateway userGateway = UserGateway.create(dataSource);
+        var useCase = FindByIdUseCase.create(userGateway);
+        var user = useCase.execute(id);
+        return UserPresenter.toDTO(user);
+    }
 }

@@ -1,6 +1,6 @@
-package br.com.fiap.techChallenge.restaurante_api.presenters;
+package br.com.fiap.techChallenge.restaurante_api.application.presenters;
 
-import br.com.fiap.techChallenge.restaurante_api.presenters.dto.AddressDTO;
+import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.AddressDTO;
 import br.com.fiap.techChallenge.restaurante_api.domain.entities.Address;
 
 public class AddressPresenter {

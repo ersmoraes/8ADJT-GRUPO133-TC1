@@ -1,6 +1,6 @@
 package br.com.fiap.techChallenge.restaurante_api.domain.entities;
 
-import br.com.fiap.techChallenge.restaurante_api.domain.modelOLD.Restaurante;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.Restaurante;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
