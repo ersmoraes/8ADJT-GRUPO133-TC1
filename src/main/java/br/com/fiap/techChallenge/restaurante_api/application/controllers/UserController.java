@@ -3,21 +3,21 @@ package br.com.fiap.techChallenge.restaurante_api.application.controllers;
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.UserPresenter;
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.UserDTO;
 import br.com.fiap.techChallenge.restaurante_api.application.usecases.user.FindByIdUseCase;
-import br.com.fiap.techChallenge.restaurante_api.domain.gateway.IDataSource;
-import br.com.fiap.techChallenge.restaurante_api.domain.gateway.IUserGateway;
-import br.com.fiap.techChallenge.restaurante_api.domain.gateway.UserGateway;
+import br.com.fiap.techChallenge.restaurante_api.domain.gateway.user.IUserDataSource;
+import br.com.fiap.techChallenge.restaurante_api.domain.gateway.user.IUserGateway;
+import br.com.fiap.techChallenge.restaurante_api.domain.gateway.user.UserGateway;
 
 import java.util.UUID;
 
 public class UserController {
 
-    IDataSource dataSource;
+    IUserDataSource dataSource;
 
-    private UserController(IDataSource dataSource) {
+    private UserController(IUserDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
-    public static UserController create(IDataSource dataSource) {
+    public static UserController create(IUserDataSource dataSource) {
         return new UserController(dataSource);
     }
 //

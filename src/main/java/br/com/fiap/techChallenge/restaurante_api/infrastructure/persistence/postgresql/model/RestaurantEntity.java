@@ -12,25 +12,25 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Restaurante {
+public class RestaurantEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
 
-    @Column(nullable = false)
-    private String nome;
+    @Column(name = "nome", nullable = false)
+    private String name;
 
     @Column(nullable = false)
-    private String endereco;
+    private AddressEntity endereco;
 
     @Column(name = "tipo_cozinha", nullable = false)
-    private String tipoCozinha;
+    private String kitchenType;
 
     @Column(name = "horario_funcionamento", nullable = false)
-    private String horarioFuncionamento;
+    private String openingHours;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "dono_id", nullable = false)
-//    private Usuario dono;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private UserEntity owner;
 }

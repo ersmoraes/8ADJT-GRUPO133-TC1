@@ -2,7 +2,7 @@ package br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.pos
 
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.NewUserDTO;
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.UserDTO;
-import br.com.fiap.techChallenge.restaurante_api.domain.gateway.IDataSource;
+import br.com.fiap.techChallenge.restaurante_api.domain.gateway.user.IUserDataSource;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,7 +14,7 @@ import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
-public class UserServiceImpl implements IDataSource {
+public class UserServiceImpl implements IUserDataSource {
 
     private final UserRepository userRepository;
 
@@ -60,6 +60,14 @@ public class UserServiceImpl implements IDataSource {
                 .orElse(null);
     }
 
+//    private final UserRepository userRepository;
+//
+//    @Override
+//    public Page<Usuario> findAll(Pageable pageable) {
+//        return userRepository.findAll(pageable);
+//    }
+//
+//
 //    @Override
 //    public String login(LoginRequestDTO dto) {
 //        Optional<Usuario> usuario = userRepository.findByLoginAndPassword(dto.getLogin(), dto.getPassword());
@@ -68,7 +76,31 @@ public class UserServiceImpl implements IDataSource {
 //        }
 //        return "Login Efetuado";
 //    }
-
+//
+//
+//    @Override
+//    public UserResponseDTO getUserById(UUID id) {
+//        Usuario user = userRepository.findById(id)
+//                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+//        return mapToResponse(user);
+//    }
+//
+//    @Override
+//    public UserResponseDTO createUser(UserRequestDTO dto) {
+//        Usuario user = Usuario.builder()
+//                .name(dto.getName())
+//                .email(dto.getEmail())
+//                .login(dto.getLogin())
+//                .password(dto.getPassword())
+//                .userType(dto.getUserType())
+//                .lastChange(LocalDateTime.now())
+//                .createDate(LocalDateTime.now())
+//                .address(mapAddress(dto))
+//                .build();
+//        userRepository.save(user);
+//        return mapToResponse(user);
+//    }
+//
 //    @Override
 //    public UserResponseDTO updateUser(UUID id, UserRequestDTO dto) {
 //        Usuario user = userRepository.findById(id)
@@ -117,6 +149,15 @@ public class UserServiceImpl implements IDataSource {
 //                        .logradouro(user.getAddress().getLogradouro())
 //                        .build())
 //                .active(true)
+//                .build();
+//    }
+//
+//    private Endereco mapAddress(UserRequestDTO dto) {
+//        return Endereco.builder()
+//                .logradouro(dto.getAddress().getRua())
+//                .cidade(dto.getAddress().getCidade())
+//                .estado(dto.getAddress().getEstado())
+//                .cep(dto.getAddress().getCep())
 //                .build();
 //    }
 //

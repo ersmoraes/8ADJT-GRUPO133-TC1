@@ -1,4 +1,4 @@
-package br.com.fiap.techChallenge.restaurante_api.domain.gateway;
+package br.com.fiap.techChallenge.restaurante_api.domain.gateway.user;
 
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.UserDTO;
 import br.com.fiap.techChallenge.restaurante_api.domain.entities.User;
@@ -9,13 +9,13 @@ import java.util.Optional;
 import java.util.UUID;
 
 public class UserGateway implements IUserGateway {
-    private IDataSource dataSource;
+    private IUserDataSource dataSource;
 
-    private UserGateway(IDataSource dataSource) {
+    private UserGateway(IUserDataSource dataSource) {
         this.dataSource = dataSource;
     }
 
-    public static UserGateway create(IDataSource dataSource) {
+    public static UserGateway create(IUserDataSource dataSource) {
         return new UserGateway(dataSource);
     }
 

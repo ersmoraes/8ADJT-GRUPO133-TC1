@@ -1,12 +1,10 @@
 package br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model;
 
 import br.com.fiap.techChallenge.restaurante_api.domain.entities.Address;
-import br.com.fiap.techChallenge.restaurante_api.domain.entities.User;
 import jakarta.persistence.Embeddable;
 import lombok.*;
 
 import java.util.List;
-
 
 @Getter
 @Setter

@@ -1,4 +1,4 @@
-package br.com.fiap.techChallenge.restaurante_api.domain.gateway;
+package br.com.fiap.techChallenge.restaurante_api.domain.gateway.user;
 
 import br.com.fiap.techChallenge.restaurante_api.domain.entities.User;
 import org.springframework.data.domain.Page;

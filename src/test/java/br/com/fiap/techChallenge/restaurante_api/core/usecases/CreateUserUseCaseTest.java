@@ -4,7 +4,7 @@ import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.Addr
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.NewUserDTO;
 import br.com.fiap.techChallenge.restaurante_api.application.usecases.CreateUserUseCase;
 import br.com.fiap.techChallenge.restaurante_api.domain.entities.User;
-import br.com.fiap.techChallenge.restaurante_api.domain.gateway.IUserGateway;
+import br.com.fiap.techChallenge.restaurante_api.domain.gateway.user.IUserGateway;
 import br.com.fiap.techChallenge.restaurante_api.domain.enums.UserType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
