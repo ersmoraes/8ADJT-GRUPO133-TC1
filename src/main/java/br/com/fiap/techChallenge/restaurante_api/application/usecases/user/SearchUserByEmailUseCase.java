@@ -1,4 +1,4 @@
-package br.com.fiap.techChallenge.restaurante_api.application.usecases;
+package br.com.fiap.techChallenge.restaurante_api.application.usecases.user;
 
 import br.com.fiap.techChallenge.restaurante_api.domain.entities.User;
 import br.com.fiap.techChallenge.restaurante_api.domain.gateway.user.IUserGateway;
@@ -19,7 +19,7 @@ public class SearchUserByEmailUseCase {
         if (email == null || email.trim().isEmpty()) {
             throw new IllegalArgumentException("Email do usuário não pode ser nulo ou vazio");
         }
-        return this.userGateway.searchByEmail(email.trim())
+        return this.userGateway.findByEmail(email.trim())
                 .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado com o email: " + email));
     }
 }

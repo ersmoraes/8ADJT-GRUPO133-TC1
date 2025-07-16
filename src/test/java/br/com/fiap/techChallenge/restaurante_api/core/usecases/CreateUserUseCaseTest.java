@@ -2,10 +2,10 @@ package br.com.fiap.techChallenge.restaurante_api.core.usecases;
 
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.AddressDTO;
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.NewUserDTO;
-import br.com.fiap.techChallenge.restaurante_api.application.usecases.CreateUserUseCase;
+import br.com.fiap.techChallenge.restaurante_api.application.usecases.user.CreateUserUseCase;
 import br.com.fiap.techChallenge.restaurante_api.domain.entities.User;
-import br.com.fiap.techChallenge.restaurante_api.domain.gateway.user.IUserGateway;
 import br.com.fiap.techChallenge.restaurante_api.domain.enums.UserType;
+import br.com.fiap.techChallenge.restaurante_api.domain.gateway.user.IUserGateway;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,8 +32,8 @@ class CreateUserUseCaseTest {
         NewUserDTO newUserDTO = new NewUserDTO(name, email, login, password, userType, addressDTO);
         IUserGateway iUserGateway = mock(IUserGateway.class);
 
-        when(iUserGateway.searchByEmail(anyString())).thenReturn(Optional.empty());
-        when(iUserGateway.searchByLogin(anyString())).thenReturn(Optional.empty());
+        when(iUserGateway.findByEmail(anyString())).thenReturn(Optional.empty());
+        when(iUserGateway.findByLogin(anyString())).thenReturn(Optional.empty());
         when(iUserGateway.createUser(any())).thenReturn(newUser);
 
         final User user = CreateUserUseCase.create(iUserGateway).execute(newUserDTO);

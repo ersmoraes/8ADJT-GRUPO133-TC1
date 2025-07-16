@@ -1,5 +1,6 @@
 package br.com.fiap.techChallenge.restaurante_api.domain.entities;
 
+import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.AddressDTO;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.AddressEntity;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.UserEntity;
 import lombok.Builder;
@@ -45,6 +46,21 @@ public class Address {
     public static List<Address> toAddress(List<AddressEntity> addressEntities) {
         return addressEntities.stream()
                 .map(Address::toAddress)
+                .toList();
+    }
+
+    public static Address toAddressFromDTO(AddressDTO addressDTO) {
+        return Address.builder()
+                .street(addressDTO.street())
+                .city(addressDTO.city())
+                .state(addressDTO.state())
+                .zipCode(addressDTO.zipCode())
+                .build();
+    }
+
+    public static List<Address> toAddressFromDTO(List<AddressDTO> addressDTOS) {
+        return addressDTOS.stream()
+                .map(Address::toAddressFromDTO)
                 .toList();
     }
 }

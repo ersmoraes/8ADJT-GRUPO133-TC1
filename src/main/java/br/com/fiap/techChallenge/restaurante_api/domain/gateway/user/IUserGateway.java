@@ -8,20 +8,22 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface IUserGateway {
-    Optional<User> searchByEmail(String email);
-
-    Optional<User> searchByLogin(String login);
-
-    User createUser(User user);
-
     Page<User> findAll(Pageable pageable);
-
-    boolean existsByLogin(String login);
-
-    boolean existsByEmail(String email);
 
     Optional<User> findByLoginAndPassword(String login, String password);
 
+    Optional<User> findByEmail(String email);
+
+    Optional<User> findByLogin(String login);
+
     User findById(UUID id);
+
+    User createUser(User user);
+
+    User updateUser(User user);
+
+    User updatePassword(User user, String oldPassword);
+
+    void deleteUser(UUID id);
 
 }

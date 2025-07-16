@@ -2,7 +2,7 @@ package br.com.fiap.techChallenge.restaurante_api.application.controllers;
 
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.UserPresenter;
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.UserDTO;
-import br.com.fiap.techChallenge.restaurante_api.application.usecases.user.FindByIdUseCase;
+import br.com.fiap.techChallenge.restaurante_api.application.usecases.user.SearchUserByIdUseCase;
 import br.com.fiap.techChallenge.restaurante_api.domain.gateway.user.IUserDataSource;
 import br.com.fiap.techChallenge.restaurante_api.domain.gateway.user.IUserGateway;
 import br.com.fiap.techChallenge.restaurante_api.domain.gateway.user.UserGateway;
@@ -53,7 +53,7 @@ public class UserController {
 
     public UserDTO findById(UUID id) throws IllegalArgumentException {
         IUserGateway userGateway = UserGateway.create(dataSource);
-        var useCase = FindByIdUseCase.create(userGateway);
+        var useCase = SearchUserByIdUseCase.create(userGateway);
         var user = useCase.execute(id);
         return UserPresenter.toDTO(user);
     }

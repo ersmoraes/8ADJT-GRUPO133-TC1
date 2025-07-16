@@ -1,4 +1,4 @@
-package br.com.fiap.techChallenge.restaurante_api.application.usecases;
+package br.com.fiap.techChallenge.restaurante_api.application.usecases.user;
 
 import br.com.fiap.techChallenge.restaurante_api.domain.entities.User;
 import br.com.fiap.techChallenge.restaurante_api.domain.gateway.user.IUserGateway;
@@ -19,7 +19,7 @@ public class SearchUserByLoginUseCase {
         if (login == null || login.trim().isEmpty()) {
             throw new IllegalArgumentException("Login do usuário não pode ser nulo ou vazio");
         }
-        return this.userGateway.searchByLogin(login.trim())
+        return this.userGateway.findByLogin(login.trim())
                 .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado com o login: " + login));
     }
 }

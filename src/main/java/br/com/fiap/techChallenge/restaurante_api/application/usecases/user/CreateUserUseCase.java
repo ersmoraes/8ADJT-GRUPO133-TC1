@@ -1,4 +1,4 @@
-package br.com.fiap.techChallenge.restaurante_api.application.usecases;
+package br.com.fiap.techChallenge.restaurante_api.application.usecases.user;
 
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.NewUserDTO;
 import br.com.fiap.techChallenge.restaurante_api.domain.gateway.user.IUserGateway;
@@ -17,16 +17,16 @@ public class CreateUserUseCase {
     }
 
     public User execute(NewUserDTO newUserDTO) throws IllegalArgumentException {
-        if (newUserDTO == null || newUserDTO.name() == null || newUserDTO.email() == null || newUserDTO.userType() == null ||
-                newUserDTO.address() == null) {
+        if (newUserDTO == null || newUserDTO.name() == null || newUserDTO.email() == null || newUserDTO.login() == null
+                || newUserDTO.userType() == null || newUserDTO.address() == null) {
             throw new IllegalArgumentException("Dados do usuário não podem ser nulos");
         }
 
-        this.userGateway.searchByEmail(newUserDTO.email().trim())
+        this.userGateway.findByEmail(newUserDTO.email().trim())
                 .ifPresent(user -> {
                     throw new IllegalArgumentException("Usuário já cadastrado com o email: " + newUserDTO.email());
                 });
-        this.userGateway.searchByLogin(newUserDTO.login().trim())
+        this.userGateway.findByLogin(newUserDTO.login().trim())
                 .ifPresent(user -> {
                     throw new IllegalArgumentException("Usuário já cadastrado com o login: " + newUserDTO.login());
                 });

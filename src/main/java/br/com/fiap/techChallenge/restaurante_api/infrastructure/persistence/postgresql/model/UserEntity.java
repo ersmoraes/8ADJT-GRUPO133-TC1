@@ -1,5 +1,6 @@
 package br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model;
 
+import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.UserDTO;
 import br.com.fiap.techChallenge.restaurante_api.domain.entities.User;
 import br.com.fiap.techChallenge.restaurante_api.domain.enums.UserType;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.enums.UserTypeEnum;
@@ -67,6 +68,25 @@ public class UserEntity {
     public static List<UserEntity> toUserEntity(List<User> users) {
         return users.stream()
                 .map(UserEntity::toUserEntity)
+                .toList();
+    }
+    public static UserEntity toUserEntityFromDTO(UserDTO userDTO) {
+        return UserEntity.builder()
+                .id(userDTO.id())
+                .name(userDTO.name())
+                .email(userDTO.email())
+                .login(userDTO.login())
+                .password(userDTO.password())
+                .userType(UserTypeEnum.fromString(userDTO.userType().name()))
+                .createDate(userDTO.createDate())
+                .lastChange(userDTO.lastChange())
+                .addressEntity(AddressEntity.toAddressEntityFromDTO(userDTO.addressDTO()))
+                .build();
+    }
+
+    public static List<UserEntity> toUserEntityFromDTO(List<UserDTO> usersDTO) {
+        return usersDTO.stream()
+                .map(UserEntity::toUserEntityFromDTO)
                 .toList();
     }
 }
