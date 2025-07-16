@@ -43,7 +43,7 @@ public class MenuItem {
 
     public void setPrice(BigDecimal price) {
         if (price == null || price.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Preço inválido");
+            throw new IllegalArgumentException("Preço não pode ser nulo ou negativo.");
         }
         this.price = price;
     }

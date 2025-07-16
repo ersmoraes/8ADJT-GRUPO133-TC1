@@ -45,16 +45,16 @@ public class User {
                 .build();
     }
 
+    public void setEmail(String email) {
+        validEmail(email);
+        this.email = email;
+    }
+
     private static void validEmail(String email) {
         String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$";
         if (email == null || email.isEmpty() || !email.matches(emailRegex)) {
             throw new IllegalArgumentException("Email inválido");
         }
-    }
-
-    public void setEmail(String email) {
-        validEmail(email);
-        this.email = email;
     }
 
     public static User toUser(UserEntity userEntity) {

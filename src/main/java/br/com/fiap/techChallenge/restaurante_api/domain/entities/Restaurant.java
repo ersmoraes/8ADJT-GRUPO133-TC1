@@ -1,10 +1,13 @@
 package br.com.fiap.techChallenge.restaurante_api.domain.entities;
 
+import br.com.fiap.techChallenge.restaurante_api.domain.enums.UserType;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 import java.util.UUID;
 
 @Getter
@@ -35,5 +38,32 @@ public class Restaurant {
                 .openingHours(openingHours)
                 .owner(owner)
                 .build();
+    }
+
+    public void setOpeningHours(String openingHours) {
+        validOpeningHours(openingHours);
+        this.openingHours = openingHours;
+    }
+
+    private static void validOpeningHours(String openingHours) {
+        if (openingHours == null || openingHours.isEmpty() ) {
+            throw new IllegalArgumentException("Horário de funcionamento não pode ser nulo.");
+        }
+        try {
+            LocalTime.parse(openingHours);
+        } catch (DateTimeParseException e) {
+            throw new IllegalArgumentException("Horário de funcionamento deve estar no formato HH:mm");
+        }
+    }
+
+    public void setOwner(User owner) {
+        validOwner(owner);
+        this.owner = owner;
+    }
+
+    private static void validOwner(User owner) {
+        if (owner == null || owner.getUserType().name().equalsIgnoreCase(UserType.CLIENTE.name())) {
+            throw new IllegalArgumentException("Proprietário não pode ser nulo e precisa ser válido");
+        }
     }
 }
