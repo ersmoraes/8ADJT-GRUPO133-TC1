@@ -5,7 +5,6 @@ import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.Upda
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.UserDTO;
 import br.com.fiap.techChallenge.restaurante_api.domain.gateway.user.IUserDataSource;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request.LoginRequestDTO;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.exception.BusinessException;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.exception.ResourceNotFoundException;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.enums.UserTypeEnum;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.AddressEntity;
@@ -90,11 +89,6 @@ public class UserServiceImpl implements IUserDataSource {
     }
 
     @Override
-    public void deleteUser(UUID id) {
-        userRepository.deleteById(id);
-    }
-
-    @Override
     public UserDTO updatePassword(UpdatePasswordUserDTO dto) {
         UserEntity user = userRepository.findByLogin(dto.login())
                 .orElseThrow(() -> new ResourceNotFoundException("Usuário não encontrado"));
@@ -105,4 +99,8 @@ public class UserServiceImpl implements IUserDataSource {
         return UserDTO.toUserDTO(userRepository.save(user));
     }
 
+    @Override
+    public void deleteUser(UUID id) {
+        userRepository.deleteById(id);
+    }
 }

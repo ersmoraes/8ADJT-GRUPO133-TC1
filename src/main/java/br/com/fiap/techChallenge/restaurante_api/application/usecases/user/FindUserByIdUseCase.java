@@ -5,16 +5,16 @@ import br.com.fiap.techChallenge.restaurante_api.domain.gateway.user.IUserGatewa
 
 import java.util.UUID;
 
-public class SearchUserByIdUseCase {
+public class FindUserByIdUseCase {
 
     IUserGateway userGateway;
 
-    private SearchUserByIdUseCase(IUserGateway userGateway) {
+    private FindUserByIdUseCase(IUserGateway userGateway) {
         this.userGateway = userGateway;
     }
 
-    public static SearchUserByIdUseCase create(IUserGateway userGateway) {
-        return new SearchUserByIdUseCase(userGateway);
+    public static FindUserByIdUseCase create(IUserGateway userGateway) {
+        return new FindUserByIdUseCase(userGateway);
     }
 
     public User execute(UUID id) {

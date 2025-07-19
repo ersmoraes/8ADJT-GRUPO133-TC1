@@ -17,14 +17,14 @@ import java.util.UUID;
 public class Restaurant {
     private UUID id;
     private String name;
-    private Address endereco;
+    private Address address;
     private String kitchenType;
     private String openingHours;
     private User owner;
 
-    public static Restaurant create(UUID id, String name, Address endereco, String kitchenType,
+    public static Restaurant create(UUID id, String name, Address address, String kitchenType,
                                     String openingHours, User owner) {
-        if (name == null || name.isEmpty() || endereco == null || kitchenType == null || kitchenType.isEmpty()
+        if (name == null || name.isEmpty() || address == null || kitchenType == null || kitchenType.isEmpty()
                 || openingHours == null || openingHours.isEmpty() || owner == null) {
             throw new IllegalArgumentException("Campos obrigatórios não preenchidos: nome, endereço, tipo de cozinha, " +
                     "horário de funcionamento ou proprietário");
@@ -33,7 +33,7 @@ public class Restaurant {
         return Restaurant.builder()
                 .id(id)
                 .name(name)
-                .endereco(endereco)
+                .address(address)
                 .kitchenType(kitchenType)
                 .openingHours(openingHours)
                 .owner(owner)

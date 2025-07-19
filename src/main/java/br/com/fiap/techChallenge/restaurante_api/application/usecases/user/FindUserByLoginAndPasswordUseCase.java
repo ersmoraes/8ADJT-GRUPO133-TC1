@@ -3,16 +3,16 @@ package br.com.fiap.techChallenge.restaurante_api.application.usecases.user;
 import br.com.fiap.techChallenge.restaurante_api.domain.entities.User;
 import br.com.fiap.techChallenge.restaurante_api.domain.gateway.user.IUserGateway;
 
-public class SearchUserByLoginAndPasswordUseCase {
+public class FindUserByLoginAndPasswordUseCase {
 
     IUserGateway userGateway;
 
-    private SearchUserByLoginAndPasswordUseCase(IUserGateway userGateway) {
+    private FindUserByLoginAndPasswordUseCase(IUserGateway userGateway) {
         this.userGateway = userGateway;
     }
 
-    public static SearchUserByLoginAndPasswordUseCase create(IUserGateway userGateway) {
-        return new SearchUserByLoginAndPasswordUseCase(userGateway);
+    public static FindUserByLoginAndPasswordUseCase create(IUserGateway userGateway) {
+        return new FindUserByLoginAndPasswordUseCase(userGateway);
     }
 
     public User execute(String login, String password) {

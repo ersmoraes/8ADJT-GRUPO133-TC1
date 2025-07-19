@@ -1,115 +1,79 @@
 package br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.service;
 
+import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.NewRestaurantDTO;
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.RestaurantDTO;
 import br.com.fiap.techChallenge.restaurante_api.domain.gateway.restaurant.IRestaurantDataSource;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request.RestaurantRequestDTO;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.response.RestaurantResponseDTO;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.exception.ResourceNotFoundException;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.AddressEntity;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.RestaurantEntity;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.UserEntity;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository.RestaurantRepository;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class RestaurantServiceImpl implements IRestaurantDataSource {
 
     private final RestaurantRepository restaurantRepository;
-
-    @Override
-    public RestaurantDTO create(RestaurantDTO dto) {
-        return null;
-    }
+    private final UserRepository userRepository;
 
     @Override
     public Page<RestaurantDTO> findAll(Pageable pageable) {
-        return null;
+        return restaurantRepository.findAll(pageable)
+                .map(RestaurantDTO::toRestaurantDTO);
     }
 
     @Override
-    public RestaurantDTO findById(UUID id) {
-        return null;
+    public Optional<RestaurantDTO> findById(UUID id) {
+        return restaurantRepository.findById(id)
+                .map(RestaurantDTO::toRestaurantDTO);
     }
 
     @Override
-    public RestaurantDTO findByName(String name) {
-        return null;
+    public Optional<RestaurantDTO> findByName(String name) {
+        return restaurantRepository.findByName(name)
+                .map(RestaurantDTO::toRestaurantDTO);
     }
 
-//    @Override
-//    public RestaurantResponseDTO cadastrar(RestaurantRequestDTO dto) {
-////        Usuario dono = usuarioRepository.findById(dto.donoId())
-////                .orElseThrow(() -> new ResourceNotFoundException("Usuário (dono) não encontrado"));
-//
-//        RestaurantEntity restaurante = RestaurantEntity.builder()
-//                .nome(dto.nome())
-//                .endereco(dto.endereco())
-//                .kitchenType(dto.tipoCozinha())
-//                .openingHours(dto.horarioFuncionamento())
-////                .dono(dono)
-//                .build();
-//
-//        restaurantRepository.save(restaurante);
-//
-//        return toDTO(restaurante);
-//    }
-//
-//    @Override
-//    public List<RestaurantResponseDTO> listarTodos() {
-//        return restaurantRepository.findAll().stream()
-//                .map(this::toDTO)
-//                .collect(Collectors.toList());
-//    }
-//
-//    @Override
-//    public RestaurantResponseDTO buscarPorId(UUID id) {
-//        RestaurantEntity restaurante = restaurantRepository.findById(id)
-//                .orElseThrow(() -> new ResourceNotFoundException("Restaurante não encontrado"));
-//        return toDTO(restaurante);
-//    }
-//
-//    @Override
-//    public RestaurantResponseDTO atualizar(UUID id, RestaurantRequestDTO dto) {
-//        RestaurantEntity restaurante = restaurantRepository.findById(dto.donoId())
-//                .orElseThrow(() -> new ResourceNotFoundException("Restaurante não encontrado"));
-//
-////        Usuario dono = usuarioRepository.findById(dto.donoId())
-////                .orElseThrow(() -> new ResourceNotFoundException("Usuário (dono) não encontrado"));
-//
-//        restaurante.setNome(dto.nome());
-//        restaurante.setEndereco(dto.endereco());
-//        restaurante.setKitchenType(dto.tipoCozinha());
-//        restaurante.setOpeningHours(dto.horarioFuncionamento());
-////        restaurante.setDono(dono);
-//
-//        restaurantRepository.save(restaurante);
-//
-//        return toDTO(restaurante);
-//    }
-//
-//    @Override
-//    public void deletar(UUID id) {
-//        RestaurantEntity restaurante = restaurantRepository.findById(id)
-//                .orElseThrow(() -> new ResourceNotFoundException("Restaurante não encontrado"));
-//        restaurantRepository.delete(restaurante);
-//    }
-//
-//    private RestaurantResponseDTO toDTO(RestaurantEntity restaurante) {
-//        return new RestaurantResponseDTO(
-//                restaurante.getId(),
-//                restaurante.getNome(),
-//                restaurante.getEndereco(),
-//                restaurante.getKitchenType(),
-//                restaurante.getOpeningHours()
-////                ,
-////                restaurante.getDono().getId(),
-////                restaurante.getDono().getName()
-//        );
-//    }
+    @Override
+    public RestaurantDTO createRestaurant(NewRestaurantDTO restaurantDTO) {
+        UserEntity owner = userRepository.findById(restaurantDTO.owner().id())
+                .orElseThrow(() -> new ResourceNotFoundException("Usuário (dono) não encontrado"));
+        RestaurantEntity restaurante = RestaurantEntity.builder()
+                .name(restaurantDTO.name())
+                .addressEntity(new AddressEntity(restaurantDTO.address().street(),
+                        restaurantDTO.address().city(),
+                        restaurantDTO.address().state(),
+                        restaurantDTO.address().zipCode()))
+                .kitchenType(restaurantDTO.kitchenType())
+                .openingHours(restaurantDTO.openingHours())
+                .owner(owner)
+                .build();
+
+        restaurantRepository.save(restaurante);
+
+        return RestaurantDTO.toRestaurantDTO(restaurante);
+    }
+
+    @Override
+    public RestaurantDTO updateRestaurant(RestaurantDTO dto) {
+        RestaurantEntity restauranteUpdated = restaurantRepository
+                .save(RestaurantEntity.toRestaurantEntityEntityFromDTO(dto));
+
+        return RestaurantDTO.toRestaurantDTO(restauranteUpdated);
+    }
+
+    @Override
+    public void deleteRestaurant(UUID id) {
+        RestaurantEntity restaurante = restaurantRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Restaurante não encontrado"));
+        restaurantRepository.delete(restaurante);
+    }
 }

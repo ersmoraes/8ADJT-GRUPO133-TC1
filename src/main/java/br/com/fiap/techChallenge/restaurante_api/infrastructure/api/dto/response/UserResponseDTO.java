@@ -35,7 +35,6 @@ public class UserResponseDTO implements Serializable {
     private AddressDTO endereco;
     private String login;
     private UserType userType;
-    private Boolean active;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createDate;

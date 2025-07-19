@@ -7,16 +7,16 @@ import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.exception.Bu
 
 import java.time.LocalDateTime;
 
-public class UpdatePasswordUseCase {
+public class FindPasswordUseCase {
 
     IUserGateway userGateway;
 
-    private UpdatePasswordUseCase(IUserGateway userGateway) {
+    private FindPasswordUseCase(IUserGateway userGateway) {
         this.userGateway = userGateway;
     }
 
-    public static UpdatePasswordUseCase create(IUserGateway userGateway) {
-        return new UpdatePasswordUseCase(userGateway);
+    public static FindPasswordUseCase create(IUserGateway userGateway) {
+        return new FindPasswordUseCase(userGateway);
     }
 
     public User execute(UpdatePasswordUserDTO userDTO) throws IllegalArgumentException {

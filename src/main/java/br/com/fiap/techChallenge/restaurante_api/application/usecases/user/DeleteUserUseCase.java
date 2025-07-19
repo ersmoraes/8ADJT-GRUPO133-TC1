@@ -4,16 +4,16 @@ import br.com.fiap.techChallenge.restaurante_api.domain.gateway.user.IUserGatewa
 
 import java.util.UUID;
 
-public class deleteUserUseCase {
+public class DeleteUserUseCase {
 
     IUserGateway userGateway;
 
-    private deleteUserUseCase(IUserGateway userGateway) {
+    private DeleteUserUseCase(IUserGateway userGateway) {
         this.userGateway = userGateway;
     }
 
-    public static deleteUserUseCase create(IUserGateway userGateway) {
-        return new deleteUserUseCase(userGateway);
+    public static DeleteUserUseCase create(IUserGateway userGateway) {
+        return new DeleteUserUseCase(userGateway);
     }
 
     public void execute(UUID id) {

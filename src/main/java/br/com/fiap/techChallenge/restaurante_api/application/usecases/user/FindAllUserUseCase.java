@@ -6,16 +6,16 @@ import br.com.fiap.techChallenge.restaurante_api.domain.gateway.user.IUserGatewa
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public class SearchAllUserUseCase {
+public class FindAllUserUseCase {
 
     IUserGateway userGateway;
 
-    private SearchAllUserUseCase(IUserGateway userGateway) {
+    private FindAllUserUseCase(IUserGateway userGateway) {
         this.userGateway = userGateway;
     }
 
-    public static SearchAllUserUseCase create(IUserGateway userGateway) {
-        return new SearchAllUserUseCase(userGateway);
+    public static FindAllUserUseCase create(IUserGateway userGateway) {
+        return new FindAllUserUseCase(userGateway);
     }
 
     public Page<User> execute(Pageable pageable) {
