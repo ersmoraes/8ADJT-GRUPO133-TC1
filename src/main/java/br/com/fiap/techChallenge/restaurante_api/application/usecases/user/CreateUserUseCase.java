@@ -31,8 +31,8 @@ public class CreateUserUseCase {
                     throw new IllegalArgumentException("Usuário já cadastrado com o login: " + newUserDTO.login());
                 });
 
-        final User user = User.create(newUserDTO.name(), newUserDTO.email(), newUserDTO.login(), newUserDTO.password(),
-                newUserDTO.userType(), newUserDTO.address().parser());
+        final User user = User.create(null, newUserDTO.name(), newUserDTO.email(), newUserDTO.login(), newUserDTO.password(),
+                newUserDTO.userType(), null, null, newUserDTO.address().parser());
 
         return this.userGateway.createUser(user);
     }

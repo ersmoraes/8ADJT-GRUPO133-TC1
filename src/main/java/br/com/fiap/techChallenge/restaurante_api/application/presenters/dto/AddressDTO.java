@@ -19,6 +19,9 @@ public record AddressDTO(String street, String city, String state, String zipCod
     }
 
     public static AddressDTO toAddressDTOFromAddressEntity(AddressEntity address) {
+        if (address == null) {
+            return null;
+        }
         return AddressDTO.builder()
                 .street(address.getStreet())
                 .city(address.getCity())

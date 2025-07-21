@@ -7,6 +7,19 @@ import br.com.fiap.techChallenge.restaurante_api.domain.entities.User;
 public class UserPresenter {
 
     public static UserDTO toDTO(User user) {
+        if (user.getAddress() == null) {
+            return new UserDTO(
+                    user.getId(),
+                    user.getName(),
+                    user.getEmail(),
+                    user.getLogin(),
+                    user.getPassword(),
+                    user.getUserType(),
+                    null,
+                    user.getCreateDate(),
+                    user.getLastChange()
+            );
+        }
         return new UserDTO(
                 user.getId(),
                 user.getName(),

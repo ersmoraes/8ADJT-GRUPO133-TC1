@@ -24,8 +24,8 @@ public class FindUserUseCase {
         this.userGateway.findByLogin(userDTO.login().trim())
                 .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado com o login: " + userDTO.login()));
 
-        final User user = User.create(userDTO.name(), userDTO.email(), userDTO.login(), userDTO.password(),
-                userDTO.userType(), userDTO.addressDTO().parser());
+        final User user = User.create(userDTO.id(), userDTO.name(), userDTO.email(), userDTO.login(), userDTO.password(),
+                userDTO.userType(), userDTO.createDate(), userDTO.lastChange(), userDTO.addressDTO().parser());
 
         return this.userGateway.updateUser(user);
     }

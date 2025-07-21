@@ -35,6 +35,9 @@ public class Address {
     }
 
     public static Address toAddress(AddressEntity address) {
+        if (address == null) {
+            return null;
+        }
         return Address.builder()
                 .street(address.getStreet())
                 .city(address.getCity())
@@ -50,6 +53,9 @@ public class Address {
     }
 
     public static Address toAddressFromDTO(AddressDTO addressDTO) {
+        if (addressDTO == null) {
+            return null;
+        }
         return Address.builder()
                 .street(addressDTO.street())
                 .city(addressDTO.city())

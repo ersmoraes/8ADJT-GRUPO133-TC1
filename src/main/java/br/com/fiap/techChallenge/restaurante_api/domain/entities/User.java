@@ -28,20 +28,24 @@ public class User {
     private LocalDateTime lastChange;
     private Address address;
 
-    public static User create(String name, String email, String login, String password, UserType userType,
-                              Address address) throws IllegalArgumentException {
+    public static User create(UUID id, String name, String email, String login, String password, UserType userType,
+                              LocalDateTime createDate, LocalDateTime lastChange, Address address)
+            throws IllegalArgumentException {
         if (name == null || name.isEmpty() || email == null || email.isEmpty() || login == null || login.isEmpty()
-                || userType == null || address == null) {
-            throw new IllegalArgumentException("Campo obrigatório não preenchido: name, email, login, tipo de " +
-                    "usuário ou endereço");
+                || userType == null) {
+            throw new IllegalArgumentException("Campo obrigatório não preenchido: name, email, login ou tipo de " +
+                    "usuário");
         }
 
         return User.builder()
+                .id(id)
                 .name(name)
                 .email(email)
                 .login(login)
                 .password(password)
                 .userType(userType)
+                .createDate(createDate)
+                .lastChange(lastChange)
                 .address(address)
                 .build();
     }

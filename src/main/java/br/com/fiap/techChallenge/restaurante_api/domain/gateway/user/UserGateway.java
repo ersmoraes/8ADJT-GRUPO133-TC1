@@ -34,42 +34,27 @@ public class UserGateway implements IUserGateway {
             throw new IllegalArgumentException("Usuário ou senha incorretos!");
         }
         UserDTO userDTO = userDTOOptional.get();
-        return Optional.of(User.create(userDTO.name(),
-                userDTO.email(),
-                userDTO.login(),
-                userDTO.password(),
-                userDTO.userType(),
-                userDTO.addressDTO().parser()));
+        return Optional.of(dtoToUser(userDTO));
     }
 
     @Override
     public Optional<User> findByEmail(String email) {
         Optional<UserDTO> userDTOOptional = this.dataSource.findByEmail(email);
         if (userDTOOptional.isEmpty()) {
-            throw new IllegalArgumentException("Usuário não encontrado com o email: " + email);
+            return Optional.empty();
         }
         UserDTO userDTO = userDTOOptional.get();
-        return Optional.of(User.create(userDTO.name(),
-                userDTO.email(),
-                userDTO.login(),
-                userDTO.password(),
-                userDTO.userType(),
-                userDTO.addressDTO().parser()));
+        return Optional.of(dtoToUser(userDTO));
     }
 
     @Override
     public Optional<User> findByLogin(String login) {
         Optional<UserDTO> userDTOOptional = this.dataSource.findByLogin(login);
         if (userDTOOptional.isEmpty()) {
-            throw new IllegalArgumentException("Usuário não encontrado com o login: " + login);
+            return Optional.empty();
         }
         UserDTO userDTO = userDTOOptional.get();
-        return Optional.of(User.create(userDTO.name(),
-                userDTO.email(),
-                userDTO.login(),
-                userDTO.password(),
-                userDTO.userType(),
-                userDTO.addressDTO().parser()));
+        return Optional.of(dtoToUser(userDTO));
     }
 
     @Override
@@ -79,12 +64,7 @@ public class UserGateway implements IUserGateway {
             throw new IllegalArgumentException("Usuário não encontrado com o ID: " + id);
         }
         UserDTO userDTO = userDTOOptional.get();
-        return User.create(userDTO.name(),
-                userDTO.email(),
-                userDTO.login(),
-                userDTO.password(),
-                userDTO.userType(),
-                userDTO.addressDTO().parser());
+        return dtoToUser(userDTO);
     }
 
     @Override
@@ -98,13 +78,7 @@ public class UserGateway implements IUserGateway {
                 AddressDTO.toAddressDTO(user.getAddress())
         );
         UserDTO userDTO = dataSource.createUser(newUserDTO);
-        return User.create(
-                userDTO.name(),
-                userDTO.email(),
-                userDTO.login(),
-                userDTO.password(),
-                userDTO.userType(),
-                userDTO.addressDTO().parser());
+        return dtoToUser(userDTO);
     }
 
     @Override
@@ -121,13 +95,7 @@ public class UserGateway implements IUserGateway {
                 user.getLastChange()
         );
         UserDTO userDTO = dataSource.updateUser(UserDTO);
-        return User.create(
-                userDTO.name(),
-                userDTO.email(),
-                userDTO.login(),
-                userDTO.password(),
-                userDTO.userType(),
-                userDTO.addressDTO().parser());
+        return dtoToUser(userDTO);
     }
 
     @Override
@@ -139,17 +107,36 @@ public class UserGateway implements IUserGateway {
                 oldPassword
         );
         UserDTO userDTO = dataSource.updatePassword(UserDTO);
-        return User.create(
-                userDTO.name(),
-                userDTO.email(),
-                userDTO.login(),
-                userDTO.password(),
-                userDTO.userType(),
-                userDTO.addressDTO().parser());
+        return dtoToUser(userDTO);
     }
 
     @Override
     public void deleteUser(UUID id) {
         this.dataSource.deleteUser(id);
+    }
+
+    private static User dtoToUser(UserDTO userDTO) {
+        if (userDTO.addressDTO() == null) {
+            return User.create(
+                    userDTO.id(),
+                    userDTO.name(),
+                    userDTO.email(),
+                    userDTO.login(),
+                    userDTO.password(),
+                    userDTO.userType(),
+                    userDTO.createDate(),
+                    userDTO.lastChange(),
+                    null);
+        }
+        return User.create(
+                userDTO.id(),
+                userDTO.name(),
+                userDTO.email(),
+                userDTO.login(),
+                userDTO.password(),
+                userDTO.userType(),
+                userDTO.createDate(),
+                userDTO.lastChange(),
+                userDTO.addressDTO().parser());
     }
 }
