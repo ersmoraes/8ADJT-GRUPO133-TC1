@@ -51,7 +51,7 @@ public class MenuItemServiceImpl implements IMenuItemDataSource {
 //                .orElseThrow(() -> new ResourceNotFoundException("Restaurante não encontrado"));
 //
 //        MenuItemEntity item = MenuItemEntity.builder()
-//                .name(dto.nome())
+//                .name(dto.name())
 //                .description(dto.descricao())
 //                .price(dto.preco())
 //                .onlyLocal(dto.apenasNoLocal())
@@ -86,7 +86,7 @@ public class MenuItemServiceImpl implements IMenuItemDataSource {
 //        RestaurantEntity restaurant = restaurantRepository.findById(dto.restauranteId())
 //                .orElseThrow(() -> new ResourceNotFoundException("Restaurante não encontrado"));
 //
-//        item.setName(dto.nome());
+//        item.setName(dto.name());
 //        item.setDescription(dto.descricao());
 //        item.setPrice(dto.preco());
 //        item.setOnlyLocal(dto.apenasNoLocal());

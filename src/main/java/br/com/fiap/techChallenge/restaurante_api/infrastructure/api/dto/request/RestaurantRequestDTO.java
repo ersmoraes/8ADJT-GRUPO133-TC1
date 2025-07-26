@@ -1,15 +1,14 @@
 package br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
 import java.util.UUID;
 
-public record RestaurantRequestDTO(
-        @NotBlank String nome,
-        @NotBlank String endereco,
-        @NotBlank String tipoCozinha,
-        @NotBlank String horarioFuncionamento,
-        @NotNull UUID donoId
-) {
+@Data
+public class RestaurantRequestDTO {
+    private String name;
+    private AddressRequestDTO address;
+    private String kitchenType;
+    private String openingHours;
+    private UUID ownerId;
 }

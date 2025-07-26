@@ -28,7 +28,7 @@ public class UserServiceImpl implements IUserDataSource {
     @Override
     public Page<UserDTO> findAll(Pageable pageable) {
         return userRepository.findAll(pageable)
-                .map(UserDTO::toUserDTO);
+                .map(UserDTO::toUserDTOFromEntity);
     }
 
     public String login(LoginRequestDTO dto) {
@@ -42,25 +42,25 @@ public class UserServiceImpl implements IUserDataSource {
     @Override
     public Optional<UserDTO> findByLoginAndPassword(String login, String password) {
         return userRepository.findByLoginAndPassword(login, password)
-                .map(UserDTO::toUserDTO);
+                .map(UserDTO::toUserDTOFromEntity);
     }
 
     @Override
     public Optional<UserDTO> findByEmail(String email) {
         return userRepository.findByEmail(email)
-                .map(UserDTO::toUserDTO);
+                .map(UserDTO::toUserDTOFromEntity);
     }
 
     @Override
     public Optional<UserDTO> findByLogin(String login) {
         return userRepository.findByLogin(login)
-                .map(UserDTO::toUserDTO);
+                .map(UserDTO::toUserDTOFromEntity);
     }
 
     @Override
     public Optional<UserDTO> findById(UUID id) {
         return userRepository.findById(id)
-                .map(UserDTO::toUserDTO);
+                .map(UserDTO::toUserDTOFromEntity);
     }
 
     @Override
@@ -79,13 +79,13 @@ public class UserServiceImpl implements IUserDataSource {
                         user.address().state(),
                         user.address().zipCode())
         );
-        return UserDTO.toUserDTO(userRepository.save(userEntity));
+        return UserDTO.toUserDTOFromEntity(userRepository.save(userEntity));
     }
 
     @Override
     public UserDTO updateUser(UserDTO dto) {
         UserEntity userUpdated = userRepository.save(UserEntity.toUserEntityFromDTO(dto));
-        return UserDTO.toUserDTO(userUpdated);
+        return UserDTO.toUserDTOFromEntity(userUpdated);
     }
 
     @Override
@@ -96,7 +96,7 @@ public class UserServiceImpl implements IUserDataSource {
         user.setPassword(dto.newPassword());
         user.setLastChange(LocalDateTime.now());
 
-        return UserDTO.toUserDTO(userRepository.save(user));
+        return UserDTO.toUserDTOFromEntity(userRepository.save(user));
     }
 
     @Override

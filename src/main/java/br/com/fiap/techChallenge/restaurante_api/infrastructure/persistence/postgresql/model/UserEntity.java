@@ -26,7 +26,7 @@ public class UserEntity {
     @Column(name = "id", columnDefinition = "uuid", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(name = "nome", nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(nullable = false, unique = true)

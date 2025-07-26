@@ -29,8 +29,8 @@ public interface UserDocs {
             })
     @GetMapping
     ResponseEntity<Page<UserResponseDTO>> findAll(
-            @Parameter(description = "Parâmetros de paginação: número da página (page), tamanho da página (size) e ordenação (sort). Exemplo: ?page=0&size=10&sort=nome,asc",
-                    example = "page=0&size=10&sort=nome,asc")
+            @Parameter(description = "Parâmetros de paginação: número da página (page), tamanho da página (size) e ordenação (sort). Exemplo: ?page=0&size=10&sort=name,asc",
+                    example = "page=0&size=10&sort=name,asc")
             Pageable pageable);
 
     @Operation(summary = "Login",
@@ -52,7 +52,7 @@ public interface UserDocs {
                             content = @Content(schema = @Schema(implementation = UserResponseDTO.class))),
                     @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
             })
-    ResponseEntity<UserResponseDTO> getUserById(
+    ResponseEntity<UserResponseDTO> findById(
             @Parameter(description = "UUID do usuário", required = true)
             @PathVariable UUID id);
 

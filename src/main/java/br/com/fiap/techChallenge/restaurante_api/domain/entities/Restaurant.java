@@ -1,6 +1,10 @@
 package br.com.fiap.techChallenge.restaurante_api.domain.entities;
 
+import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.RestaurantDTO;
+import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.UserDTO;
 import br.com.fiap.techChallenge.restaurante_api.domain.enums.UserType;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.RestaurantEntity;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.UserEntity;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -8,6 +12,7 @@ import lombok.Setter;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.UUID;
 
 @Getter
@@ -26,7 +31,7 @@ public class Restaurant {
                                     String openingHours, User owner) {
         if (name == null || name.isEmpty() || address == null || kitchenType == null || kitchenType.isEmpty()
                 || openingHours == null || openingHours.isEmpty() || owner == null) {
-            throw new IllegalArgumentException("Campos obrigatórios não preenchidos: nome, endereço, tipo de cozinha, " +
+            throw new IllegalArgumentException("Campos obrigatórios não preenchidos: name, endereço, tipo de cozinha, " +
                     "horário de funcionamento ou proprietário");
         }
 
@@ -65,5 +70,39 @@ public class Restaurant {
         if (owner == null || owner.getUserType().name().equalsIgnoreCase(UserType.CLIENTE.name())) {
             throw new IllegalArgumentException("Proprietário não pode ser nulo e precisa ser válido");
         }
+    }
+
+    public static Restaurant toRestaurant(RestaurantEntity restaurantEntity) {
+        return Restaurant.builder()
+                .id(restaurantEntity.getId())
+                .name(restaurantEntity.getName())
+                .owner(User.toUser(restaurantEntity.getOwner()))
+                .address(Address.toAddress(restaurantEntity.getAddressEntity()))
+                .kitchenType(restaurantEntity.getKitchenType())
+                .openingHours(restaurantEntity.getOpeningHours())
+                .build();
+    }
+
+    public static List<Restaurant> toRestaurant(List<RestaurantEntity> restaurantEntities) {
+        return restaurantEntities.stream()
+                .map(Restaurant::toRestaurant)
+                .toList();
+    }
+
+    public static Restaurant toRestaurantFromDTO(RestaurantDTO restaurantDTO) {
+        return Restaurant.builder()
+                .id(restaurantDTO.id())
+                .name(restaurantDTO.name())
+                .owner(User.toUserFromDTO(restaurantDTO.owner()))
+                .address(Address.toAddressFromDTO(restaurantDTO.addressDTO()))
+                .kitchenType(restaurantDTO.kitchenType())
+                .openingHours(restaurantDTO.openingHours())
+                .build();
+    }
+
+    public static List<Restaurant> toRestaurantFromDTO(List<RestaurantDTO> restaurantDTOS) {
+        return restaurantDTOS.stream()
+                .map(Restaurant::toRestaurantFromDTO)
+                .toList();
     }
 }

@@ -50,7 +50,7 @@ public class UserRESTController implements UserDocs {
 
     @Override
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable UUID id) {
+    public ResponseEntity<UserResponseDTO> findById(@PathVariable UUID id) {
         UserResponseDTO user = new UserResponseDTO(userController.findById(id));
         return ResponseEntity.ok(user);
     }

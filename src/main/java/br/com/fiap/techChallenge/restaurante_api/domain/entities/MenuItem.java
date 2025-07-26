@@ -26,7 +26,7 @@ public class MenuItem {
                                   String urlFoto, Restaurant restaurant) {
         if (name == null || name.isEmpty() || description == null || description.isEmpty() || price == null
                 || restaurant == null) {
-            throw new IllegalArgumentException("Campos obrigatórios não preenchidos: nome, descrição, " +
+            throw new IllegalArgumentException("Campos obrigatórios não preenchidos: name, descrição, " +
                     "preço ou restaurante");
         }
 

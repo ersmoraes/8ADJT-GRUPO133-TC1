@@ -19,7 +19,7 @@ public class MenuItemEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
 
-    @Column(name = "nome", nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "descricao")

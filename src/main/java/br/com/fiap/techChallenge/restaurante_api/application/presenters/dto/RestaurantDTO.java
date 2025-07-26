@@ -1,6 +1,5 @@
 package br.com.fiap.techChallenge.restaurante_api.application.presenters.dto;
 
-import br.com.fiap.techChallenge.restaurante_api.domain.enums.UserType;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.RestaurantEntity;
 import lombok.Builder;
 
@@ -24,7 +23,7 @@ public record RestaurantDTO(
                 .addressDTO(AddressDTO.toAddressDTOFromAddressEntity(restaurantEntity.getAddressEntity()))
                 .kitchenType(restaurantEntity.getKitchenType())
                 .openingHours(restaurantEntity.getOpeningHours())
-                .owner(UserDTO.toUserDTO(restaurantEntity.getOwner()))
+                .owner(UserDTO.toUserDTOFromEntity(restaurantEntity.getOwner()))
                 .build();
     }
 
