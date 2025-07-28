@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/restaurantes")
+@RequestMapping("/restaurants")
 @Tag(name = "restaurants", description = "Gerenciamento de restaurantes")
 public class RestaurantRESTController {
 
@@ -29,7 +29,7 @@ public class RestaurantRESTController {
     private final UserController userController;
 
     public RestaurantRESTController(RestaurantServiceImpl restaurantService, UserServiceImpl userService) {
-        this.restaurantController = RestaurantController.create(restaurantService);
+        this.restaurantController = RestaurantController.create(restaurantService, userService);
         this.userController = UserController.create(userService);
     }
 
@@ -65,7 +65,7 @@ public class RestaurantRESTController {
         return ResponseEntity.ok(parseDTO(restaurantController.createRestaurant(newRestaurantDTO)));
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<RestaurantResponseDTO> updateRestaurant(@PathVariable UUID id, @RequestBody @Valid RestaurantRequestDTO dto) {
         RestaurantDTO restaurantUpdate = new RestaurantDTO(id, dto.getName(), parseAddresToAddresDTO(dto.getAddress()),
                 dto.getKitchenType(), dto.getOpeningHours(), new UserDTO(dto.getOwnerId(), null, null, null, null, null, null, null, null));
@@ -80,6 +80,9 @@ public class RestaurantRESTController {
     }
 
     private static AddressDTO parseAddresToAddresDTO(AddressRequestDTO addressRequestDTO) {
+        if (addressRequestDTO == null) {
+            return null;
+        }
         return new AddressDTO(addressRequestDTO.getStreet(), addressRequestDTO.getCity(),
                 addressRequestDTO.getState(), addressRequestDTO.getZipCode());
     }

@@ -11,12 +11,13 @@ public class CreateRestaurantUseCase {
     IRestaurantGateway restaurantGateway;
     IUserGateway userGateway;
 
-    private CreateRestaurantUseCase(IRestaurantGateway restaurantGateway) {
+    private CreateRestaurantUseCase(IRestaurantGateway restaurantGateway, IUserGateway userGateway) {
         this.restaurantGateway = restaurantGateway;
+        this.userGateway = userGateway;
     }
 
-    public static CreateRestaurantUseCase create(IRestaurantGateway restaurantGateway) {
-        return new CreateRestaurantUseCase(restaurantGateway);
+    public static CreateRestaurantUseCase create(IRestaurantGateway restaurantGateway, IUserGateway userGateway) {
+        return new CreateRestaurantUseCase(restaurantGateway, userGateway);
     }
 
     public Restaurant execute(NewRestaurantDTO newRestaurantDTO) throws IllegalArgumentException {

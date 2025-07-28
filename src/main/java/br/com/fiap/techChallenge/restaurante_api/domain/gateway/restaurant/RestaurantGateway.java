@@ -31,7 +31,7 @@ public class RestaurantGateway implements IRestaurantGateway {
     public Restaurant findById(UUID id) {
         Optional<RestaurantDTO> restaurantDTOOptional = this.dataSource.findById(id);
         if (restaurantDTOOptional.isEmpty()) {
-            throw new IllegalArgumentException("Usuário não encontrado com o ID: " + id);
+            throw new IllegalArgumentException("Restaurante não encontrado com o ID: " + id);
         }
         RestaurantDTO restaurantDTO = restaurantDTOOptional.get();
         return dtoToRestaurant(restaurantDTO);

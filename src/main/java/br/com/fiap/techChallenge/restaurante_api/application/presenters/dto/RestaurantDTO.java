@@ -1,5 +1,6 @@
 package br.com.fiap.techChallenge.restaurante_api.application.presenters.dto;
 
+import br.com.fiap.techChallenge.restaurante_api.domain.entities.Restaurant;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.RestaurantEntity;
 import lombok.Builder;
 
@@ -15,8 +16,19 @@ public record RestaurantDTO(
         String openingHours,
         UserDTO owner
 ) {
+    public Restaurant parser() {
+        Restaurant restaurant = new Restaurant();
+        restaurant.setId(id);
+        restaurant.setName(name);
+        restaurant.setAddress(addressDTO.parser());
+        restaurant.setKitchenType(kitchenType);
+        restaurant.setOpeningHours(openingHours);
+        restaurant.setOwner(owner.parser());
 
-    public static RestaurantDTO toRestaurantDTO(RestaurantEntity restaurantEntity) {
+        return restaurant;
+    }
+
+    public static RestaurantDTO toRestaurantDTOFromEntity(RestaurantEntity restaurantEntity) {
         return RestaurantDTO.builder()
                 .id(restaurantEntity.getId())
                 .name(restaurantEntity.getName())
@@ -27,8 +39,25 @@ public record RestaurantDTO(
                 .build();
     }
 
-    public static List<RestaurantDTO> toRestaurantDTO(List<RestaurantEntity> restaurantEntities) {
+    public static List<RestaurantDTO> toRestaurantDTOFromEntity(List<RestaurantEntity> restaurantEntities) {
         return restaurantEntities.stream()
+                .map(RestaurantDTO::toRestaurantDTOFromEntity)
+                .toList();
+    }
+
+    public static RestaurantDTO toRestaurantDTO(Restaurant restaurant) {
+        return RestaurantDTO.builder()
+                .id(restaurant.getId())
+                .name(restaurant.getName())
+                .addressDTO(AddressDTO.toAddressDTO(restaurant.getAddress()))
+                .kitchenType(restaurant.getKitchenType())
+                .openingHours(restaurant.getOpeningHours())
+                .owner(UserDTO.toUserDTO(restaurant.getOwner()))
+                .build();
+    }
+
+    public static List<RestaurantDTO> toRestaurantDTO(List<Restaurant> restaurants) {
+        return restaurants.stream()
                 .map(RestaurantDTO::toRestaurantDTO)
                 .toList();
     }

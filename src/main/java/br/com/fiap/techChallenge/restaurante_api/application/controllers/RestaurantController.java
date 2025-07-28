@@ -7,6 +7,9 @@ import br.com.fiap.techChallenge.restaurante_api.application.usecases.restaurant
 import br.com.fiap.techChallenge.restaurante_api.domain.gateway.restaurant.IRestaurantDataSource;
 import br.com.fiap.techChallenge.restaurante_api.domain.gateway.restaurant.IRestaurantGateway;
 import br.com.fiap.techChallenge.restaurante_api.domain.gateway.restaurant.RestaurantGateway;
+import br.com.fiap.techChallenge.restaurante_api.domain.gateway.user.IUserDataSource;
+import br.com.fiap.techChallenge.restaurante_api.domain.gateway.user.IUserGateway;
+import br.com.fiap.techChallenge.restaurante_api.domain.gateway.user.UserGateway;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -16,14 +19,16 @@ public class RestaurantController {
 
     IRestaurantDataSource dataSource;
     IRestaurantGateway gateway;
+    IUserGateway userGateway;
 
-    private RestaurantController(IRestaurantDataSource dataSource) {
+    private RestaurantController(IRestaurantDataSource dataSource, IUserDataSource userDataSource) {
         this.dataSource = dataSource;
         this.gateway = RestaurantGateway.create(dataSource);
+        this.userGateway = UserGateway.create(userDataSource);
     }
 
-    public static RestaurantController create(IRestaurantDataSource dataSource) {
-        return new RestaurantController(dataSource);
+    public static RestaurantController create(IRestaurantDataSource dataSource, IUserDataSource userGateway) {
+        return new RestaurantController(dataSource, userGateway);
     }
 
     public Page<RestaurantDTO> findAll(Pageable pageable) throws IllegalArgumentException {
@@ -43,27 +48,27 @@ public class RestaurantController {
             var restaurant = useCase.execute(name);
             return RestaurantPresenter.toDTO(restaurant);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Erro ao buscar usuário por email: " + e.getMessage(), e);
+            throw new IllegalArgumentException("Erro ao buscar restaurante por nome: " + e.getMessage(), e);
         }
     }
 
     public RestaurantDTO createRestaurant(NewRestaurantDTO newRestaurantDTO) throws IllegalArgumentException {
-        var useCase = CreateRestaurantUseCase.create(gateway);
+        var useCase = CreateRestaurantUseCase.create(gateway, userGateway);
         try {
             var restaurant = useCase.execute(newRestaurantDTO);
             return RestaurantPresenter.toDTO(restaurant);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Erro ao criar usuário: " + e.getMessage(), e);
+            throw new IllegalArgumentException("Erro ao criar restaurante: " + e.getMessage(), e);
         }
     }
 
     public RestaurantDTO updateRestaurant(RestaurantDTO restaurantDTO) throws IllegalArgumentException {
-        var useCase = UpdateRestaurantUseCase.create(gateway);
+        var useCase = UpdateRestaurantUseCase.create(gateway, userGateway);
         try {
             var restaurant = useCase.execute(restaurantDTO);
             return RestaurantPresenter.toDTO(restaurant);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Erro ao atualizar usuário: " + e.getMessage(), e);
+            throw new IllegalArgumentException("Erro ao atualizar restaurante: " + e.getMessage(), e);
         }
     }
 
@@ -72,7 +77,7 @@ public class RestaurantController {
         try {
             useCase.execute(id);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Erro ao deletar usuário: " + e.getMessage(), e);
+            throw new IllegalArgumentException("Erro ao deletar restaurante: " + e.getMessage(), e);
         }
     }
 }

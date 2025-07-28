@@ -17,9 +17,9 @@ public class FindRestaurantByNameUseCase {
 
     public Restaurant execute(String name) {
         if (name == null || name.trim().isEmpty()) {
-            throw new IllegalArgumentException("Nome do usuário não pode ser nulo ou vazio");
+            throw new IllegalArgumentException("Nome do restaurante não pode ser nulo ou vazio");
         }
         return this.restaurantGateway.findByName(name.trim())
-                .orElseThrow(() -> new IllegalArgumentException("Usuário não encontrado com o name: " + name));
+                .orElseThrow(() -> new IllegalArgumentException("Restaurante não encontrado com o name: " + name));
     }
 }

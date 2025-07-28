@@ -27,19 +27,19 @@ public class RestaurantServiceImpl implements IRestaurantDataSource {
     @Override
     public Page<RestaurantDTO> findAll(Pageable pageable) {
         return restaurantRepository.findAll(pageable)
-                .map(RestaurantDTO::toRestaurantDTO);
+                .map(RestaurantDTO::toRestaurantDTOFromEntity);
     }
 
     @Override
     public Optional<RestaurantDTO> findById(UUID id) {
         return restaurantRepository.findById(id)
-                .map(RestaurantDTO::toRestaurantDTO);
+                .map(RestaurantDTO::toRestaurantDTOFromEntity);
     }
 
     @Override
     public Optional<RestaurantDTO> findByName(String name) {
         return restaurantRepository.findByName(name)
-                .map(RestaurantDTO::toRestaurantDTO);
+                .map(RestaurantDTO::toRestaurantDTOFromEntity);
     }
 
     @Override
@@ -57,9 +57,7 @@ public class RestaurantServiceImpl implements IRestaurantDataSource {
                 .owner(owner)
                 .build();
 
-        restaurantRepository.save(restaurante);
-
-        return RestaurantDTO.toRestaurantDTO(restaurante);
+        return RestaurantDTO.toRestaurantDTOFromEntity(restaurantRepository.save(restaurante));
     }
 
     @Override
@@ -67,7 +65,7 @@ public class RestaurantServiceImpl implements IRestaurantDataSource {
         RestaurantEntity restauranteUpdated = restaurantRepository
                 .save(RestaurantEntity.toRestaurantEntityEntityFromDTO(dto));
 
-        return RestaurantDTO.toRestaurantDTO(restauranteUpdated);
+        return RestaurantDTO.toRestaurantDTOFromEntity(restauranteUpdated);
     }
 
     @Override

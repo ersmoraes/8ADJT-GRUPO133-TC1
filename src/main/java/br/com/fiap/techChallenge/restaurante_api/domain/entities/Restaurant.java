@@ -1,11 +1,7 @@
 package br.com.fiap.techChallenge.restaurante_api.domain.entities;
 
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.RestaurantDTO;
-import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.UserDTO;
-import br.com.fiap.techChallenge.restaurante_api.domain.enums.UserType;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.RestaurantEntity;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.UserEntity;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,7 +13,6 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@Builder
 @EqualsAndHashCode
 public class Restaurant {
     private UUID id;
@@ -35,14 +30,15 @@ public class Restaurant {
                     "horário de funcionamento ou proprietário");
         }
 
-        return Restaurant.builder()
-                .id(id)
-                .name(name)
-                .address(address)
-                .kitchenType(kitchenType)
-                .openingHours(openingHours)
-                .owner(owner)
-                .build();
+        Restaurant restaurant = new Restaurant();
+        restaurant.setId(id);
+        restaurant.setName(name);
+        restaurant.setAddress(address);
+        restaurant.setKitchenType(kitchenType);
+        restaurant.setOpeningHours(openingHours);
+        restaurant.setOwner(owner);
+
+        return restaurant;
     }
 
     public void setOpeningHours(String openingHours) {
@@ -51,7 +47,7 @@ public class Restaurant {
     }
 
     private static void validOpeningHours(String openingHours) {
-        if (openingHours == null || openingHours.isEmpty() ) {
+        if (openingHours == null || openingHours.isEmpty()) {
             throw new IllegalArgumentException("Horário de funcionamento não pode ser nulo.");
         }
         try {
@@ -61,26 +57,27 @@ public class Restaurant {
         }
     }
 
-    public void setOwner(User owner) {
-        validOwner(owner);
-        this.owner = owner;
-    }
+//    public void setOwner(User owner) {
+//        validOwner(owner);
+//        this.owner = owner;
+//    }
 
-    private static void validOwner(User owner) {
-        if (owner == null || owner.getUserType().name().equalsIgnoreCase(UserType.CLIENTE.name())) {
-            throw new IllegalArgumentException("Proprietário não pode ser nulo e precisa ser válido");
-        }
-    }
+//    private static void validOwner(User owner) {
+//        if (owner == null || owner.getUserType().name().equalsIgnoreCase(UserType.CLIENTE.name())) {
+//            throw new IllegalArgumentException("Proprietário não pode ser nulo e precisa ser válido");
+//        }
+//    }
 
     public static Restaurant toRestaurant(RestaurantEntity restaurantEntity) {
-        return Restaurant.builder()
-                .id(restaurantEntity.getId())
-                .name(restaurantEntity.getName())
-                .owner(User.toUser(restaurantEntity.getOwner()))
-                .address(Address.toAddress(restaurantEntity.getAddressEntity()))
-                .kitchenType(restaurantEntity.getKitchenType())
-                .openingHours(restaurantEntity.getOpeningHours())
-                .build();
+        Restaurant restaurant = new Restaurant();
+        restaurant.setId(restaurantEntity.getId());
+        restaurant.setName(restaurantEntity.getName());
+        restaurant.setAddress(Address.toAddress(restaurantEntity.getAddressEntity()));
+        restaurant.setKitchenType(restaurantEntity.getOpeningHours());
+        restaurant.setOpeningHours(restaurantEntity.getKitchenType());
+        restaurant.setOwner(User.toUser(restaurantEntity.getOwner()));
+
+        return restaurant;
     }
 
     public static List<Restaurant> toRestaurant(List<RestaurantEntity> restaurantEntities) {
@@ -90,14 +87,15 @@ public class Restaurant {
     }
 
     public static Restaurant toRestaurantFromDTO(RestaurantDTO restaurantDTO) {
-        return Restaurant.builder()
-                .id(restaurantDTO.id())
-                .name(restaurantDTO.name())
-                .owner(User.toUserFromDTO(restaurantDTO.owner()))
-                .address(Address.toAddressFromDTO(restaurantDTO.addressDTO()))
-                .kitchenType(restaurantDTO.kitchenType())
-                .openingHours(restaurantDTO.openingHours())
-                .build();
+        Restaurant restaurant = new Restaurant();
+        restaurant.setId(restaurantDTO.id());
+        restaurant.setName(restaurantDTO.name());
+        restaurant.setAddress(Address.toAddressFromDTO(restaurantDTO.addressDTO()));
+        restaurant.setKitchenType(restaurantDTO.kitchenType());
+        restaurant.setOpeningHours(restaurantDTO.openingHours());
+        restaurant.setOwner(User.toUserFromDTO(restaurantDTO.owner()));
+
+        return restaurant;
     }
 
     public static List<Restaurant> toRestaurantFromDTO(List<RestaurantDTO> restaurantDTOS) {

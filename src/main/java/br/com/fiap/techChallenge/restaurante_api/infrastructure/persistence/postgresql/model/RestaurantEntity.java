@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "restaurantes")
+@Table(name = "restaurants")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -21,7 +21,9 @@ import java.util.UUID;
 public class RestaurantEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @PrimaryKeyJoinColumn
+    @GeneratedValue
+    @Column(name = "id", columnDefinition = "uuid", updatable = false, nullable = false)
     private UUID id;
 
     @Column(name = "name", nullable = false)
