@@ -1,6 +1,8 @@
 package br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.service;
 
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.UserDTO;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.enums.UserTypeEnum;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.AddressEntity;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.UserEntity;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -29,10 +31,12 @@ class UserServiceImplTest {
         UserEntity userMock = new UserEntity();
         userMock.setId(id);
         userMock.setLogin("paulocesar");
+        userMock.setUserType(UserTypeEnum.PROPRIETARIO);
+        userMock.setAddressEntity(AddressEntity.builder().build());
         Optional<UserEntity> userEntity = Optional.of(userMock);
         when(userRepository.findById(id)).thenReturn(userEntity);
 
-        UserDTO response = userService.findById(id);
+        UserDTO response = userService.findById(id).get();
 
         assertNotNull(response);
         assertEquals(userMock.getId(), response.id());

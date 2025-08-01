@@ -34,7 +34,7 @@ public class CreateRestaurantUseCase {
         }
 
         final Restaurant restaurant = Restaurant.create(null, newRestaurantDTO.name(), newRestaurantDTO.address().parser(),
-                newRestaurantDTO.kitchenType(), newRestaurantDTO.openingHours(), newRestaurantDTO.owner().parser());
+                newRestaurantDTO.kitchenType(), newRestaurantDTO.openingHours(), User.toUserFromDTO(newRestaurantDTO.owner()));
 
         return this.restaurantGateway.createRestaurant(restaurant);
     }

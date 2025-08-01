@@ -1,6 +1,7 @@
 package br.com.fiap.techChallenge.restaurante_api.domain.entities;
 
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.RestaurantEntity;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -15,21 +16,21 @@ import java.util.UUID;
 @EqualsAndHashCode
 public class MenuItem {
     private UUID id;
+    @NotNull
+    @NotEmpty
     private String name;
+    @NotNull
+    @NotEmpty
     private String description;
+    @NotNull
     private BigDecimal price;
     private boolean onlyLocal;
     private String urlFoto;
+    @NotNull
     private Restaurant restaurant;
 
     public static MenuItem create(UUID id, String name, String description, BigDecimal price, boolean onlyLocal,
                                   String urlFoto, Restaurant restaurant) {
-        if (name == null || name.isEmpty() || description == null || description.isEmpty() || price == null
-                || restaurant == null) {
-            throw new IllegalArgumentException("Campos obrigatórios não preenchidos: name, descrição, " +
-                    "preço ou restaurante");
-        }
-
         return MenuItem.builder()
                 .id(id)
                 .name(name)

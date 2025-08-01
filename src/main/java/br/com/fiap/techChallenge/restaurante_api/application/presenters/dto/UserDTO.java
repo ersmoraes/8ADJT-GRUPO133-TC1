@@ -23,19 +23,6 @@ public record UserDTO(
         LocalDateTime createDate,
         @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
         LocalDateTime lastChange) {
-    public User parser() {
-        return User.builder()
-                .id(id)
-                .name(name)
-                .email(email)
-                .login(login)
-                .password(password)
-                .userType(userType)
-                .address(addressDTO.parser())
-                .createDate(createDate)
-                .lastChange(lastChange)
-                .build();
-    }
 
     public static UserDTO toUserDTOFromEntity(UserEntity userEntity) {
         return UserDTO.builder()

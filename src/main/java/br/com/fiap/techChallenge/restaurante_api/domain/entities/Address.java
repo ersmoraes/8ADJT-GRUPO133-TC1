@@ -2,7 +2,8 @@ package br.com.fiap.techChallenge.restaurante_api.domain.entities;
 
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.AddressDTO;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.AddressEntity;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.UserEntity;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -15,9 +16,17 @@ import java.util.List;
 @Builder
 @EqualsAndHashCode
 public class Address {
+    @NotNull
+    @NotEmpty
     private String street;
+    @NotNull
+    @NotEmpty
     private String city;
+    @NotNull
+    @NotEmpty
     private String state;
+    @NotNull
+    @NotEmpty
     private String zipCode;
 
     public static Address create(String street, String city, String state, String zipCode) throws IllegalArgumentException {

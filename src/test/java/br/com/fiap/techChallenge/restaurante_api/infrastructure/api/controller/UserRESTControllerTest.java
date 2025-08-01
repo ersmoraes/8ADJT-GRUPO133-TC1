@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -26,7 +27,7 @@ class UserRESTControllerTest {
 
     @Test
     void shouldReturnUserResponseDTO() {
-        UUID id = UUID.fromString("1");
+        UUID id = UUID.randomUUID();
         UserDTO mockResponse = new UserDTO(
                 id,
                 "Paulo cesar",
@@ -38,10 +39,10 @@ class UserRESTControllerTest {
                 null,
                 null);
 
-        when(userService.findById(id)).thenReturn(mockResponse);
+        when(userService.findById(id)).thenReturn(Optional.of(mockResponse));
 
         UserRESTController controller = new UserRESTController(userService);
-        ResponseEntity<UserResponseDTO> response = controller.getUserById(id);
+        ResponseEntity<UserResponseDTO> response = controller.findById(id);
 
         assertTrue(response.getStatusCode().is2xxSuccessful());
         assertNotNull(response.getBody());

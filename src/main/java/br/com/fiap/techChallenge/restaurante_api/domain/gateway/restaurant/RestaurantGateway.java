@@ -4,7 +4,9 @@ import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.Addr
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.NewRestaurantDTO;
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.RestaurantDTO;
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.UserDTO;
+import br.com.fiap.techChallenge.restaurante_api.domain.entities.Address;
 import br.com.fiap.techChallenge.restaurante_api.domain.entities.Restaurant;
+import br.com.fiap.techChallenge.restaurante_api.domain.entities.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -84,10 +86,10 @@ public class RestaurantGateway implements IRestaurantGateway {
             return Restaurant.create(
                     restaurantDTO.id(),
                     restaurantDTO.name(),
-                    null,
+                    Address.builder().build(),
                     restaurantDTO.kitchenType(),
                     restaurantDTO.openingHours(),
-                    null);
+                    User.builder().build());
         }
         return Restaurant.create(
                 restaurantDTO.id(),
@@ -95,6 +97,6 @@ public class RestaurantGateway implements IRestaurantGateway {
                 restaurantDTO.addressDTO().parser(),
                 restaurantDTO.kitchenType(),
                 restaurantDTO.openingHours(),
-                restaurantDTO.owner().parser());
+                User.toUserFromDTO(restaurantDTO.owner()));
     }
 }

@@ -1,6 +1,8 @@
 package br.com.fiap.techChallenge.restaurante_api.application.presenters.dto;
 
+import br.com.fiap.techChallenge.restaurante_api.application.presenters.UserPresenter;
 import br.com.fiap.techChallenge.restaurante_api.domain.entities.Restaurant;
+import br.com.fiap.techChallenge.restaurante_api.domain.entities.User;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.RestaurantEntity;
 import lombok.Builder;
 
@@ -23,7 +25,7 @@ public record RestaurantDTO(
         restaurant.setAddress(addressDTO.parser());
         restaurant.setKitchenType(kitchenType);
         restaurant.setOpeningHours(openingHours);
-        restaurant.setOwner(owner.parser());
+        restaurant.setOwner(User.toUserFromDTO(owner));
 
         return restaurant;
     }

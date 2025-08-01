@@ -2,8 +2,9 @@ package br.com.fiap.techChallenge.restaurante_api.domain.entities;
 
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.UserDTO;
 import br.com.fiap.techChallenge.restaurante_api.domain.enums.UserType;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.enums.UserTypeEnum;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.UserEntity;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -19,23 +20,24 @@ import java.util.UUID;
 @EqualsAndHashCode
 public class User {
     private UUID id;
+    @NotNull
+    @NotEmpty
     private String name;
+    @NotNull
+    @NotEmpty
     private String email;
+    @NotNull
+    @NotEmpty
     private String login;
     private String password;
+    @NotNull
     private UserType userType;
     private LocalDateTime createDate;
     private LocalDateTime lastChange;
     private Address address;
 
     public static User create(UUID id, String name, String email, String login, String password, UserType userType,
-                              LocalDateTime createDate, LocalDateTime lastChange, Address address)
-            throws IllegalArgumentException {
-        if (name == null || name.isEmpty() || email == null || email.isEmpty() || login == null || login.isEmpty()
-                || userType == null) {
-            throw new IllegalArgumentException("Campo obrigatório não preenchido: name, email, login ou tipo de " +
-                    "usuário");
-        }
+                              LocalDateTime createDate, LocalDateTime lastChange, Address address) {
 
         return User.builder()
                 .id(id)

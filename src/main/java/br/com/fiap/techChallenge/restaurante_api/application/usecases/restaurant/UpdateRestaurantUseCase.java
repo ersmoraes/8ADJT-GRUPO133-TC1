@@ -43,7 +43,7 @@ public class UpdateRestaurantUseCase {
             oldRestaurant.setName(restaurantDTO.name());
         if (restaurantDTO.owner() != null && restaurantDTO.owner().login() != null &&
                 !restaurantDTO.owner().login().equalsIgnoreCase(oldRestaurant.getOwner().getLogin()))
-            oldRestaurant.setOwner(restaurantDTO.owner().parser());
+            oldRestaurant.setOwner(User.toUserFromDTO(restaurantDTO.owner()));
         if (restaurantDTO.kitchenType() != null && !restaurantDTO.kitchenType()
                 .equalsIgnoreCase(oldRestaurant.getKitchenType()))
             oldRestaurant.setKitchenType(restaurantDTO.kitchenType());

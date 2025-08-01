@@ -11,6 +11,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -28,7 +29,7 @@ class CreateUserUseCaseTest {
         String password = "senha123";
         UserType userType = UserType.CLIENTE;
         AddressDTO addressDTO = new AddressDTO("Rua A", "Cidade B", "Estado C", "12345-678");
-        User newUser = User.create(name, email, login, password, userType, addressDTO.parser());
+        User newUser = User.create(UUID.randomUUID(), name, email, login, password, userType, null, null, addressDTO.parser());
         NewUserDTO newUserDTO = new NewUserDTO(name, email, login, password, userType, addressDTO);
         IUserGateway iUserGateway = mock(IUserGateway.class);
 
@@ -43,6 +44,6 @@ class CreateUserUseCaseTest {
         Assertions.assertEquals(email, user.getEmail());
         Assertions.assertEquals(login, user.getLogin());
         Assertions.assertEquals(password, user.getPassword());
-        Assertions.assertNull(user.getId());
+        Assertions.assertNotNull(user.getId());
     }
 }

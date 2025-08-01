@@ -2,6 +2,8 @@ package br.com.fiap.techChallenge.restaurante_api.domain.entities;
 
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.RestaurantDTO;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.RestaurantEntity;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,20 +18,22 @@ import java.util.UUID;
 @EqualsAndHashCode
 public class Restaurant {
     private UUID id;
+    @NotNull
+    @NotEmpty
     private String name;
+    @NotNull
     private Address address;
+    @NotNull
+    @NotEmpty
     private String kitchenType;
+    @NotNull
+    @NotEmpty
     private String openingHours;
+    @NotNull
     private User owner;
 
     public static Restaurant create(UUID id, String name, Address address, String kitchenType,
                                     String openingHours, User owner) {
-        if (name == null || name.isEmpty() || address == null || kitchenType == null || kitchenType.isEmpty()
-                || openingHours == null || openingHours.isEmpty() || owner == null) {
-            throw new IllegalArgumentException("Campos obrigatórios não preenchidos: name, endereço, tipo de cozinha, " +
-                    "horário de funcionamento ou proprietário");
-        }
-
         Restaurant restaurant = new Restaurant();
         restaurant.setId(id);
         restaurant.setName(name);
