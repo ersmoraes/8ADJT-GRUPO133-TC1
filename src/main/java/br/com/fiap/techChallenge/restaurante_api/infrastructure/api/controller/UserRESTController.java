@@ -95,6 +95,9 @@ public class UserRESTController implements UserDocs {
     }
 
     private static AddressDTO parseAddresToAddresDTO(AddressRequestDTO addressRequestDTO) {
+        if (addressRequestDTO == null || addressRequestDTO.getStreet() == null) {
+            return new AddressDTO(null, null, null, null);
+        }
         return new AddressDTO(addressRequestDTO.getStreet(), addressRequestDTO.getCity(),
                 addressRequestDTO.getState(), addressRequestDTO.getZipCode());
     }
