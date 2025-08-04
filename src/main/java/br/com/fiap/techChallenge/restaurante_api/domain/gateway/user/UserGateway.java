@@ -31,7 +31,7 @@ public class UserGateway implements IUserGateway {
     public Optional<User> findByLoginAndPassword(String login, String password) {
         Optional<UserDTO> userDTOOptional = this.dataSource.findByLoginAndPassword(login, password);
         if (userDTOOptional.isEmpty()) {
-            throw new IllegalArgumentException("Usuário ou senha incorretos!");
+            throw new IllegalArgumentException("Usuário ou senha inválidos!");
         }
         UserDTO userDTO = userDTOOptional.get();
         return Optional.of(dtoToUser(userDTO));

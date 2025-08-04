@@ -41,11 +41,12 @@ public class UserRESTController implements UserDocs {
     @Override
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginRequestDTO dto) {
-        String mensagem = userController.login(dto.getLogin(), dto.getPassword());
-        if (mensagem.contains("invalidos")) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(mensagem);
+        try {
+            String mensagem = userController.login(dto.getLogin(), dto.getPassword());
+            return ResponseEntity.ok().body(mensagem);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
-        return ResponseEntity.ok().body(mensagem);
     }
 
     @Override

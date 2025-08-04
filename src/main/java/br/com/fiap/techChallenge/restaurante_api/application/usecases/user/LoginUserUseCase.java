@@ -26,9 +26,9 @@ public class LoginUserUseCase {
 
         Optional<User> usuario = this.userGateway.findByLoginAndPassword(login, password);
         if (usuario.isEmpty()) {
-            return "Usuario ou senha invalidos!";
+            return "Usuário ou senha inválidos!";
         }
-        return "Login Efetuado com sucesso!";
+        return "Login realizado com sucesso!";
 
     }
 }

@@ -42,7 +42,22 @@ public class UpdateUserUseCase {
             oldUser.setEmail(userDTO.email());
         if (userDTO.userType() != null && !userDTO.userType().name().equalsIgnoreCase(oldUser.getUserType().name()))
             oldUser.setUserType(userDTO.userType());
-        if (userDTO.addressDTO() != null) {
+        if (userDTO.addressDTO() != null && userDTO.addressDTO().street() != null) {
+            updateAddress(userDTO, oldUser);
+        }
+        oldUser.setLastChange(LocalDateTime.now());
+
+        return this.userGateway.updateUser(oldUser);
+    }
+
+    private static void updateAddress(UserDTO userDTO, User oldUser) {
+        if (oldUser.getAddress() == null || oldUser.getAddress().getStreet() == null) {
+            Address newAddress = Address.toAddressFromDTO(userDTO.addressDTO());
+            oldUser.setAddress(Address.create(newAddress.getStreet(),
+                    newAddress.getCity(),
+                    newAddress.getState(),
+                    newAddress.getZipCode()));
+        } else {
             Address oldAaddress = oldUser.getAddress();
             Address newAddress = Address.toAddressFromDTO(userDTO.addressDTO());
 
@@ -55,8 +70,5 @@ public class UpdateUserUseCase {
             if (!newAddress.getZipCode().equalsIgnoreCase(oldAaddress.getZipCode()))
                 oldAaddress.setZipCode(newAddress.getZipCode());
         }
-        oldUser.setLastChange(LocalDateTime.now());
-
-        return this.userGateway.updateUser(oldUser);
     }
 }

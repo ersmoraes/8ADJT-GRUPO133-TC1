@@ -1,6 +1,7 @@
 package br.com.fiap.techChallenge.restaurante_api.infrastructure.api.controller;
 
 import br.com.fiap.techChallenge.restaurante_api.application.controllers.UserController;
+import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.AddressDTO;
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.NewUserDTO;
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.UserDTO;
 import br.com.fiap.techChallenge.restaurante_api.domain.entities.User;
@@ -30,6 +31,7 @@ class UserRESTControllerTest {
 
     @Mock
     UserServiceImpl userService;
+    AddressDTO addressDTO = new AddressDTO("Street", "City", "State", "12345-678");
 
     @Test
     void shouldReturnUserResponseDTO() {
@@ -41,7 +43,7 @@ class UserRESTControllerTest {
                 "paulocesar",
                 "123456",
                 UserType.OWNER,
-                null,
+                addressDTO,
                 null,
                 null);
 
@@ -60,18 +62,17 @@ class UserRESTControllerTest {
         LoginRequestDTO loginRequestDTO = new LoginRequestDTO();
         loginRequestDTO.setLogin("usuarioInvalido");
         loginRequestDTO.setPassword("senhaInvalida");
-        String login = "validLogin";
         UserDTO userDTO = mock(UserDTO.class);
 
-        when(userService.findByLogin(login)).thenReturn(Optional.of(userDTO));
-        when(userService.login(loginRequestDTO))
-                .thenReturn("Credenciais invalidos");
+        when(userService.findByLogin(loginRequestDTO.getLogin())).thenReturn(Optional.of(userDTO));
+        when(userService.findByLoginAndPassword(loginRequestDTO.getLogin(), loginRequestDTO.getPassword()))
+                .thenReturn(Optional.empty());
 
         UserRESTController controller = new UserRESTController(userService);
         ResponseEntity<String> response = controller.login(loginRequestDTO);
 
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
-        assertEquals("Credenciais invalidos", response.getBody());
+        assertEquals("Erro ao realizar login: Usuário ou senha inválidos!", response.getBody());
     }
 
     @Test
@@ -79,15 +80,17 @@ class UserRESTControllerTest {
         LoginRequestDTO loginRequestDTO = new LoginRequestDTO();
         loginRequestDTO.setLogin("usuarioValido");
         loginRequestDTO.setPassword("senhaValida");
+        UserDTO userDTO = mock(UserDTO.class);
 
-        when(userService.login(loginRequestDTO))
-                .thenReturn("Login realizado com sucesso");
+        when(userService.findByLogin(loginRequestDTO.getLogin())).thenReturn(Optional.of(userDTO));
+        when(userService.findByLoginAndPassword(loginRequestDTO.getLogin(), loginRequestDTO.getPassword()))
+                .thenReturn(Optional.of(userDTO));
 
         UserRESTController controller = new UserRESTController(userService);
         ResponseEntity<String> response = controller.login(loginRequestDTO);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
-        assertEquals("Login realizado com sucesso", response.getBody());
+        assertEquals("Login realizado com sucesso!", response.getBody());
     }
 
     @Test
@@ -111,9 +114,10 @@ class UserRESTControllerTest {
         userRequestDTO.setPassword("novasenha");
         userRequestDTO.setUserType(UserType.CLIENT);
         UserDTO updatedUserDTO = new UserDTO(id, "Novo Nome", "novo@email.com", "novologin",
-                "novasenha", UserType.CLIENT, null, null, null);
+                "novasenha", UserType.CLIENT, addressDTO, null, null);
 
         when(userService.updateUser(any(UserDTO.class))).thenReturn(updatedUserDTO);
+        when(userService.findById(any())).thenReturn(Optional.of(updatedUserDTO));
 
         UserRESTController controller = new UserRESTController(userService);
         ResponseEntity<UserResponseDTO> response = controller.updateUser(id, userRequestDTO);
@@ -133,7 +137,7 @@ class UserRESTControllerTest {
         userRequestDTO.setPassword("senha");
         userRequestDTO.setUserType(UserType.CLIENT);
         UserDTO createdUserDTO = new UserDTO(UUID.randomUUID(), "Fulano", "fulano@email.com", "fulanologin",
-                "senha", UserType.CLIENT, null, null, null);
+                "senha", UserType.CLIENT, addressDTO, null, null);
 
         when(userService.createUser(any(NewUserDTO.class))).thenReturn(createdUserDTO);
 
