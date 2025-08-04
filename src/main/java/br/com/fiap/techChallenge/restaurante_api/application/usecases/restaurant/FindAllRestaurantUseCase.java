@@ -18,6 +18,9 @@ public class FindAllRestaurantUseCase {
     }
 
     public Page<Restaurant> execute(Pageable pageable) {
+        if (pageable == null) {
+            throw new IllegalArgumentException("Pageable não pode ser nulo");
+        }
         return this.restaurantGateway.findAll(pageable);
     }
 }

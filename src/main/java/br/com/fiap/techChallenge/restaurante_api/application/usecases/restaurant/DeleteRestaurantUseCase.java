@@ -17,6 +17,9 @@ public class DeleteRestaurantUseCase {
     }
 
     public void execute(UUID id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID do restaurante não pode ser nulo");
+        }
         this.restaurantGateway.deleteRestaurant(id);
     }
 }
