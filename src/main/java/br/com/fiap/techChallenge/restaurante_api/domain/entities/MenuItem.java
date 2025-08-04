@@ -15,6 +15,9 @@ import java.util.UUID;
 @Builder
 @EqualsAndHashCode
 public class MenuItem {
+
+    @NotNull
+    @NotEmpty
     private UUID id;
     @NotNull
     @NotEmpty

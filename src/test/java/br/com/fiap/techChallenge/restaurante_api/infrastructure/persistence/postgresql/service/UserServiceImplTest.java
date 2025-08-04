@@ -35,7 +35,7 @@ class UserServiceImplTest {
         UserEntity userMock = new UserEntity();
         userMock.setId(id);
         userMock.setLogin("paulocesar");
-        userMock.setUserType(UserTypeEnum.PROPRIETARIO);
+        userMock.setUserType(UserTypeEnum.OWNER);
         userMock.setAddressEntity(AddressEntity.builder().build());
         Optional<UserEntity> userEntity = Optional.of(userMock);
         when(userRepository.findById(id)).thenReturn(userEntity);

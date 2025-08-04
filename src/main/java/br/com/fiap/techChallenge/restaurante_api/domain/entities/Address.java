@@ -16,6 +16,7 @@ import java.util.List;
 @Builder
 @EqualsAndHashCode
 public class Address {
+
     @NotNull
     @NotEmpty
     private String street;

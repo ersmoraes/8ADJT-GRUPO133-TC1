@@ -3,8 +3,8 @@ package br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.pos
 import java.util.Arrays;
 
 public enum UserTypeEnum {
-    CLIENTE,
-    PROPRIETARIO;
+    CLIENT,
+    OWNER;
 
     public static UserTypeEnum fromString(String type) {
         return Arrays.stream(UserTypeEnum.values())

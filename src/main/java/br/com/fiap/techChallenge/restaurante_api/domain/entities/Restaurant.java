@@ -77,8 +77,8 @@ public class Restaurant {
         restaurant.setId(restaurantEntity.getId());
         restaurant.setName(restaurantEntity.getName());
         restaurant.setAddress(Address.toAddress(restaurantEntity.getAddressEntity()));
-        restaurant.setKitchenType(restaurantEntity.getOpeningHours());
-        restaurant.setOpeningHours(restaurantEntity.getKitchenType());
+        restaurant.setKitchenType(restaurantEntity.getKitchenType());
+        restaurant.setOpeningHours(restaurantEntity.getOpeningHours());
         restaurant.setOwner(User.toUser(restaurantEntity.getOwner()));
 
         return restaurant;

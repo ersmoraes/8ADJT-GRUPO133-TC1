@@ -19,6 +19,9 @@ import java.util.UUID;
 @Builder
 @EqualsAndHashCode
 public class User {
+
+    @NotNull
+    @NotEmpty
     private UUID id;
     @NotNull
     @NotEmpty
