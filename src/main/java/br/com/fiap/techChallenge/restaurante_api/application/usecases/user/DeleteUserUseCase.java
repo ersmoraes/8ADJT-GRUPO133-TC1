@@ -17,6 +17,9 @@ public class DeleteUserUseCase {
     }
 
     public void execute(UUID id) {
+        if (id == null) {
+            throw new IllegalArgumentException("ID do usuário não pode ser nulo");
+        }
         this.userGateway.deleteUser(id);
     }
 }

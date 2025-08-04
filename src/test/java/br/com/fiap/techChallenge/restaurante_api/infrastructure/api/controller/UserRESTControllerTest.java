@@ -34,7 +34,7 @@ class UserRESTControllerTest {
                 "paulo@gmail.com",
                 "paulocesar",
                 "123456",
-                UserType.PROPRIETARIO,
+                UserType.OWNER,
                 null,
                 null,
                 null);

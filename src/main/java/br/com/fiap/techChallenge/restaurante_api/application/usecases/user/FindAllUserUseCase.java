@@ -19,6 +19,9 @@ public class FindAllUserUseCase {
     }
 
     public Page<User> execute(Pageable pageable) {
+        if (pageable == null) {
+            throw new IllegalArgumentException("Pageable não pode ser nulo");
+        }
         return this.userGateway.findAll(pageable);
     }
 }

@@ -19,7 +19,7 @@ class UserTest {
         String email = "joao@gmail.com";
         String login = "joao123";
         String password = "senha123";
-        UserType userType = UserType.CLIENTE;
+        UserType userType = UserType.CLIENT;
         Address address = Address.create("Rua A", "Cidade B", "Estado C", "12345-678");
 
         var user = User.create(UUID.randomUUID(), name, email, login, password, userType, null, null, address);

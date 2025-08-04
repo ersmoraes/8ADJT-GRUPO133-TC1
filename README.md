@@ -94,6 +94,12 @@ Para executar os testes:
 ./mvnw test
 ```
 
+### E a página do jacoco, que mostra a cobertura de testes, está disponível em:
+
+```
+/target/site/jacoco/index.html
+```
+
 ## 🐞 Solução de Problemas
 
 ### Erros comuns

@@ -27,7 +27,7 @@ class CreateUserUseCaseTest {
         String email = "joao@gmail.com";
         String login = "joao123";
         String password = "senha123";
-        UserType userType = UserType.CLIENTE;
+        UserType userType = UserType.CLIENT;
         AddressDTO addressDTO = new AddressDTO("Rua A", "Cidade B", "Estado C", "12345-678");
         User newUser = User.create(UUID.randomUUID(), name, email, login, password, userType, null, null, addressDTO.parser());
         NewUserDTO newUserDTO = new NewUserDTO(name, email, login, password, userType, addressDTO);
