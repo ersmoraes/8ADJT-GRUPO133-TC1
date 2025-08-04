@@ -1,10 +1,8 @@
 package br.com.fiap.techChallenge.restaurante_api.infrastructure.api.controller;
 
-import br.com.fiap.techChallenge.restaurante_api.application.controllers.UserController;
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.AddressDTO;
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.NewUserDTO;
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.UserDTO;
-import br.com.fiap.techChallenge.restaurante_api.domain.entities.User;
 import br.com.fiap.techChallenge.restaurante_api.domain.enums.UserType;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request.LoginRequestDTO;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request.UserRequestDTO;
@@ -12,7 +10,6 @@ import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.response
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.service.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
