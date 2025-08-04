@@ -34,7 +34,7 @@ class LoginUserUseCaseTest {
 
         String result = loginUserUseCase.execute(login, password);
 
-        assertEquals("Login Efetuado com sucesso!", result);
+        assertEquals("Login realizado com sucesso!", result);
     }
 
     @Test
@@ -48,7 +48,7 @@ class LoginUserUseCaseTest {
 
         String result = loginUserUseCase.execute(login, password);
 
-        assertEquals("Usuario ou senha invalidos!", result);
+        assertEquals("Usuário ou senha inválidos!", result);
     }
 
     @Test

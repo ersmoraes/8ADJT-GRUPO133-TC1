@@ -31,10 +31,11 @@ public record UserDTO(
                 .email(userEntity.getEmail())
                 .login(userEntity.getLogin())
                 .password(userEntity.getPassword())
-                .userType(UserType.fromString(userEntity.getUserType().name()))
+                .userType(userEntity.getUserType() != null ? UserType.fromString(userEntity.getUserType().name()) : null)
                 .createDate(userEntity.getCreateDate())
                 .lastChange(userEntity.getLastChange())
-                .addressDTO(AddressDTO.toAddressDTOFromAddressEntity(userEntity.getAddressEntity()))
+                .addressDTO(userEntity.getAddressEntity() != null ? AddressDTO.toAddressDTOFromAddressEntity(userEntity.getAddressEntity())
+                        : null)
                 .build();
     }
 
