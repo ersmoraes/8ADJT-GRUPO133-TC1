@@ -2,9 +2,11 @@ package br.com.fiap.techChallenge.restaurante_api.infrastructure.api.controller;
 
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.AddressDTO;
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.NewUserDTO;
+import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.UpdatePasswordUserDTO;
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.UserDTO;
 import br.com.fiap.techChallenge.restaurante_api.domain.enums.UserType;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request.LoginRequestDTO;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request.PasswordUpdateRequestDTO;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request.UserRequestDTO;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.response.UserResponseDTO;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.service.UserServiceImpl;
@@ -12,16 +14,19 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.Collections;
 import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class UserRESTControllerTest {
@@ -145,5 +150,57 @@ class UserRESTControllerTest {
         assertNotNull(response.getBody());
         assertEquals("Fulano", response.getBody().getName());
         assertEquals("fulanologin", response.getBody().getLogin());
+    }
+
+    @Test
+    void shouldReturnPageOfUsersWhenFindAll() {
+        UserDTO userDTO = new UserDTO(
+                UUID.randomUUID(), "Nome", "email@email.com", "login", "password",
+                UserType.CLIENT, addressDTO, null, null);
+        Page<UserDTO> page = new PageImpl<>(Collections.singletonList(userDTO));
+        when(userService.findAll(any(Pageable.class))).thenReturn(page);
+
+        UserRESTController controller = new UserRESTController(userService);
+        ResponseEntity<Page<UserResponseDTO>> response = controller.findAll(Pageable.unpaged());
+
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertFalse(response.getBody().isEmpty());
+    }
+
+    @Test
+    void shouldChangePasswordAndReturnNoContent() {
+        UUID id = UUID.randomUUID();
+        PasswordUpdateRequestDTO dto = new PasswordUpdateRequestDTO();
+        dto.setOldPassword("old");
+        dto.setNewPassword("new");
+
+        UserDTO userDTO = new UserDTO(id, "Name", "email", "login",
+                "old", UserType.CLIENT, addressDTO, null, null);
+        when(userService.findById(id)).thenReturn(Optional.of(userDTO));
+        UserDTO userDTONew = new UserDTO(id, "Name", "email", "login",
+                "new", UserType.CLIENT, addressDTO, null, null);
+        when(userService.updatePassword(any(UpdatePasswordUserDTO.class))).thenReturn(userDTONew);
+
+        UserRESTController controller = new UserRESTController(userService);
+        ResponseEntity<Void> response = controller.updatePassword(id, dto);
+
+        assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
+        assertNull(response.getBody());
+    }
+
+    @Test
+    void shouldReturnErrorWhenChangePasswordThrowsException() {
+        UUID id = UUID.randomUUID();
+        PasswordUpdateRequestDTO dto = new PasswordUpdateRequestDTO();
+        dto.setOldPassword("old");
+        dto.setNewPassword("new");
+
+        when(userService.findById(id)).thenReturn(Optional.of(new UserDTO(id, "Name", "email", "login",
+                "invalidPass", UserType.CLIENT, addressDTO, null, null)));
+
+        UserRESTController controller = new UserRESTController(userService);
+
+        assertThrows(IllegalArgumentException.class, () -> controller.updatePassword(id, dto));
     }
 }

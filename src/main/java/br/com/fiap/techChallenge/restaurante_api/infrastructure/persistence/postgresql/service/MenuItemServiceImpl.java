@@ -1,13 +1,8 @@
 package br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.service;
 
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.MenuItemDTO;
-import br.com.fiap.techChallenge.restaurante_api.domain.entities.MenuItem;
 import br.com.fiap.techChallenge.restaurante_api.domain.gateway.menuitem.IMenuItemDataSource;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request.MenuItemRequestDTO;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.response.MenuItemResponseDTO;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.exception.ResourceNotFoundException;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.MenuItemEntity;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.RestaurantEntity;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository.MenuItemRepository;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,10 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
 import java.util.UUID;
-
-import static br.com.fiap.techChallenge.restaurante_api.application.presenters.MenuItemPresenter.toDTO;
 
 @Service
 @RequiredArgsConstructor
@@ -46,10 +38,9 @@ public class MenuItemServiceImpl implements IMenuItemDataSource {
 
     @Override
     public MenuItemDTO findByName(String name) {
-        MenuItem menuItem = menuItemRepository.findByName(name);
-        MenuItemDTO dto = new MenuItemDTO(menuItem.getId(), menuItem.getName(), menuItem.getDescription(),
+        MenuItemEntity menuItem = menuItemRepository.findByName(name);
+        return new MenuItemDTO(menuItem.getId(), menuItem.getName(), menuItem.getDescription(),
                 menuItem.getPrice(), menuItem.isOnlyLocal(), menuItem.getUrlFoto());
-        return dto;
     }
 
     @Override

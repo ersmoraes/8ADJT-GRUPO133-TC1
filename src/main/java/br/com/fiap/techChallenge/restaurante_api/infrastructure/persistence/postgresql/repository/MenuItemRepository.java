@@ -10,7 +10,7 @@ import java.util.UUID;
 @Repository
 public interface MenuItemRepository extends JpaRepository<MenuItemEntity, UUID> {
 
-    MenuItem findByName(String name);
+    MenuItemEntity findByName(String name);
 
     boolean existsByName(String name);
 }
