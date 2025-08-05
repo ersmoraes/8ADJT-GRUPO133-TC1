@@ -63,10 +63,10 @@ public class RestaurantEntity {
         return RestaurantEntity.builder()
                 .id(restaurantDTO.id())
                 .name(restaurantDTO.name())
-                .addressEntity(AddressEntity.toAddressEntityFromDTO(restaurantDTO.addressDTO()))
+                .addressEntity(restaurantDTO.addressDTO() != null ? AddressEntity.toAddressEntityFromDTO(restaurantDTO.addressDTO()) : null)
                 .kitchenType(restaurantDTO.kitchenType())
                 .openingHours(restaurantDTO.openingHours())
-                .owner(UserEntity.toUserEntityFromDTO(restaurantDTO.owner()))
+                .owner(restaurantDTO.owner() != null ? UserEntity.toUserEntityFromDTO(restaurantDTO.owner()) : null)
                 .build();
     }
 
