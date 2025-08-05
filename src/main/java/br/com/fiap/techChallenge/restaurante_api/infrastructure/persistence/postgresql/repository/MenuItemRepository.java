@@ -55,6 +55,10 @@ public class MenuItemRepository implements IMenuItemDataSource {
         return null;
     }
 
+    @Override
+    public void deleteMenuItem(UUID id) {
+        menuItemRepository.deleteById(id);
+    }
 //
 //    @Override
 //    public List<MenuItemResponseDTO> listarTodos() {

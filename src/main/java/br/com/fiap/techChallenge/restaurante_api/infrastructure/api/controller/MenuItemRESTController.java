@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/itens-cardapio")
@@ -53,9 +54,9 @@ public class MenuItemRESTController {
 //        return ResponseEntity.ok(menuItemService.atualizar(id, dto));
 //    }
 //
-//    @DeleteMapping("/{id}")
-//    public ResponseEntity<Void> deletar(@PathVariable UUID id) {
-//        menuItemService.deletar(id);
-//        return ResponseEntity.noContent().build();
-//    }
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable UUID id) {
+        menuItemController.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 }

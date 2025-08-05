@@ -17,4 +17,6 @@ public interface IMenuItemGateway {
     boolean existsByName(String name);
 
     Page<MenuItem> findAll(Pageable pageable);
+
+    void deleteMenuItem(UUID id);
 }

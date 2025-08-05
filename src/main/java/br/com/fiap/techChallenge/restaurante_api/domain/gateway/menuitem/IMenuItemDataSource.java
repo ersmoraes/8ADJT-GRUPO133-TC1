@@ -22,4 +22,6 @@ public interface IMenuItemDataSource {
     boolean existsByName(String name);
 
     MenuItemEntity save(MenuItemEntity menuItem);
+
+    void deleteMenuItem(UUID id);
 }

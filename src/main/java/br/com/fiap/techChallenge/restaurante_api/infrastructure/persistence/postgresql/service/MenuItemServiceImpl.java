@@ -54,6 +54,10 @@ public class MenuItemServiceImpl implements IMenuItemDataSource {
         return menuItemRepository.save(menuItem);
     }
 
+    @Override
+    public void deleteMenuItem(UUID id) {
+//        userRepository.deleteById(id);
+    }
 //
 //    @Override
 //    public List<MenuItemResponseDTO> listarTodos() {

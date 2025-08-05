@@ -6,6 +6,7 @@ import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.Addr
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.NewRestaurantDTO;
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.RestaurantDTO;
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.UserDTO;
+import br.com.fiap.techChallenge.restaurante_api.domain.enums.UserType;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request.AddressRequestDTO;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request.RestaurantRequestDTO;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.response.RestaurantResponseDTO;
@@ -68,7 +69,8 @@ public class RestaurantRESTController {
     @PatchMapping("/{id}")
     public ResponseEntity<RestaurantResponseDTO> updateRestaurant(@PathVariable UUID id, @RequestBody @Valid RestaurantRequestDTO dto) {
         RestaurantDTO restaurantUpdate = new RestaurantDTO(id, dto.getName(), parseAddresToAddresDTO(dto.getAddress()),
-                dto.getKitchenType(), dto.getOpeningHours(), new UserDTO(dto.getOwnerId(), null, null, null, null, null, null, null, null));
+                dto.getKitchenType(), dto.getOpeningHours(), new UserDTO(dto.getOwnerId(), null, null,
+                null, null, UserType.OWNER, null, null, null));
         RestaurantDTO restaurantDTO = restaurantController.updateRestaurant(restaurantUpdate);
         return ResponseEntity.ok(parseDTO(restaurantDTO));
     }

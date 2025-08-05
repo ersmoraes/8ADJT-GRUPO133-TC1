@@ -56,4 +56,9 @@ public class MenuItemGateway implements IMenuItemGateway{
         ));
         return menuItemPage;
     }
+
+    @Override
+    public void deleteMenuItem(UUID id) {
+        this.menuItemDataSource.deleteMenuItem(id);
+    }
 }
