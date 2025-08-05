@@ -66,6 +66,25 @@ class RestaurantServiceImplTest {
     }
 
     @Test
+    void shouldReturnRestaurantDTOWhenFindByNameIsCalledWithValidId() {
+        UUID id = UUID.randomUUID();
+        RestaurantEntity restaurantEntity = new RestaurantEntity();
+        restaurantEntity.setId(id);
+        String name = "Restaurant Name";
+        restaurantEntity.setName(name);
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(UUID.randomUUID());
+        userEntity.setName(name);
+        restaurantEntity.setOwner(userEntity);
+        when(restaurantRepository.findByName(name)).thenReturn(Optional.of(restaurantEntity));
+
+        Optional<RestaurantDTO> result = restaurantService.findByName(name);
+
+        assertTrue(result.isPresent());
+        verify(restaurantRepository, times(1)).findByName(name);
+    }
+
+    @Test
     void shouldThrowResourceNotFoundExceptionWhenDeleteRestaurantIsCalledWithInvalidId() {
         UUID id = UUID.randomUUID();
         when(restaurantRepository.findById(id)).thenReturn(Optional.empty());
@@ -114,6 +133,47 @@ class RestaurantServiceImplTest {
 
         assertThrows(ResourceNotFoundException.class, () -> restaurantService.createRestaurant(newRestaurantDTO));
         verify(userRepository, times(1)).findById(newRestaurantDTO.owner().id());
+    }
+
+    @Test
+    void shouldUpdateRestaurantSuccessfullyWhenAllFieldsAreValid() {
+        UUID id = UUID.randomUUID();
+        RestaurantDTO restaurantDTO = new RestaurantDTO(
+                id,
+                "Restaurant Name",
+                addressDTO,
+                "Delivery",
+                "09:00",
+                userDTOMock(UUID.randomUUID(), addressDTO));
+
+        RestaurantEntity restaurantEntity = new RestaurantEntity();
+        restaurantEntity.setId(id);
+        UserEntity userEntity = new UserEntity();
+        userEntity.setId(restaurantDTO.owner().id());
+        restaurantEntity.setOwner(userEntity);
+
+        when(restaurantRepository.save(any(RestaurantEntity.class))).thenReturn(restaurantEntity);
+
+        RestaurantDTO result = restaurantService.updateRestaurant(restaurantDTO);
+
+        assertNotNull(result);
+        verify(restaurantRepository, times(1)).save(any(RestaurantEntity.class));
+    }
+
+    @Test
+    void shouldThrowResourceNotFoundExceptionWhenUpdateRestaurantIsCalledWithInvalidOwnerId() {
+        UUID id = UUID.randomUUID();
+        RestaurantDTO restaurantDTO = new RestaurantDTO(
+                id,
+                "Restaurant Name",
+                addressDTO,
+                "Delivery",
+                "09:00",
+                userDTOMock(UUID.randomUUID(), addressDTO));
+        when(restaurantRepository.save(any())).thenThrow(ResourceNotFoundException.class);
+
+        assertThrows(ResourceNotFoundException.class, () -> restaurantService.updateRestaurant(restaurantDTO));
+        verify(restaurantRepository, times(1)).save(any());
     }
 
     private static UserDTO userDTOMock(UUID id, AddressDTO addressDTO) {
