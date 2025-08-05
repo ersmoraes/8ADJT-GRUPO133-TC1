@@ -48,7 +48,7 @@ public class RestaurantController {
             var restaurant = useCase.execute(name);
             return RestaurantPresenter.toDTO(restaurant);
         } catch (IllegalArgumentException e) {
-            throw new IllegalArgumentException("Erro ao buscar restaurante por nome: " + e.getMessage(), e);
+            throw new IllegalArgumentException("Erro ao buscar restaurante por name: " + e.getMessage(), e);
         }
     }
 

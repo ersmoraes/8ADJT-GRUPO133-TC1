@@ -16,16 +16,18 @@ import java.util.UUID;
 public class MenuItemEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @PrimaryKeyJoinColumn
+    @GeneratedValue
+    @Column(name = "id", columnDefinition = "uuid", updatable = false, nullable = false)
     private UUID id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "descricao")
+    @Column(name = "description")
     private String description;
 
-    @Column(name = "preco", nullable = false)
+    @Column(name = "price", nullable = false)
     private BigDecimal price;
 
     @Column(name = "apenas_local")
@@ -33,10 +35,5 @@ public class MenuItemEntity {
 
     @Column(name = "url_foto")
     private String urlFoto;
-
-    @ManyToOne
-    @JoinColumn(name = "restaurante_id")
-    private RestaurantEntity restaurant;
-
 }
 

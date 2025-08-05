@@ -1,5 +1,8 @@
 package br.com.fiap.techChallenge.restaurante_api.infrastructure.api.controller;
 
+import br.com.fiap.techChallenge.restaurante_api.application.controllers.MenuItemController;
+import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.MenuItemDTO;
+import br.com.fiap.techChallenge.restaurante_api.domain.entities.MenuItem;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request.MenuItemRequestDTO;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.response.MenuItemResponseDTO;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.service.MenuItemServiceImpl;
@@ -8,24 +11,27 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.UUID;
-
 @RestController
 @RequestMapping("/itens-cardapio")
-public class MenuItemController {
+public class MenuItemRESTController {
 
-    private final MenuItemServiceImpl menuItemService;
+    private final MenuItemController menuItemController;
 
-    public MenuItemController(MenuItemServiceImpl menuItemService) {
-        this.menuItemService = menuItemService;
+    public MenuItemRESTController(MenuItemServiceImpl menuItemService) {
+        this.menuItemController = MenuItemController.create(menuItemService);
     }
 
-//    @PostMapping
-//    public ResponseEntity<MenuItemResponseDTO> cadastrar(@RequestBody @Valid MenuItemRequestDTO dto) {
-//        MenuItemResponseDTO criado = menuItemService.cadastrar(dto);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(criado);
-//    }
+    @PostMapping
+    public ResponseEntity<MenuItemResponseDTO> create(@RequestBody @Valid MenuItemRequestDTO dto) {
+        MenuItem createMenu = menuItemController.create(new MenuItemDTO(null, dto.name(), dto.description(), dto.price(), dto.onlyLocal(), dto.imgUrl()));
+
+        MenuItemResponseDTO response = new MenuItemResponseDTO(createMenu.getId(),
+                createMenu.getName(), createMenu.getDescription(), createMenu.getPrice(), createMenu.isOnlyLocal(), createMenu.getUrlFoto());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+
 //
 //    @GetMapping
 //    public ResponseEntity<List<MenuItemResponseDTO>> listarTodos() {

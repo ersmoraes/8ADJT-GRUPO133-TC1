@@ -1,6 +1,7 @@
 package br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.service;
 
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.MenuItemDTO;
+import br.com.fiap.techChallenge.restaurante_api.domain.entities.MenuItem;
 import br.com.fiap.techChallenge.restaurante_api.domain.gateway.menuitem.IMenuItemDataSource;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request.MenuItemRequestDTO;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.response.MenuItemResponseDTO;
@@ -14,9 +15,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.awt.*;
 import java.util.UUID;
-import java.util.stream.Collectors;
+
+import static br.com.fiap.techChallenge.restaurante_api.application.presenters.MenuItemPresenter.toDTO;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +29,9 @@ public class MenuItemServiceImpl implements IMenuItemDataSource {
 
     @Override
     public MenuItemDTO create(MenuItemDTO dto) {
-        return null;
+        MenuItemEntity menuItem = new MenuItemEntity(null, dto.name(), dto.description(), dto.price(), dto.onlyLocal(), dto.urlFoto());
+        MenuItemEntity save= menuItemRepository.save(menuItem);
+        return new MenuItemDTO(save.getId(), save.getName(), save.getDescription(), save.getPrice(), save.isOnlyLocal(), save.getUrlFoto());
     }
 
     @Override
@@ -42,27 +46,17 @@ public class MenuItemServiceImpl implements IMenuItemDataSource {
 
     @Override
     public MenuItemDTO findByName(String name) {
-        return null;
+        MenuItem menuItem = menuItemRepository.findByName(name);
+        MenuItemDTO dto = new MenuItemDTO(menuItem.getId(), menuItem.getName(), menuItem.getDescription(),
+                menuItem.getPrice(), menuItem.isOnlyLocal(), menuItem.getUrlFoto());
+        return dto;
     }
 
-//    @Override
-//    public MenuItemResponseDTO cadastrar(MenuItemRequestDTO dto) {
-//        RestaurantEntity restaurante = restaurantRepository.findById(dto.restauranteId())
-//                .orElseThrow(() -> new ResourceNotFoundException("Restaurante não encontrado"));
-//
-//        MenuItemEntity item = MenuItemEntity.builder()
-//                .name(dto.name())
-//                .description(dto.descricao())
-//                .price(dto.preco())
-//                .onlyLocal(dto.apenasNoLocal())
-//                .urlFoto(dto.caminhoFoto())
-//                .restaurant(restaurante)
-//                .build();
-//
-//        menuItemRepository.save(item);
-//
-//        return toDTO(item);
-//    }
+    @Override
+    public boolean existsByName(String name) {
+        return menuItemRepository.existsByName(name);
+    }
+
 //
 //    @Override
 //    public List<MenuItemResponseDTO> listarTodos() {
@@ -87,10 +81,10 @@ public class MenuItemServiceImpl implements IMenuItemDataSource {
 //                .orElseThrow(() -> new ResourceNotFoundException("Restaurante não encontrado"));
 //
 //        item.setName(dto.name());
-//        item.setDescription(dto.descricao());
-//        item.setPrice(dto.preco());
-//        item.setOnlyLocal(dto.apenasNoLocal());
-//        item.setUrlFoto(dto.caminhoFoto());
+//        item.setDescription(dto.description());
+//        item.setPrice(dto.price());
+//        item.setOnlyLocal(dto.onlyLocal());
+//        item.setUrlFoto(dto.imgUrl());
 //        item.setRestaurant(restaurant);
 //
 //        menuItemRepository.save(item);

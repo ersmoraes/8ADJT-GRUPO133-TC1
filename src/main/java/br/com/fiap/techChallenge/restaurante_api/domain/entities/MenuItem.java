@@ -28,12 +28,12 @@ public class MenuItem {
     @NotNull
     private BigDecimal price;
     private boolean onlyLocal;
+
     private String urlFoto;
-    @NotNull
-    private Restaurant restaurant;
+
 
     public static MenuItem create(UUID id, String name, String description, BigDecimal price, boolean onlyLocal,
-                                  String urlFoto, Restaurant restaurant) {
+                                  String urlFoto) {
         return MenuItem.builder()
                 .id(id)
                 .name(name)
@@ -41,7 +41,6 @@ public class MenuItem {
                 .price(price)
                 .onlyLocal(onlyLocal)
                 .urlFoto(urlFoto)
-                .restaurant(restaurant)
                 .build();
     }
 

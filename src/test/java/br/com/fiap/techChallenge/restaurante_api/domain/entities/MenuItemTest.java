@@ -9,15 +9,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class MenuItemTest {
 
-    Restaurant restaurant = Restaurant.create(
-            UUID.randomUUID(),
-            "Restaurante Exemplo",
-            new Address("Rua X", "Cidade Y", "Estado Z", "00000-000"),
-            "Brasileira",
-            "10:00",
-            null
-    );
-
     @Test
     void shouldCreateMenuItemSuccessfullyWithAllFields() {
         UUID id = UUID.randomUUID();
@@ -27,8 +18,7 @@ class MenuItemTest {
                 "Descrição do prato",
                 new BigDecimal("29.90"),
                 false,
-                "http://imagem.com/foto.jpg",
-                restaurant
+                "http://imagem.com/foto.jpg"
         );
 
         assertNotNull(menuItem);
@@ -37,7 +27,6 @@ class MenuItemTest {
         assertEquals(new BigDecimal("29.90"), menuItem.getPrice());
         assertFalse(menuItem.isOnlyLocal());
         assertEquals("http://imagem.com/foto.jpg", menuItem.getUrlFoto());
-        assertEquals(restaurant, menuItem.getRestaurant());
     }
 
     @Test
@@ -49,8 +38,7 @@ class MenuItemTest {
                 "Descrição do prato",
                 new BigDecimal("10.00"),
                 false,
-                null,
-                restaurant
+                null
         );
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
@@ -69,8 +57,7 @@ class MenuItemTest {
                 "Descrição do prato",
                 new BigDecimal("10.00"),
                 false,
-                null,
-                restaurant
+                null
         );
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {

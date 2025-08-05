@@ -23,7 +23,6 @@ public class UserController {
     }
 
     public static UserController create(IUserDataSource dataSource) {
-
         return new UserController(dataSource);
     }
 

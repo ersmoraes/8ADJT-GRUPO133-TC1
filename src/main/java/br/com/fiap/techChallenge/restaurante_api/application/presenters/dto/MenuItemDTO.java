@@ -8,7 +8,6 @@ public record MenuItemDTO(UUID id,
                           String description,
                           BigDecimal price,
                           boolean onlyLocal,
-                          String urlFoto,
-                          RestaurantDTO restaurantDTO
+                          String urlFoto
 ) {
 }

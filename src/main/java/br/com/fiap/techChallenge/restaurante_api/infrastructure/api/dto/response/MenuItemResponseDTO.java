@@ -9,7 +9,6 @@ public record MenuItemResponseDTO(
         String descricao,
         BigDecimal preco,
         boolean apenasNoLocal,
-        String caminhoFoto,
-        String restauranteNome
+        String caminhoFoto
 ) {
 }

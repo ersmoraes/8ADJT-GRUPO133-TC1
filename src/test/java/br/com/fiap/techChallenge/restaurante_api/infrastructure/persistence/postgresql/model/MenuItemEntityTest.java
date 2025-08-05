@@ -24,7 +24,6 @@ class MenuItemEntityTest {
                 .price(new BigDecimal("29.90"))
                 .onlyLocal(false)
                 .urlFoto("http://imagem.com/foto.jpg")
-                .restaurant(restaurant)
                 .build();
 
         assertNotNull(menuItem);
@@ -34,7 +33,6 @@ class MenuItemEntityTest {
         assertEquals(new BigDecimal("29.90"), menuItem.getPrice());
         assertFalse(menuItem.isOnlyLocal());
         assertEquals("http://imagem.com/foto.jpg", menuItem.getUrlFoto());
-        assertEquals(restaurant, menuItem.getRestaurant());
     }
 
     @Test
@@ -61,10 +59,7 @@ class MenuItemEntityTest {
         MenuItemEntity menuItem = MenuItemEntity.builder()
                 .name("Prato")
                 .price(new BigDecimal("15.00"))
-                .restaurant(restaurant)
                 .build();
 
-        assertNotNull(menuItem.getRestaurant());
-        assertEquals("Restaurante Teste", menuItem.getRestaurant().getName());
     }
 }
