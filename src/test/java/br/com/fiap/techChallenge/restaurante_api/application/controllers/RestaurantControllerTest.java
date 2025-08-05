@@ -127,11 +127,11 @@ class RestaurantControllerTest {
     @Test
     void shouldThrowExceptionWhenFindByNameThrows() {
         String name = "Inexistente";
-        when(dataSource.findByName(name)).thenThrow(new IllegalArgumentException("Não encontrado"));
+        when(dataSource.findByName(name)).thenThrow(new IllegalArgumentException("Restaurante não encontrado com o nome: " + name));
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
                 controller.findByName(name));
-        assertTrue(exception.getMessage().contains("Erro ao buscar restaurante por nome"));
+        assertEquals("Restaurante não encontrado com o nome: " + name, exception.getMessage());
     }
 
     @Test

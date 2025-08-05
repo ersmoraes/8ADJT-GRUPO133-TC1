@@ -40,7 +40,7 @@ class FindRestaurantByNameUseCaseTest {
         FindRestaurantByNameUseCase useCase = FindRestaurantByNameUseCase.create(restaurantGateway);
 
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> useCase.execute(name));
-        assertEquals("Restaurante não encontrado com o name: " + name, exception.getMessage());
+        assertEquals("Restaurante não encontrado com o nome: " + name, exception.getMessage());
     }
 
     @Test

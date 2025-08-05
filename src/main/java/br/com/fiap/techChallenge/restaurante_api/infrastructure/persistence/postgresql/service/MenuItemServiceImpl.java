@@ -1,9 +1,10 @@
-package br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository;
+package br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.service;
 
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.MenuItemDTO;
-import br.com.fiap.techChallenge.restaurante_api.domain.entities.MenuItem;
 import br.com.fiap.techChallenge.restaurante_api.domain.gateway.menuitem.IMenuItemDataSource;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.MenuItemEntity;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository.MenuItemRepository;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,23 +14,21 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
-public class MenuItemRepository implements IMenuItemDataSource {
-    
-    private final IMenuItemRepository menuItemRepository;
+public class MenuItemServiceImpl implements IMenuItemDataSource {
+
+    private final MenuItemRepository menuItemRepository;
+    private final RestaurantRepository restaurantRepository;
 
     @Override
     public MenuItemDTO create(MenuItemDTO dto) {
         MenuItemEntity menuItem = new MenuItemEntity(null, dto.name(), dto.description(), dto.price(), dto.onlyLocal(), dto.urlFoto());
-        MenuItemEntity save= menuItemRepository.save(menuItem);
+        MenuItemEntity save = menuItemRepository.save(menuItem);
         return new MenuItemDTO(save.getId(), save.getName(), save.getDescription(), save.getPrice(), save.isOnlyLocal(), save.getUrlFoto());
     }
 
     @Override
     public Page<MenuItemDTO> findAll(Pageable pageable) {
-        Page<MenuItemEntity> all = menuItemRepository.findAll(pageable);
-        Page<MenuItemDTO> toDto = all.map(dto -> new MenuItemDTO
-                (dto.getId(),dto.getName(),dto.getDescription(), dto.getPrice(),dto.isOnlyLocal(), dto.getUrlFoto()));
-        return toDto;
+        return null;
     }
 
     @Override
@@ -39,10 +38,10 @@ public class MenuItemRepository implements IMenuItemDataSource {
 
     @Override
     public MenuItemDTO findByName(String name) {
-        MenuItem menuItem = menuItemRepository.findByName(name);
-        MenuItemDTO dto = new MenuItemDTO(menuItem.getId(), menuItem.getName(), menuItem.getDescription(),
+        MenuItemDTO dto = menuItemRepository.findByName(name);
+        MenuItemEntity menuItem = new MenuItemEntity(dto.id(), dto.name(), dto.description(), dto.price(), dto.onlyLocal(), dto.urlFoto());
+        return new MenuItemDTO(menuItem.getId(), menuItem.getName(), menuItem.getDescription(),
                 menuItem.getPrice(), menuItem.isOnlyLocal(), menuItem.getUrlFoto());
-        return dto;
     }
 
     @Override
@@ -52,7 +51,7 @@ public class MenuItemRepository implements IMenuItemDataSource {
 
     @Override
     public MenuItemEntity save(MenuItemEntity menuItem) {
-        return null;
+        return menuItemRepository.save(menuItem);
     }
 
 //

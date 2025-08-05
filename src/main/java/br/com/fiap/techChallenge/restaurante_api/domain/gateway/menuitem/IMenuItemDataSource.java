@@ -4,6 +4,7 @@ import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.Menu
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.RestaurantDTO;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request.MenuItemRequestDTO;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.response.MenuItemResponseDTO;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.MenuItemEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -20,4 +21,5 @@ public interface IMenuItemDataSource {
 
     boolean existsByName(String name);
 
+    MenuItemEntity save(MenuItemEntity menuItem);
 }

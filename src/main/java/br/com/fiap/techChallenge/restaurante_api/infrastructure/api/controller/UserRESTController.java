@@ -82,7 +82,7 @@ public class UserRESTController implements UserDocs {
 
     @Override
     @PatchMapping("/{id}/password")
-    public ResponseEntity<Void> changePassword(@PathVariable UUID id, @RequestBody PasswordUpdateRequestDTO dto) {
+    public ResponseEntity<Void> updatePassword(@PathVariable UUID id, @RequestBody PasswordUpdateRequestDTO dto) {
         userController.updatePassword(new UserDTO(id, null, null, null, dto.getNewPassword(),
                 null, null, null, null), dto.getOldPassword());
         return ResponseEntity.noContent().build();

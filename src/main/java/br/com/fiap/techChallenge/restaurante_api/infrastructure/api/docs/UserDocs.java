@@ -87,7 +87,7 @@ public interface UserDocs {
                     @ApiResponse(responseCode = "204", description = "Senha alterada com sucesso"),
                     @ApiResponse(responseCode = "404", description = "Usuário não encontrado")
             })
-    ResponseEntity<Void> changePassword(
+    ResponseEntity<Void> updatePassword(
             @Parameter(description = "UUID do usuário", required = true)
             @PathVariable UUID id,
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Dados da nova senha", required = true,
