@@ -20,6 +20,6 @@ public class FindRestaurantByNameUseCase {
             throw new IllegalArgumentException("Nome do restaurante não pode ser nulo ou vazio");
         }
         return this.restaurantGateway.findByName(name.trim())
-                .orElseThrow(() -> new IllegalArgumentException("Restaurante não encontrado com o name: " + name));
+                .orElseThrow(() -> new IllegalArgumentException("Restaurante não encontrado com o nome: " + name));
     }
 }
