@@ -1,10 +1,7 @@
 package br.com.fiap.techChallenge.restaurante_api.application.controllers;
 
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.MenuItemDTO;
-import br.com.fiap.techChallenge.restaurante_api.application.usecases.menuItem.CreateMenuItemUseCase;
-import br.com.fiap.techChallenge.restaurante_api.application.usecases.menuItem.DeleteMenuItemUseCase;
-import br.com.fiap.techChallenge.restaurante_api.application.usecases.menuItem.FindAllMenuItemUseCase;
-import br.com.fiap.techChallenge.restaurante_api.application.usecases.user.DeleteUserUseCase;
+import br.com.fiap.techChallenge.restaurante_api.application.usecases.menuItem.*;
 import br.com.fiap.techChallenge.restaurante_api.domain.entities.MenuItem;
 import br.com.fiap.techChallenge.restaurante_api.domain.gateway.menuitem.IMenuItemDataSource;
 import br.com.fiap.techChallenge.restaurante_api.domain.gateway.menuitem.IMenuItemGateway;
@@ -12,7 +9,6 @@ import br.com.fiap.techChallenge.restaurante_api.domain.gateway.menuitem.MenuIte
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.UUID;
 
 public class MenuItemController {
@@ -27,6 +23,11 @@ public class MenuItemController {
 
     public static MenuItemController create(IMenuItemDataSource dataSource) {
         return new MenuItemController(dataSource);
+    }
+
+    public MenuItem findById(UUID uuid){
+        FindMenuItemByIdUseCase usecase = FindMenuItemByIdUseCase.create(gateway);
+        return usecase.execute(uuid);
     }
 
     public MenuItem create(MenuItemDTO menuItemDTO) {
@@ -46,5 +47,10 @@ public class MenuItemController {
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Erro ao deletar Item do Menu: " + e.getMessage(), e);
         }
+    }
+
+    public void execute(MenuItem menuItem) {
+        var useCase = UpdateMenuItemUseCase.create(gateway);
+        useCase.execute(menuItem);
     }
 }

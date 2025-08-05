@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -34,7 +35,9 @@ public class MenuItemRepository implements IMenuItemDataSource {
 
     @Override
     public MenuItemDTO findById(UUID id) {
-        return null;
+        MenuItemEntity menu = menuItemRepository.findById(id).orElseThrow();
+        MenuItemDTO dto = new MenuItemDTO(menu.getId(), menu.getName(), menu.getDescription(), menu.getPrice(),menu.isOnlyLocal() ,menu.getUrlFoto());
+        return dto;
     }
 
     @Override
@@ -52,64 +55,26 @@ public class MenuItemRepository implements IMenuItemDataSource {
 
     @Override
     public MenuItemEntity save(MenuItemEntity menuItem) {
-        return null;
+        return menuItemRepository.save(menuItem);
     }
 
     @Override
     public void deleteMenuItem(UUID id) {
         menuItemRepository.deleteById(id);
     }
-//
-//    @Override
-//    public List<MenuItemResponseDTO> listarTodos() {
-//        return menuItemRepository.findAll().stream()
-//                .map(this::toDTO)
-//                .collect(Collectors.toList());
-//    }
-//
-//    @Override
-//    public MenuItemResponseDTO buscarPorId(UUID id) {
-//        MenuItemEntity item = menuItemRepository.findById(id)
-//                .orElseThrow(() -> new ResourceNotFoundException("Item não encontrado"));
-//        return toDTO(item);
-//    }
-//
-//    @Override
-//    public MenuItemResponseDTO atualizar(UUID id, MenuItemRequestDTO dto) {
-//        MenuItemEntity item = menuItemRepository.findById(id)
-//                .orElseThrow(() -> new ResourceNotFoundException("Item não encontrado"));
-//
-//        RestaurantEntity restaurant = restaurantRepository.findById(dto.restauranteId())
-//                .orElseThrow(() -> new ResourceNotFoundException("Restaurante não encontrado"));
-//
-//        item.setName(dto.name());
-//        item.setDescription(dto.description());
-//        item.setPrice(dto.price());
-//        item.setOnlyLocal(dto.onlyLocal());
-//        item.setUrlFoto(dto.imgUrl());
-//        item.setRestaurant(restaurant);
-//
-//        menuItemRepository.save(item);
-//
-//        return toDTO(item);
-//    }
-//
-//    @Override
-//    public void deletar(UUID id) {
-//        MenuItemEntity item = menuItemRepository.findById(id)
-//                .orElseThrow(() -> new ResourceNotFoundException("Item não encontrado"));
-//        menuItemRepository.delete(item);
-//    }
-//
-//    private MenuItemResponseDTO toDTO(MenuItemEntity item) {
-//        return new MenuItemResponseDTO(
-//                item.getId(),
-//                item.getName(),
-//                item.getDescription(),
-//                item.getPrice(),
-//                item.isOnlyLocal(),
-//                item.getUrlFoto(),
-//                item.getRestaurant().getName()
-//        );
-//    }
+
+    @Override
+    public void update(MenuItem menuItem) {
+        MenuItemEntity existing = menuItemRepository.findById(menuItem.getId())
+                .orElseThrow(() -> new RuntimeException("MenuItem não encontrado com ID: " + menuItem.getId()));
+
+        existing.setName(menuItem.getName());
+        existing.setDescription(menuItem.getDescription());
+        existing.setPrice(menuItem.getPrice());
+        existing.setOnlyLocal(menuItem.isOnlyLocal());
+        existing.setUrlFoto(menuItem.getUrlFoto());
+
+        menuItemRepository.save(existing);
+    }
+
 }

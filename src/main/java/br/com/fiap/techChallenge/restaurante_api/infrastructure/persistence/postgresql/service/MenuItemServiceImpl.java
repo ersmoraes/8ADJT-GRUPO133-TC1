@@ -1,6 +1,7 @@
 package br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.service;
 
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.MenuItemDTO;
+import br.com.fiap.techChallenge.restaurante_api.domain.entities.MenuItem;
 import br.com.fiap.techChallenge.restaurante_api.domain.gateway.menuitem.IMenuItemDataSource;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.MenuItemEntity;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository.MenuItemRepository;
@@ -57,6 +58,11 @@ public class MenuItemServiceImpl implements IMenuItemDataSource {
     @Override
     public void deleteMenuItem(UUID id) {
 //        userRepository.deleteById(id);
+    }
+
+    @Override
+    public void update(MenuItem menuItem) {
+
     }
 //
 //    @Override

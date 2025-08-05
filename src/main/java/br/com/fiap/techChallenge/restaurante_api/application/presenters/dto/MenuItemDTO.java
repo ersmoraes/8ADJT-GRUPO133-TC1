@@ -10,4 +10,7 @@ public record MenuItemDTO(UUID id,
                           boolean onlyLocal,
                           String urlFoto
 ) {
+    public MenuItemDTO withId(UUID id) {
+        return new MenuItemDTO(id, this.name(), this.description(), this.price(), this.onlyLocal(), this.urlFoto());
+    }
 }

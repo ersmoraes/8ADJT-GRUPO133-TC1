@@ -19,4 +19,6 @@ public interface IMenuItemGateway {
     Page<MenuItem> findAll(Pageable pageable);
 
     void deleteMenuItem(UUID id);
+
+    void update(MenuItem menuItem);
 }

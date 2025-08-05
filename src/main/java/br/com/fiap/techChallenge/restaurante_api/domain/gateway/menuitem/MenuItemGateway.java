@@ -2,6 +2,7 @@ package br.com.fiap.techChallenge.restaurante_api.domain.gateway.menuitem;
 
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.MenuItemDTO;
 import br.com.fiap.techChallenge.restaurante_api.domain.entities.MenuItem;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -28,7 +29,9 @@ public class MenuItemGateway implements IMenuItemGateway{
 
     @Override
     public MenuItem findById(UUID id) {
-        return null;
+        MenuItemDTO dto = menuItemDataSource.findById(id);
+        MenuItem menuItem = MenuItem.create(dto.id(), dto.name(), dto.description(), dto.price(), dto.onlyLocal(), dto.urlFoto());
+        return menuItem;
     }
 
     @Override
@@ -60,5 +63,11 @@ public class MenuItemGateway implements IMenuItemGateway{
     @Override
     public void deleteMenuItem(UUID id) {
         this.menuItemDataSource.deleteMenuItem(id);
+    }
+
+    @Override
+    @Transactional
+    public void update(MenuItem menuItem) {
+        menuItemDataSource.update(menuItem);
     }
 }
