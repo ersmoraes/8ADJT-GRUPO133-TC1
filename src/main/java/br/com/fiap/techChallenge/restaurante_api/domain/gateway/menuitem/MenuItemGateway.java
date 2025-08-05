@@ -2,6 +2,8 @@ package br.com.fiap.techChallenge.restaurante_api.domain.gateway.menuitem;
 
 import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.MenuItemDTO;
 import br.com.fiap.techChallenge.restaurante_api.domain.entities.MenuItem;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.UUID;
 
@@ -39,5 +41,19 @@ public class MenuItemGateway implements IMenuItemGateway{
     @Override
     public boolean existsByName(String name) {
         return menuItemDataSource.existsByName(name);
+    }
+
+    @Override
+    public Page<MenuItem> findAll(Pageable pageable) {
+        Page<MenuItemDTO> allDto = menuItemDataSource.findAll(pageable);
+        Page<MenuItem> menuItemPage = allDto.map(dto ->  MenuItem.create(
+                dto.id(),
+                dto.name(),
+                dto.description(),
+                dto.price(),
+                dto.onlyLocal(),
+                dto.urlFoto()
+        ));
+        return menuItemPage;
     }
 }

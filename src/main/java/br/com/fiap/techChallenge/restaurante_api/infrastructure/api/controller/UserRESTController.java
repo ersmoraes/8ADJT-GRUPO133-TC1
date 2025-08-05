@@ -10,7 +10,7 @@ import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request.
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request.PasswordUpdateRequestDTO;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request.UserRequestDTO;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.response.UserResponseDTO;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.service.UserServiceImpl;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository.UserRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,7 +27,7 @@ public class UserRESTController implements UserDocs {
 
     private final UserController userController;
 
-    public UserRESTController(UserServiceImpl userService) {
+    public UserRESTController(UserRepository userService) {
         this.userController = UserController.create(userService);
     }
 

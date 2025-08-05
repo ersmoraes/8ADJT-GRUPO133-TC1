@@ -5,11 +5,15 @@ import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.Menu
 import br.com.fiap.techChallenge.restaurante_api.domain.entities.MenuItem;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request.MenuItemRequestDTO;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.response.MenuItemResponseDTO;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.service.MenuItemServiceImpl;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository.MenuItemRepository;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/itens-cardapio")
@@ -17,7 +21,7 @@ public class MenuItemRESTController {
 
     private final MenuItemController menuItemController;
 
-    public MenuItemRESTController(MenuItemServiceImpl menuItemService) {
+    public MenuItemRESTController(MenuItemRepository menuItemService) {
         this.menuItemController = MenuItemController.create(menuItemService);
     }
 
@@ -32,11 +36,12 @@ public class MenuItemRESTController {
     }
 
 
-//
-//    @GetMapping
-//    public ResponseEntity<List<MenuItemResponseDTO>> listarTodos() {
-//        return ResponseEntity.ok(menuItemService.listarTodos());
-//    }
+    @GetMapping
+    public ResponseEntity<Page<MenuItemResponseDTO>> findAll(Pageable pageable) {
+        Page<MenuItem> menuItemPage = menuItemController.findAll(pageable);
+        Page<MenuItemResponseDTO> response = menuItemPage.map(MenuItemResponseDTO::fromDomain);
+        return ResponseEntity.ok(response);
+    }
 //
 //    @GetMapping("/{id}")
 //    public ResponseEntity<MenuItemResponseDTO> buscarPorId(@PathVariable UUID id) {

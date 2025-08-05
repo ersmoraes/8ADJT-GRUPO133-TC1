@@ -19,4 +19,5 @@ public interface IMenuItemDataSource {
     MenuItemDTO findByName(String name);
 
     boolean existsByName(String name);
+
 }

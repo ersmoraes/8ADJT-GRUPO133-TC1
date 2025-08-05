@@ -8,8 +8,8 @@ import br.com.fiap.techChallenge.restaurante_api.domain.enums.UserType;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request.AddressRequestDTO;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request.RestaurantRequestDTO;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.response.RestaurantResponseDTO;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.service.RestaurantServiceImpl;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.service.UserServiceImpl;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository.RestaurantRepository;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -28,9 +28,9 @@ import static org.mockito.Mockito.when;
 class RestaurantRESTControllerTest {
 
     @Mock
-    RestaurantServiceImpl restaurantService;
+    RestaurantRepository restaurantService;
     @Mock
-    UserServiceImpl userService;
+    UserRepository userService;
     AddressDTO addressDTO = new AddressDTO("Street", "City", "State", "12345-678");
     UserDTO userDTO = new UserDTO(
             UUID.randomUUID(),

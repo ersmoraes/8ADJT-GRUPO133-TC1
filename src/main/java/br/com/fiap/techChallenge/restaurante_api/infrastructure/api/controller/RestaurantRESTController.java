@@ -9,8 +9,8 @@ import br.com.fiap.techChallenge.restaurante_api.application.presenters.dto.User
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request.AddressRequestDTO;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.request.RestaurantRequestDTO;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.dto.response.RestaurantResponseDTO;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.service.RestaurantServiceImpl;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.service.UserServiceImpl;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository.RestaurantRepository;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository.UserRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -28,7 +28,7 @@ public class RestaurantRESTController {
     private final RestaurantController restaurantController;
     private final UserController userController;
 
-    public RestaurantRESTController(RestaurantServiceImpl restaurantService, UserServiceImpl userService) {
+    public RestaurantRESTController(RestaurantRepository restaurantService, UserRepository userService) {
         this.restaurantController = RestaurantController.create(restaurantService, userService);
         this.userController = UserController.create(userService);
     }

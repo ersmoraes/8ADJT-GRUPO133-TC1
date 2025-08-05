@@ -1,7 +1,8 @@
 package br.com.fiap.techChallenge.restaurante_api.domain.gateway.menuitem;
 
 import br.com.fiap.techChallenge.restaurante_api.domain.entities.MenuItem;
-import br.com.fiap.techChallenge.restaurante_api.domain.entities.Restaurant;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.UUID;
 
@@ -14,4 +15,6 @@ public interface IMenuItemGateway {
     MenuItem findByName(String name);
 
     boolean existsByName(String name);
+
+    Page<MenuItem> findAll(Pageable pageable);
 }

@@ -8,8 +8,9 @@ import br.com.fiap.techChallenge.restaurante_api.domain.enums.UserType;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.exception.ResourceNotFoundException;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.RestaurantEntity;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.UserEntity;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository.IRestaurantRepository;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository.IUserRepository;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository.RestaurantRepository;
-import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -29,11 +30,11 @@ import static org.mockito.Mockito.*;
 class RestaurantServiceImplTest {
 
     @InjectMocks
-    private RestaurantServiceImpl restaurantService;
+    private RestaurantRepository restaurantService;
     @Mock
-    private RestaurantRepository restaurantRepository;
+    private IRestaurantRepository restaurantRepository;
     @Mock
-    private UserRepository userRepository;
+    private IUserRepository userRepository;
     AddressDTO addressDTO = new AddressDTO("Street", "City", "State", "12345-678");
 
     @Test

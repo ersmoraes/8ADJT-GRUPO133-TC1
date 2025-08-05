@@ -10,6 +10,7 @@ import br.com.fiap.techChallenge.restaurante_api.infrastructure.api.exception.Re
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.enums.UserTypeEnum;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.AddressEntity;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.model.UserEntity;
+import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository.IUserRepository;
 import br.com.fiap.techChallenge.restaurante_api.infrastructure.persistence.postgresql.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,9 +33,9 @@ import static org.mockito.Mockito.times;
 class UserServiceImplTest {
 
     @InjectMocks
-    private UserServiceImpl userService;
+    private UserRepository userService;
     @Mock
-    private UserRepository userRepository;
+    private IUserRepository userRepository;
 
     AddressDTO addressDTO = new AddressDTO("Rua", "Cidade", "Estado", "12345-678");
 
